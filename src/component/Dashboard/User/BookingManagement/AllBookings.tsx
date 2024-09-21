@@ -8,6 +8,16 @@ import { TCarBooking } from "../../../../type/global.type";
 import Loader from "../../../../shared/Loader/Loader";
 import Swal from "sweetalert2";
 import type { ColumnsType } from "antd/es/table";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { feedBackApi } from "@/redux/features/FeedBack/feedBackApi";
+const reviewSchema = z.object({
+  rating: z
+    .number()
+    .min(1, { message: "Rating must be at least 1" })
+    .max(5, { message: "Rating must be at most 5" }),
+  comment: z.string().min(1, { message: "Comment is required" }),
+});
 
 const AllBookings = () => {
   const [returnCarWithPayment] =
@@ -102,6 +112,7 @@ const AllBookings = () => {
       key: "name",
       responsive: ["xs", "sm", "md", "lg"],
     },
+
     {
       title: "Price",
       dataIndex: "price",
@@ -164,7 +175,7 @@ const AllBookings = () => {
         const onGoing = item.status === "ongoing";
         const paymentPaid = item.paymentStatus === "paid";
         const payment = item.status === "pending";
-
+        // console.log(item);
         return (
           <Space size="middle">
             <UpdateBookingModel data={item} />
@@ -180,6 +191,7 @@ const AllBookings = () => {
             >
               Payment
             </Button>
+            <AddReviewModel bookingKey={item} />
           </Space>
         );
       },
@@ -210,6 +222,114 @@ const AllBookings = () => {
 };
 
 export default AllBookings;
+
+const AddReviewModel = ({ bookingKey }: { bookingKey: any }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const [addFeedBack] = feedBackApi.useCreateFeedBackMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(reviewSchema),
+  });
+  const [loading, setLoading] = useState(false);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const formData = new FormData();
+    formData.append("bookingId", bookingKey.key);
+    formData.append("rating", data.rating.toString());
+    formData.append("message", data.comment);
+
+    console.log(formData);
+    setLoading(true);
+    try {
+      const response = await addFeedBack(formData).unwrap();
+      Swal.fire({
+        title: "Success!",
+        text: "Feedback added successfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+      console.log(response);
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to add feedback.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      console.error(error);
+    } finally {
+      setLoading(false);
+      reset();
+    }
+  };
+    const isCompleted = bookingKey.status === "completed";
+  return (
+    <div>
+      <Button type="primary" onClick={showModal} disabled={!isCompleted}>
+        Add Review
+      </Button>
+      <Modal
+        title="Add Review"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          Leave a <span className="text-red-600">Comment</span>
+        </h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input
+              type="number"
+              placeholder="Your Ratings"
+              className={`p-4 border rounded-md w-full bg-white shadow-lg ${
+                errors.rating ? "border-red-500" : ""
+              }`}
+              {...register("rating", { valueAsNumber: true })}
+            />
+            {errors.rating && (
+              <p className="text-red-500">{errors.rating?.message as string}</p>
+            )}
+          </div>
+          <textarea
+            placeholder="Enter Your Comment..."
+            className={`p-4 border rounded-md w-full bg-white shadow-lg mt-6 ${
+              errors.comment ? "border-red-500" : ""
+            }`}
+            {...register("comment")}
+          />
+          {errors.comment && (
+            <p className="text-red-500">{errors.comment.message as string}</p>
+          )}
+
+          <button
+            type="submit"
+            className={`bg-red-500 text-white px-4 py-2 hover:bg-red-600 transition rounded-md mt-4 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Post Comment"}
+          </button>
+        </form>
+      </Modal>
+    </div>
+  );
+};
 
 const UpdateBookingModel = ({ data }: any) => {
   const [updateBooking] = bookingApi.useUpdateBookingMutation();

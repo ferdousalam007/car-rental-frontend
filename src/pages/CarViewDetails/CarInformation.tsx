@@ -89,35 +89,7 @@ const CarInformation: React.FC<CarInformationProps> = ({ carDetails }) => {
     }
   };
     
-  //   try {
-  //     const modifiedData = {
-  //       ...rest,
-  //       name,
-  //       rating: Number(rating),
-  //       message: comment,
-  //       profile: profile[0], // Assuming profile is an array of files
-  //     };
 
-  //     const response = await addFeedBack(modifiedData).unwrap();
-  //     Swal.fire({
-  //       title: "Success!",
-  //       text: "Feedback added successfully.",
-  //       icon: "success",
-  //       confirmButtonText: "OK",
-  //     });
-  //     console.log(response);
-  //   } catch (error) {
-  //     Swal.fire({
-  //       title: "Error!",
-  //       text: "Failed to add feedback.",
-  //       icon: "error",
-  //       confirmButtonText: "OK",
-  //     });
-  //     console.error(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">

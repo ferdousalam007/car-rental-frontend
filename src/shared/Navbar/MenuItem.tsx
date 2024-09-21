@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ThemeMenu from "./ThemeMenu";
 
 const MenuItem = () => {
   return (
@@ -33,10 +34,11 @@ const MenuItem = () => {
           </div>
         </Link>
         <Link to="/contact-us">
-          <div className="hidden sm:block text-sm font-semibold px-3 md:px-6">
+          <div className="hidden sm:block text-sm font-semibold px-3 md:px-6 dark:text-white">
             Contact Us
           </div>
         </Link>
+        <ThemeMenu />
       </div>
     </div>
   );
