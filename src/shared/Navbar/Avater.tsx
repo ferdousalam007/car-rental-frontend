@@ -13,13 +13,22 @@ const Avatar = () => {
   return (
     <div className="flex items-center">
       {user ? (
-        <img
-          src={user?.image}
-          alt={user?.name}
-          className="h-8 w-8 rounded-full object-cover"
-        />
+        <div className="flex items-center gap-1">
+          <img
+            src={
+              user?.image ||
+              "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+            }
+            alt={user?.name}
+            className="h-8 w-8 rounded-full object-cover"
+          />
+          <p className="dark:text-gray-300">{user?.name}</p>
+        </div>
       ) : (
-        <FaUser className="h-8 w-8 rounded-full text-gray-500 " />
+        <div>
+          {/* <FaUser className="h-8 w-8 rounded-full text-gray-500 " />
+          <p className="dark:text-gray-300">{user?.name}</p> */}
+        </div>
       )}
     </div>
   );

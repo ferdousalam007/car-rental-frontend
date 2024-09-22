@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 
 const CarDetailsCard = ({ carDetails }: any) => {
   const star = carDetails?.rating;
+  console.log(carDetails);
   return (
     <div className="container mx-auto flex flex-col lg:flex-row justify-evenly items-center my-10 p-4">
       {/* Left side - Image/Slider */}
@@ -124,11 +125,29 @@ const CarDetailsCard = ({ carDetails }: any) => {
 
             <hr className="mt-6" />
             <div className="mt-6">
-              <Link to="/booking" className="w-full">
+              {carDetails?.status === "available" ? (
+                <Link to="/booking" className="w-full">
+                  <button className="border-2 font-semibold border-red-700 px-4 w-full py-1 text-red-600 hover:bg-black hover:text-white transition mb-2 md:mb-0">
+                    Book Now
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  className={`border-2 font-semibold border-red-700 px-4 w-full py-1 transition mb-2 md:mb-0 ${
+                    carDetails?.status === "available"
+                      ? "text-red-600 hover:bg-black hover:text-white"
+                      : "text-gray-400 cursor-not-allowed"
+                  }`}
+                  disabled={carDetails?.status !== "available"}
+                >
+                  Book Now
+                </button>
+              )}
+              {/* <Link to="/booking" className="w-full">
                 <button className="border-2 font-semibold border-red-700 px-4 w-full py-1 text-red-600 hover:bg-black hover:text-white transition mb-2 md:mb-0">
                   Book Now
                 </button>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

@@ -46,7 +46,18 @@ const ThemeMenu = () => {
               <FaMoon />
             </span>
           )}
-          {currentTheme.toUpperCase()} <DownOutlined />
+          <span
+            className={`text-black dark:text-yellow-500 ${
+              currentTheme === "system" ? "text-gray-500" : ""
+            }`}
+          >
+            {currentTheme.toUpperCase()}
+          </span>{" "}
+          <DownOutlined
+            className={`text-black dark:text-yellow-500 ${
+              currentTheme === "system" ? "text-gray-500" : ""
+            }`}
+          />
         </a>
       </Dropdown>
     </div>
