@@ -1,5 +1,5 @@
 import Container from "../Container/Container";
-import Logo from "./Logo";
+// import Logo from "./Logo";
 import MenuDropDown from "./MenuDropDown";
 import MenuItem from "./MenuItem";
 
@@ -13,7 +13,7 @@ const Navbar = () => {
           <div className="flex flex-row items-center justify-between gap-3 md:gap-x-0.5">
             {/* Logo Section */}
             <div>
-              <Logo />
+              <h2>RentO</h2>
             </div>
 
             {/* Menu Items: Hidden on smaller screens */}
