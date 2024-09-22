@@ -1,4 +1,5 @@
 // import Banner from "../Banner/Banner";
+import CarBookingSearchButton from "@/pages/CarBooking/CarBookingSearchButton";
 import CarPromoVideo from "../../pages/CarPromoVideo/CarPromoVideo";
 import FeaturedCart from "../../pages/FeaturedCar/FeaturedCart";
 import Testimonial from "../../pages/Testimonial/Testimonial";
@@ -10,6 +11,7 @@ const Home = () => {
     <div>
       {/* <Banner></Banner> */}
       <CarBanner></CarBanner>
+      <CarBookingSearchButton />
       <div>
         <div className="container mx-auto">
           <FeaturedCart></FeaturedCart>

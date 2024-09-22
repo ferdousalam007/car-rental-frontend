@@ -8,7 +8,7 @@ h1,h2{
 font-family: "Oswald", sans-serif;
 font-weight: 600;
 font-style: normal;
-line-height: 80px !important;
+line-height: 1.5 !important;
 }
 .slick-slide {
   padding: 0 10px;

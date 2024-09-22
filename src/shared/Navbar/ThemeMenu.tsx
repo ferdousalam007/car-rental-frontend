@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DownOutlined } from "@ant-design/icons";
 import { RootState } from "@/redux/store";
 import { setThemeMode } from "@/redux/features/theme/tehemeSlice";
-
+import { FaLaptop, FaSun, FaMoon } from "react-icons/fa6";
 interface MenuClickEventHandler {
   key: string;
   keyPath: string[];
@@ -33,7 +33,20 @@ const ThemeMenu = () => {
     <div className="flex justify-between items-center p-4">
       <Dropdown overlay={menu} trigger={["click"]}>
         <a className="ant-dropdown-link cursor-pointer flex items-center gap-2">
-          Theme - {currentTheme.toUpperCase()} <DownOutlined />
+          {currentTheme === "system" ? (
+            <span className="text-yellow-500">
+              <FaLaptop />
+            </span>
+          ) : currentTheme === "light" ? (
+            <span className="text-yellow-500">
+              <FaSun />
+            </span>
+          ) : (
+            <span className="text-yellow-500">
+              <FaMoon />
+            </span>
+          )}
+          {currentTheme.toUpperCase()} <DownOutlined />
         </a>
       </Dropdown>
     </div>
