@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCar, FaCogs, FaChair } from "react-icons/fa";
@@ -7,7 +6,7 @@ import FeaturedCarCard from "../FeaturedCar/FeaturedCarCard";
 import Loader from "../../shared/Loader/Loader";
 import { debounce } from "lodash";
 import { TCar } from "../../type/global.type";
-import { useSearchParams } from "react-router-dom"; // Import useSearchParams
+import { useSearchParams, useLocation } from "react-router-dom"; // Import useSearchParams, useLocation, useNavigate
 
 // Define the SearchParams type
 type SearchParams = {
@@ -18,6 +17,8 @@ type SearchParams = {
 
 const CarBooking = () => {
   const [searchParams, setSearchParams] = useSearchParams(); // useSearchParams hook to get the query parameters
+  const location = useLocation(); // Get the current location
+ 
 
   // Initialize state with query parameters or default values
   const [carType, setCarType] = useState(searchParams.get("carType") || "");
@@ -44,19 +45,19 @@ const CarBooking = () => {
     debounce((value: SearchParams) => {
       setSearchCriteria(value);
     }, 500),
-    []
+    [setSearchCriteria]
   );
 
   // Update state and URL query params on form input changes
-  useEffect(() => {
-    const newParams: SearchParams = {
-      carType,
-      features,
-      seats,
-    };
-    setSearchParams(newParams);
-    handleSearchCar(newParams);
-  }, [carType, features, seats]);
+useEffect(() => {
+  const newParams: SearchParams = {
+    carType,
+    features,
+    seats,
+  };
+  setSearchParams(newParams);
+  handleSearchCar(newParams);
+}, [carType, features, handleSearchCar, seats, setSearchParams]);
 
   // Handle select field changes
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -75,6 +76,14 @@ const CarBooking = () => {
     !isLoading && carSearch?.data?.length === 0
       ? "No cars available for the selected criteria."
       : "";
+
+  // Reinitialize state based on URL parameters after redirect
+ useEffect(() => {
+   // Reinitialize state from URL parameters
+   setCarType(searchParams.get("carType") || "");
+   setFeatures(searchParams.get("features") || "");
+   setSeats(searchParams.get("seats") || "");
+ }, [location.search, searchParams]);
 
   return (
     <div>

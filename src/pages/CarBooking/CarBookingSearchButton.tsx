@@ -5,11 +5,11 @@ import { FaCar, FaCogs, FaChair } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 // Define the SearchParams type
-type SearchParams = {
-  carType?: string;
-  features?: string;
-  seats?: string;
-};
+// type SearchParams = {
+//   carType?: string;
+//   features?: string;
+//   seats?: string;
+// };
 
 const CarBookingSearchButton = () => {
   const [carType, setCarType] = useState("");

@@ -126,7 +126,10 @@ const CarDetailsCard = ({ carDetails }: any) => {
             <hr className="mt-6" />
             <div className="mt-6">
               {carDetails?.status === "available" ? (
-                <Link to="/booking" className="w-full">
+                <Link
+                  to={`/booking?carType=${carDetails?.carType}`}
+                  className="w-full"
+                >
                   <button className="border-2 font-semibold border-red-700 px-4 w-full py-1 text-red-600 hover:bg-black hover:text-white transition mb-2 md:mb-0">
                     Book Now
                   </button>

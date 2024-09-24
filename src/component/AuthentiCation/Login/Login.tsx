@@ -1,25 +1,32 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldValues, useForm } from "react-hook-form";
 import { authApi } from "../../../redux/features/Auth/authApi";
 import { toast } from "sonner";
 import { useAppDispatch } from "../../../redux/hooks";
 import { verifyToken } from "../../../utils/verifyToken";
-// import { setUser } from "../../../redux/features/Auth/authSlice";
 import { setUser } from "../../../redux/features/Auth/AuthSlice";
-import { Link, useNavigate } from "react-router-dom";
-
-// Adjust the path as necessary
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  // useSearchParams,
+} from "react-router-dom";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
+  // const [searchParams] = useSearchParams();
   const [addLogin, { isLoading }] = authApi.useLoginMutation();
-  // const defaultValues = {
-  //   email: "rubel29879@gmail.com",
-  //   password: "password1234",
-  // };
 
+  // Capture the previous URL and searchParams or use default fallback values
+  const from = location.state?.from?.pathname || "/";
+  // const searchParamsStr =
+  //   location.state?.searchParams || searchParams.toString();
+  const searchParamsStr = location.state?.from.search || "";
+// console.log("from",from)
+// console.log("searchParamsStr", searchParamsStr)
+// console.log("location.state", location.state?.from.search)
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Logging in");
     try {
@@ -33,8 +40,13 @@ const Login = () => {
         position: "top-center",
       });
 
-      console.log("Navigating to home...");
-      navigate("/");
+      // Redirect back to the previous page with the preserved searchParams
+      const targetUrl = from + (searchParamsStr ? `${searchParamsStr}` : "");
+console.log("targetUrl", targetUrl)
+      // Logging to verify the constructed URL
+      console.log("Redirecting to:", targetUrl);
+
+      navigate(targetUrl, { replace: true });
     } catch (error: any) {
       console.error("Login error:", error);
       toast.error(error?.data?.message || "Login failed", {
@@ -44,10 +56,6 @@ const Login = () => {
       });
     }
   };
-
-  // if (isLoading) {
-  //   return <Loader />; // Show loader while logging in
-  // }
 
   return (
     <div>
@@ -103,7 +111,12 @@ const Login = () => {
                     {...register("password", { required: true })}
                   />
                 </div>
-                <Link to="/forgot-password" className="text-white hover:underline">You Forgot Password ?</Link>
+                <Link
+                  to="/forgot-password"
+                  className="text-white hover:underline"
+                >
+                  You Forgot Password ?
+                </Link>
                 {/* Submit Button */}
                 <button
                   type="submit"
@@ -130,12 +143,12 @@ const Login = () => {
               {/* Additional Links */}
               <p className="mt-4 text-center text-white">
                 Don't have an account?
-                <a
-                  href="/register"
+                <Link
+                  to="/register"
                   className="text-blue-500 ml-2 hover:underline"
                 >
                   Please Register
-                </a>
+                </Link>
               </p>
             </div>
 

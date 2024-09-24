@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useAppSelector } from "../../redux/hooks";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Modal } from "antd";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { bookingApi } from "../../redux/features/Booking/bookingApi";
@@ -13,6 +13,7 @@ const BookingFormModal = ({ car }: { car: TCar }) => {
   const [createBooking] = bookingApi.useAddBookMutation();
   const { user, token } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
+    const location = useLocation();
   const { register, handleSubmit, reset } = useForm();
 
   const [open, setOpen] = useState(false);
@@ -47,7 +48,7 @@ const BookingFormModal = ({ car }: { car: TCar }) => {
     if (user && token) {
       setOpen(true);
     } else {
-      navigate("/login");
+      navigate("/login",{ state: { from: location } });
     }
   };
   const handelCancel = () => {
