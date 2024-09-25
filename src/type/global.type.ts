@@ -84,3 +84,19 @@ export const vehicleSpecifications = [
   { value: "cargoVolume", label: "Cargo Volume (cu ft)" },
   { value: "seatingCapacity", label: "Seating Capacity" },
 ];
+// In your type definition file (e.g., src/type/carForm.type.ts)
+export type CarFormData = {
+  carName: string;
+  rating: number;
+  isElectric: boolean;
+  pricePerHour: number;
+  maxSeats: number;
+  color: string;
+  gearType: string;
+  fuelType: string;
+  carType: string;
+  description: string;
+  carImgUrl: string;
+  carFeatures: string[]; 
+  
+};

@@ -1,40 +1,111 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useDropzone } from "react-dropzone";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Select, { MultiValue } from "react-select";
+import { ImagePlus } from "lucide-react";
 import {
   carFeatures,
   vehicleSpecifications,
 } from "../../../../type/global.type";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { carApi } from "../../../../redux/features/Car/carApi";
 import Swal from "sweetalert2";
-import uploadImageToCloudinary from "../../../../utils/uploadImage";
 
 type OptionType = {
   value: string;
   label: string;
 };
 
+
+const carSchema = z.object({
+  name: z.string().nonempty("Car Name is required"),
+  rating: z
+    .number()
+    .min(1, "Rating must be at least 1")
+    .max(5, "Rating must be at most 5"),
+  isElectric: z
+    .string()
+    .refine((value) => value === "true" || value === "false", {
+      message: "Please select if the car is electric",
+    }),
+  pricePerHour: z
+    .number()
+    .min(0, "Price Per Hour must be a non-negative number"),
+  maxSeats: z.number().min(1, "Max Seats must be at least 1"),
+  carImgUrl: z
+    .array(
+      z.instanceof(File).refine((file) => file.size <= 5 * 1024 * 1024, {
+        message: "Image size must be less than 5MB",
+      })
+    )
+    .max(5, "You can upload a maximum of 5 images"),
+  color: z.string().nonempty("Color is required"),
+  gearType: z.string().nonempty("Gear Type is required"),
+  fuelType: z.string().nonempty("Fuel Type is required"),
+  carType: z.string().nonempty("Please select a car type"),
+  carFeatures: z.array(z.string()).nonempty("Car Features are required"),
+  vehicleSpecifications: z
+    .array(z.string())
+    .nonempty("Vehicle Specifications are required"),
+  description: z.string().nonempty("Car Description is required"),
+});
+
+type CarFormData = z.infer<typeof carSchema>;
 const AddCarData = () => {
   const [selectOptions, setSelectOptions] = useState<OptionType[]>([]);
   const [selectVehicleSpecifications, setSelectVehicleSpecifications] =
     useState<OptionType[]>([]);
   const [addCar] = carApi.useCreateCarMutation();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
-  } = useForm();
+  } = useForm<CarFormData>({
+    resolver: zodResolver(carSchema),
+  });
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const currentImages = watch("carImgUrl") || [];
+      const newImages = [...currentImages, ...acceptedFiles].slice(0, 5); // Limit to 5 images
+      setValue("carImgUrl", newImages);
+      setImagePreviews(newImages.map((file) => URL.createObjectURL(file)));
+    },
+    [setValue, watch]
+  );
 
+  const removeImage = (index: number) => {
+    const currentImages = watch("carImgUrl") || [];
+    const newImages = currentImages.filter((_, i) => i !== index);
+    setValue("carImgUrl", newImages);
+    setImagePreviews(newImages.map((file:any) => URL.createObjectURL(file)));
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    accept: "image/*" as any,
+    multiple: true,
+    maxSize: 5 * 1024 * 1024, // 5MB
+  });
   // Handle change for car features
   const handleFeatureChange = (selectedOptions: MultiValue<OptionType>) => {
     setSelectOptions(selectedOptions as OptionType[]);
     setValue(
       "carFeatures",
-      selectedOptions.map((option) => option.value)
-    ); // Store selected feature values
+      selectedOptions.length > 0
+        ? (selectedOptions.map((option) => option.value) as [
+            string,
+            ...string[]
+          ])
+        : [""] // Provide a default value if no options are selected
+    );
+    // Store selected feature values
   };
 
   // Handle change for vehicle specifications
@@ -42,39 +113,35 @@ const AddCarData = () => {
     selectedOptions: MultiValue<OptionType>
   ) => {
     setSelectVehicleSpecifications(selectedOptions as OptionType[]);
-    setValue(
-      "vehicleSpecifications",
-      selectedOptions.map((option) => option.value)
-    );
+    const specificationValues = selectedOptions.map((option) => option.value);
+
+    if (specificationValues.length > 0) {
+      setValue(
+        "vehicleSpecifications",
+        specificationValues as [string, ...string[]]
+      );
+    } else {
+      // Handle the case when no specifications are selected
+      setValue("vehicleSpecifications", [] as unknown as [string, ...string[]]);
+    }
   };
   // Handle onSubmit
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
-    const {
-      rating,
-      pricePerHour,
-      maxSeats,
-      carImgUrl,
-      isElectric,
-      carFeatures,
-      vehicleSpecifications,
-      ...rest
-    } = data;
-    const userImage = await uploadImageToCloudinary(carImgUrl);
 
-    const modifiedData = {
-      ...rest,
-      rating: Number(rating),
-      pricePerHour: Number(pricePerHour),
-      maxSeats: Number(maxSeats),
-      carImgUrl: userImage,
-      isElectric: isElectric === "true" ? true : false,
-      features: carFeatures,
-      vehicleSpecification: vehicleSpecifications,
-    };
+    const formData = new FormData();
+    formData.append("rating", data.rating);
+    formData.append("pricePerHour", data.pricePerHour);
+    formData.append("maxSeats", data.maxSeats);
+    data.carImgUrl.forEach((file: any) => {
+      formData.append("carImgUrl", file);
+    });
+    formData.append("isElectric", data.isElectric);
+    formData.append("carFeatures", data.carFeatures);
+    formData.append("vehicleSpecifications", data.vehicleSpecifications);
 
     try {
-      const response = await addCar(modifiedData).unwrap();
+      const response = await addCar(formData).unwrap();
       Swal.fire({
         title: "Success!",
         text: "Car added successfully!",
@@ -207,28 +274,8 @@ const AddCarData = () => {
                 </p>
               )}
             </div>
-
-            <div>
-              <label
-                htmlFor="carImgUrl"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Car Image
-              </label>
-              <input
-                type="file"
-                id="carImgUrl"
-                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                {...register("carImgUrl", {
-                  required: "Car Image is required",
-                })}
-              />
-              {errors.carImgUrl && (
-                <p className="text-red-500 text-xs">
-                  {String(errors.carImgUrl.message)}
-                </p>
-              )}
-            </div>
+            
+           
 
             <div>
               <label
@@ -354,7 +401,48 @@ const AddCarData = () => {
               )}
             </div>
           </div>
-
+          <div className="mt-6">
+              <label
+                htmlFor="carImgUrl"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Car Image
+              </label>
+              <div
+              {...getRootProps()}
+              className={`mt-1 block w-full py-4 px-3 border-2 border-dashed border-gray-300 rounded-md cursor-pointer ${
+                isDragActive ? "bg-gray-100" : ""
+              }`}
+            >
+              <input {...getInputProps()} />
+              <p className="text-center flex align-middle justify-center gap-2">
+                <ImagePlus /> Drag & drop some files here, or click to select
+                files
+              </p>
+              {errors.carImgUrl && (
+              <p className="mt-2 text-red-600">{errors.carImgUrl.message}</p>
+            )}
+            </div>
+            <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
+              {imagePreviews.map((preview, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={preview}
+                    alt={`Preview ${index}`}
+                    className="w-full h-auto"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(index)}
+                    className="absolute top-0 right-0 mt-1 mr-1 bg-red-600 text-white rounded-full p-1 text-xs"
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+           
+            </div>
           <div className="mt-6">
             <label
               htmlFor="description"
