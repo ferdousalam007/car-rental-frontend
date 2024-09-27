@@ -7,6 +7,7 @@ import Loader from "../../shared/Loader/Loader";
 import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { TCar } from "../../type/global.type";
+import SectionHeading from "@/component/SectionHeading/SectionHeading";
 
 const FeaturedCart = () => {
   const settings = {
@@ -22,7 +23,7 @@ const FeaturedCart = () => {
       {
         breakpoint: 1440,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
           slidesToScroll: 2,
         },
       },
@@ -61,23 +62,22 @@ const FeaturedCart = () => {
   const carData = getCars?.data;
 
   return (
-    <div>
+    <div className="">
       <div className="text-center py-16">
-        <h2 className="text-3xl md:text-4xl font-semibold mb-4">
-          Recommended <span className="text-red-500">Cars</span>
-        </h2>
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0">
-          <p className="text-gray-600 max-w-2xl mx-auto text-center md:text-left">
+        <SectionHeading title="Recommended Cars">
+          <p className="text-gray-600 dark:text-white max-w-2xl mx-auto text-center ">
             Experience the perfect blend of performance and comfort with our
             top-rated vehicles, featuring advanced technology, sleek design, and
             exceptional fuel efficiency.
           </p>
-          <div className="flex items-center justify-center bg-gray-200 rounded-full w-12 h-12 cursor-pointer">
-            <Link to="/car">
-              <FaArrowRight className="text-gray-600 text-xl" />
-            </Link>
+          <div className="mb-7 flex justify-end">
+            <div className="flex items-center justify-center bg-gray-200 rounded-full w-12 h-12 cursor-pointer">
+              <Link to="/car">
+                <FaArrowRight className="text-gray-600 text-xl" />
+              </Link>
+            </div>
           </div>
-        </div>
+        </SectionHeading>
 
         {isFetching ? (
           <Loader />

@@ -4,5 +4,6 @@ export type TSignUp = {
   password: string;
   confirmPassword: string;
   phone: string;
-  image: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  image: any;
 };

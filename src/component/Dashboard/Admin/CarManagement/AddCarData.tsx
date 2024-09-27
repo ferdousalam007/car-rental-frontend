@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useDropzone } from "react-dropzone";
+import { useDropzone, Accept } from "react-dropzone";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Select, { MultiValue } from "react-select";
 import { ImagePlus } from "lucide-react";
@@ -16,38 +17,55 @@ type OptionType = {
   value: string;
   label: string;
 };
+const MAX_IMAGES = 5;
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
+// Image file validation function
+const isValidImageFile = (file?: File) => {
+  const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+  return file && validTypes.includes(file.type) && file.size <= MAX_IMAGE_SIZE;
+};
 
 const carSchema = z.object({
   name: z.string().nonempty("Car Name is required"),
-  rating: z
+
+  // Use z.coerce.number to ensure input is converted to number, even from string
+  // rating: z.coerce
+  //   .number()
+  //   .min(1, "Rating must be at least 1")
+  //   .max(5, "Rating must be at most 5"),
+
+  // Use z.coerce.boolean() for proper boolean coercion
+  isElectric: z.string().refine((val) => val === "true" || val === "false", {
+    message: "Please select a valid option for isElectric",
+  }),
+
+  pricePerHour: z.coerce
     .number()
-    .min(1, "Rating must be at least 1")
-    .max(5, "Rating must be at most 5"),
-  isElectric: z
-    .string()
-    .refine((value) => value === "true" || value === "false", {
-      message: "Please select if the car is electric",
-    }),
-  pricePerHour: z
-    .number()
-    .min(0, "Price Per Hour must be a non-negative number"),
-  maxSeats: z.number().min(1, "Max Seats must be at least 1"),
+    .min(1, "Price Per Hour must be a non-negative number min value 1"),
+
+  maxSeats: z.coerce.number().min(1, "Max Seats must be at least 1"),
+
+
   carImgUrl: z
-    .array(
-      z.instanceof(File).refine((file) => file.size <= 5 * 1024 * 1024, {
-        message: "Image size must be less than 5MB",
-      })
-    )
-    .max(5, "You can upload a maximum of 5 images"),
+    .array(z.instanceof(File))
+    .min(1, "You must upload at least one image.") // At least 1 image required
+    .max(MAX_IMAGES, `You can upload a maximum of ${MAX_IMAGES} images.`) // Maximum 5 images
+    .refine((files) => files.every(isValidImageFile), {
+      message: `Each image must be a valid file type (jpg, png, jpeg, webp) and under 5MB.`,
+    }),
   color: z.string().nonempty("Color is required"),
   gearType: z.string().nonempty("Gear Type is required"),
   fuelType: z.string().nonempty("Fuel Type is required"),
   carType: z.string().nonempty("Please select a car type"),
+
+  // carFeatures: z.array(z.string()).nonempty("Car Features are required"),
   carFeatures: z.array(z.string()).nonempty("Car Features are required"),
+
   vehicleSpecifications: z
     .array(z.string())
     .nonempty("Vehicle Specifications are required"),
+
   description: z.string().nonempty("Car Description is required"),
 });
 
@@ -59,15 +77,22 @@ const AddCarData = () => {
   const [addCar] = carApi.useCreateCarMutation();
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  
+
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<CarFormData>({
     resolver: zodResolver(carSchema),
+    defaultValues: {
+      isElectric: undefined,
+      carFeatures: [],
+      vehicleSpecifications: [],
+      carImgUrl:[],
+    },
   });
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -81,34 +106,48 @@ const AddCarData = () => {
 
   const removeImage = (index: number) => {
     const currentImages = watch("carImgUrl") || [];
-    const newImages = currentImages.filter((_, i) => i !== index);
-    setValue("carImgUrl", newImages);
-    setImagePreviews(newImages.map((file:any) => URL.createObjectURL(file)));
+    const updatedImages = currentImages.filter((_, i) => i !== index);
+    setValue("carImgUrl", updatedImages);
+    setImagePreviews(
+      updatedImages.map((file: File) => URL.createObjectURL(file))
+    );
   };
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    accept: "image/*" as any,
+    accept: {
+      "image/*":[],
+    } as Accept,
     multiple: true,
-    maxSize: 5 * 1024 * 1024, // 5MB
+    maxSize: MAX_IMAGE_SIZE,
   });
-  // Handle change for car features
+
   const handleFeatureChange = (selectedOptions: MultiValue<OptionType>) => {
     setSelectOptions(selectedOptions as OptionType[]);
-    setValue(
-      "carFeatures",
-      selectedOptions.length > 0
-        ? (selectedOptions.map((option) => option.value) as [
-            string,
-            ...string[]
-          ])
-        : [""] // Provide a default value if no options are selected
-    );
-    // Store selected feature values
-  };
+    const featureValues = selectedOptions.map((option) => option.value);
 
-  // Handle change for vehicle specifications
+    if (featureValues.length > 0) {
+      setValue("carFeatures", featureValues as [string, ...string[]]);
+    } else {
+      setValue("carFeatures", [] as unknown as [string, ...string[]]);
+    }
+  };
+  // const handleFeatureChange = (selectedOptions: MultiValue<OptionType>) => {
+  //   setSelectOptions(selectedOptions as OptionType[]);
+  //   const featureValues = selectedOptions.map((option) => option.value);
+  
+  //   // Always set an array, even if it's empty
+  //   setValue("carFeatures", featureValues as [string, ...string[]]);
+  // };
+//  const handleSpecificationChange = (
+//    selectedOptions: MultiValue<OptionType>
+//  ) => {
+//    setSelectVehicleSpecifications(selectedOptions as OptionType[]);
+//    setValue("vehicleSpecifications", [
+//      selectedOptions[0]?.value,
+//      ...selectedOptions.slice(1).map((option) => option.value),
+//    ]);
+//  };
+  
   const handleSpecificationChange = (
     selectedOptions: MultiValue<OptionType>
   ) => {
@@ -121,7 +160,6 @@ const AddCarData = () => {
         specificationValues as [string, ...string[]]
       );
     } else {
-      // Handle the case when no specifications are selected
       setValue("vehicleSpecifications", [] as unknown as [string, ...string[]]);
     }
   };
@@ -130,16 +168,28 @@ const AddCarData = () => {
     setIsLoading(true);
 
     const formData = new FormData();
-    formData.append("rating", data.rating);
-    formData.append("pricePerHour", data.pricePerHour);
-    formData.append("maxSeats", data.maxSeats);
+    formData.append("name",data.name);
+    formData.append("description", data.description);
+    formData.append("color", data.color);
+    formData.append("fuelType", data.fuelType);
+    formData.append("carType", data.carType);
+    formData.append("gearType", data.gearType);
+// formData.append("rating", Number(data.rating).toString());
+formData.append("pricePerHour", Number(data.pricePerHour).toString());
+formData.append("maxSeats", Number(data.maxSeats).toString());
     data.carImgUrl.forEach((file: any) => {
       formData.append("carImgUrl", file);
     });
-    formData.append("isElectric", data.isElectric);
-    formData.append("carFeatures", data.carFeatures);
-    formData.append("vehicleSpecifications", data.vehicleSpecifications);
-
+    formData.append(
+      "isElectric",
+      data.isElectric === "true" ? "true" : "false"
+    );
+    formData.append("features", JSON.stringify(data.carFeatures as string[]));
+    formData.append(
+      "vehicleSpecification",
+      JSON.stringify(data.vehicleSpecifications as string[])
+    );
+    console.log([...formData], "formDataaaa");
     try {
       const response = await addCar(formData).unwrap();
       Swal.fire({
@@ -149,6 +199,10 @@ const AddCarData = () => {
         confirmButtonText: "OK",
       });
       console.log(response);
+      reset();
+      setSelectOptions([]); // Reset the select options
+      setSelectVehicleSpecifications([]); 
+      setImagePreviews([]);
     } catch (error) {
       Swal.fire({
         title: "Error!",
@@ -180,7 +234,7 @@ const AddCarData = () => {
               </label>
               <input
                 type="text"
-                {...register("name", { required: "Car Name is required" })}
+                {...register("name")}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
               {errors.name && (
@@ -190,7 +244,7 @@ const AddCarData = () => {
               )}
             </div>
 
-            <div>
+            {/* <div>
               <label
                 htmlFor="rating"
                 className="block text-sm font-medium text-gray-700"
@@ -199,7 +253,7 @@ const AddCarData = () => {
               </label>
               <input
                 type="number"
-                {...register("rating", { required: "Car rating is required" })}
+                {...register("rating")}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
               {errors.rating && (
@@ -207,7 +261,7 @@ const AddCarData = () => {
                   {String(errors.rating.message)}
                 </p>
               )}
-            </div>
+            </div> */}
 
             <div>
               <label
@@ -217,9 +271,8 @@ const AddCarData = () => {
                 Is Electric?
               </label>
               <select
-                {...register("isElectric", {
-                  required: "Please select if the car is electric",
-                })}
+                // {...register("isElectric")}
+                {...register("isElectric")}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               >
                 <option value="">Select...</option>
@@ -228,7 +281,7 @@ const AddCarData = () => {
               </select>
               {errors.isElectric && (
                 <p className="text-red-500 text-xs">
-                  {String(errors.isElectric.message)}
+                  {errors.isElectric.message}
                 </p>
               )}
             </div>
@@ -242,14 +295,12 @@ const AddCarData = () => {
               </label>
               <input
                 type="number"
-                {...register("pricePerHour", {
-                  required: "Price Per Hour is required",
-                })}
+                {...register("pricePerHour", { valueAsNumber: true })}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
               {errors.pricePerHour && (
                 <p className="text-red-500 text-xs">
-                  {String(errors.pricePerHour.message)}
+                  {errors.pricePerHour.message}
                 </p>
               )}
             </div>
@@ -263,9 +314,7 @@ const AddCarData = () => {
               </label>
               <input
                 type="number"
-                {...register("maxSeats", {
-                  required: "Max Seats are required",
-                })}
+                {...register("maxSeats", { valueAsNumber: true })}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
               {errors.maxSeats && (
@@ -274,8 +323,6 @@ const AddCarData = () => {
                 </p>
               )}
             </div>
-            
-           
 
             <div>
               <label
@@ -286,7 +333,7 @@ const AddCarData = () => {
               </label>
               <input
                 type="text"
-                {...register("color", { required: "color is required" })}
+                {...register("color")}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
               {errors.color && (
@@ -305,7 +352,7 @@ const AddCarData = () => {
               </label>
               <input
                 type="text"
-                {...register("gearType", { required: "Gear Type is required" })}
+                {...register("gearType")}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
               {errors.gearType && (
@@ -324,7 +371,7 @@ const AddCarData = () => {
               </label>
               <input
                 type="text"
-                {...register("fuelType", { required: "Fuel Type is required" })}
+                {...register("fuelType")}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
               {errors.fuelType && (
@@ -342,9 +389,7 @@ const AddCarData = () => {
                 Car Type
               </label>
               <select
-                {...register("carType", {
-                  required: "Please select a car type",
-                })}
+                {...register("carType")}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               >
                 <option value="">Select car type</option>
@@ -402,16 +447,15 @@ const AddCarData = () => {
             </div>
           </div>
           <div className="mt-6">
-              <label
-                htmlFor="carImgUrl"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Car Image
-              </label>
-              <div
+            <label
+              htmlFor="carImgUrl"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Car Image
+            </label>
+            <div
               {...getRootProps()}
-              className={`mt-1 block w-full py-4 px-3 border-2 border-dashed border-gray-300 rounded-md cursor-pointer ${
-                isDragActive ? "bg-gray-100" : ""
+              className={`mt-1 block w-full py-4 px-3 border-2 border-dashed border-gray-300 rounded-md cursor-pointer 
               }`}
             >
               <input {...getInputProps()} />
@@ -419,17 +463,17 @@ const AddCarData = () => {
                 <ImagePlus /> Drag & drop some files here, or click to select
                 files
               </p>
-              {errors.carImgUrl && (
+            </div>
+            {errors.carImgUrl && (
               <p className="mt-2 text-red-600">{errors.carImgUrl.message}</p>
             )}
-            </div>
-            <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
+            <div className="mt-2 flex flex-wrap gap-2">
               {imagePreviews.map((preview, index) => (
                 <div key={index} className="relative">
                   <img
                     src={preview}
                     alt={`Preview ${index}`}
-                    className="w-full h-auto"
+                    className="w-[100px] h-[100px] object-cover object-center"
                   />
                   <button
                     type="button"
@@ -441,8 +485,7 @@ const AddCarData = () => {
                 </div>
               ))}
             </div>
-           
-            </div>
+          </div>
           <div className="mt-6">
             <label
               htmlFor="description"

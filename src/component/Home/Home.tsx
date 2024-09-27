@@ -12,7 +12,7 @@ const Home = () => {
       {/* <Banner></Banner> */}
       <CarBanner></CarBanner>
       <CarBookingSearchButton />
-      <div>
+      <div className="bg-white dark:bg-[#26324d]">
         <div className="container mx-auto">
           <FeaturedCart></FeaturedCart>
           <WhyChoose></WhyChoose>

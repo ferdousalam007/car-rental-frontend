@@ -28,7 +28,7 @@ const AllBookings = () => {
     isLoading,
   } = bookingApi.useGetMyBookingsQuery(undefined);
   const bookingData = myBookings?.data;
-
+console.log(bookingData);
   const [deleteMyBooking, { isLoading: isDeleting }] =
     bookingApi.useDeleteBookingMutation();
   const tableData = bookingData?.map((item: TCarBooking) => ({

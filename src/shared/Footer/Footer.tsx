@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 const Footer = () => {
   return (
-    <div className="shrink-0 py-8 bg-[#26324d]">
+    <div className="shrink-0 py-8 bg-[#26324d] dark:bg-slate-900">
     <footer className=" text-gray-400 py-6">
       <div className="max-w-[1200px] mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -45,16 +45,18 @@ const CarBookingSearchButton = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white dark:bg-[#26324d] pb-7">
       {/* Booking Form */}
-      <div className="relative mx-auto  max-w-[95%] -mt-12 bg-white shadow-lg rounded-lg p-6 md:p-8">
+      <div className="relative mx-auto  max-w-[95%] -mt-12 bg-white dark:bg-slate-700 shadow-lg rounded-lg p-6 md:p-8">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
           {/* Car Type */}
           <div className="lg:col-span-2 flex flex-col">
-            <label className="font-semibold mb-2">Select Car Type</label>
+            <label className="font-semibold mb-2 dark:text-white">
+              Select Car Type
+            </label>
             <div className="relative">
               <select
-                className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="bg-white dark:bg-slate-800 dark:text-white  w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-700"
                 value={carType}
                 onChange={handleTypeChange}
               >
@@ -71,10 +73,12 @@ const CarBookingSearchButton = () => {
 
           {/* Car Feature */}
           <div className="lg:col-span-2 flex flex-col">
-            <label className="font-semibold mb-2">Select Car Feature</label>
+            <label className="font-semibold mb-2 dark:text-white">
+              Select Car Feature
+            </label>
             <div className="relative">
               <select
-                className="bg-white w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2"
+                className="bg-white dark:bg-slate-800 dark:text-white w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-700"
                 value={features}
                 onChange={handleFeaturesChange}
               >
@@ -91,10 +95,12 @@ const CarBookingSearchButton = () => {
 
           {/* Car Seats */}
           <div className="lg:col-span-2 flex flex-col">
-            <label className="font-semibold mb-2">Select Car Seats</label>
+            <label className="font-semibold mb-2 dark:text-white">
+              Select Car Seats
+            </label>
             <div className="relative">
               <select
-                className="bg-white w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2"
+                className="bg-white dark:bg-slate-800 dark:text-white w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-700"
                 value={seats}
                 onChange={handleSeatsChange}
               >
@@ -113,7 +119,7 @@ const CarBookingSearchButton = () => {
         <div className="flex justify-center mt-4">
           <button
             onClick={handleSearchCar}
-            className="px-8 py-4 bg-orange-400 text-white rounded-md hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-600 w-full"
+            className="px-8 py-4 bg-slate-600 dark:bg-slate-900 text-white rounded-md hover:bg-slate-900 dark:hover:bg-slate-600 dark:hover:border dark:hover:border-slate-400 border  focus:outline-none focus:ring-2 focus:ring-slate-900 w-full"
           >
             Book Now
           </button>

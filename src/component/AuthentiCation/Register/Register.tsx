@@ -2,8 +2,31 @@
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { authApi } from "../../../redux/features/Auth/authApi";
 import { toast } from "sonner";
-import uploadImageToCloudinary from "../../../utils/uploadImage";
 import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// Define Zod schema for form validation
+const registerSchema = z
+  .object({
+    name: z.string().min(1, "Name is required"),
+    email: z
+      .string()
+      .min(1, "Email is required")
+      .email("Invalid email address"),
+    password: z.string().min(6, "Password is required min 6 characters"),
+    confirmPassword: z.string().min(6, "Confirm Password is required min 6 characters"),
+
+    phone: z.string().min(1, "Phone number is required"),
+    image: z.any().optional(),
+    terms: z.boolean().refine((val) => val === true, {
+      message: "You must agree to the Terms & Conditions",
+    }),
+  })
+  .refine((data) => data.confirmPassword === data.password, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });;
 
 const Register = () => {
   const [addSignUp, { isLoading }] = authApi.useSignUpMutation();
@@ -11,27 +34,36 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: zodResolver(registerSchema),
+  });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const { image, ...rest } = data;
-    const userImage = await uploadImageToCloudinary(image);
+    const formData = new FormData();
 
-    const modifiedUserData = {
-      ...rest,
-      image: userImage,
-    };
+    // Append form data including the image file
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("confirmPassword", data.confirmPassword);
+    formData.append("phone", data.phone);
+    if (data.image[0] && data.image[0].size > 0) {
+      formData.append("image", data.image[0]); // append the first image file
+    }
+    // formData.append("terms", data.terms);
 
     try {
-      await addSignUp(modifiedUserData).unwrap();
+
+      await addSignUp(formData).unwrap();
       toast.success("Registration successful!");
       reset();
       navigate("/login");
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (err: any) {
+
+      console.log(err);
+      toast.error(err.data.message || "Registration failed");
     }
   };
 
@@ -70,10 +102,14 @@ const Register = () => {
                       id="name"
                       placeholder="Name"
                       className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      {...register("name", { required: true })}
+                      {...register("name")}
                     />
                     {errors.name && (
-                      <span className="text-red-500">Name is required</span>
+                      <span className="text-red-500">
+                        {typeof errors.name.message === "string"
+                          ? errors.name.message
+                          : "Invalid error message"}
+                      </span>
                     )}
                   </div>
                   <div>
@@ -85,16 +121,13 @@ const Register = () => {
                       id="email"
                       placeholder="Email"
                       className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      {...register("email", {
-                        required: true,
-                        pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
-                      })}
+                      {...register("email")}
                     />
                     {errors.email && (
                       <span className="text-red-500">
-                        {errors.email.type === "required"
-                          ? "Email is required"
-                          : "Invalid email address"}
+                        {typeof errors.email.message === "string"
+                          ? errors.email.message
+                          : "Invalid error message"}
                       </span>
                     )}
                   </div>
@@ -111,16 +144,13 @@ const Register = () => {
                       id="password"
                       placeholder="Password"
                       className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      {...register("password", {
-                        required: true,
-                        minLength: 6,
-                      })}
+                      {...register("password")}
                     />
                     {errors.password && (
                       <span className="text-red-500">
-                        {errors.password.type === "required"
-                          ? "Password is required"
-                          : "Password must be at least 6 characters"}
+                        {typeof errors.password.message === "string"
+                          ? errors.password.message
+                          : "Invalid error message"}
                       </span>
                     )}
                   </div>
@@ -136,16 +166,13 @@ const Register = () => {
                       id="confirmPassword"
                       placeholder="Confirm Password"
                       className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      {...register("confirmPassword", {
-                        required: true,
-                        validate: (value) =>
-                          value === watch("password") ||
-                          "Passwords do not match",
-                      })}
+                      {...register("confirmPassword")}
                     />
                     {errors.confirmPassword && (
                       <span className="text-red-500">
-                        {String(errors.confirmPassword.message)}
+                        {typeof errors.confirmPassword.message === "string"
+                          ? errors.confirmPassword.message
+                          : "Invalid error message"}
                       </span>
                     )}
                   </div>
@@ -161,11 +188,13 @@ const Register = () => {
                     id="phone"
                     placeholder="Your phone number"
                     className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    {...register("phone", { required: true })}
+                    {...register("phone")}
                   />
                   {errors.phone && (
                     <span className="text-red-500">
-                      Phone number is required
+                      {typeof errors.phone.message === "string"
+                        ? errors.phone.message
+                        : "Invalid error message"}
                     </span>
                   )}
                 </div>
@@ -181,9 +210,6 @@ const Register = () => {
                     className="w-full px-3 py-2 bg-white border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     {...register("image")}
                   />
-                  {errors.image && (
-                    <span className="text-red-500">Image is required</span>
-                  )}
                 </div>
 
                 {/* Terms & Conditions Checkbox */}
@@ -192,7 +218,7 @@ const Register = () => {
                     type="checkbox"
                     id="terms"
                     className="mr-2 leading-tight"
-                    {...register("terms", { required: true })}
+                    {...register("terms")}
                   />
                   <label htmlFor="terms" className="text-white">
                     I agree to the{" "}
@@ -207,7 +233,9 @@ const Register = () => {
                   </label>
                   {errors.terms && (
                     <span className="text-red-500">
-                      You must agree to continue
+                      {typeof errors.terms.message === "string"
+                        ? errors.terms.message
+                        : "Invalid error message"}
                     </span>
                   )}
                 </div>
@@ -216,22 +244,15 @@ const Register = () => {
                 <button
                   type="submit"
                   className={`w-full mt-4 py-2 rounded-md transition duration-200 
-                    ${
-                      isLoading
-                        ? "bg-blue-300"
-                        : "bg-blue-500 hover:bg-blue-600"
-                    } 
-                    text-white flex items-center justify-center`}
+            ${
+              isLoading
+                ? "bg-blue-300 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+            } 
+            text-white flex items-center justify-center`}
                   disabled={isLoading}
                 >
-                  {isLoading ? (
-                    <>
-                      <span className="loader-icon"></span>
-                      <span className="ml-2">Registering...</span>
-                    </>
-                  ) : (
-                    "Sign Up"
-                  )}
+                  {isLoading ? "Submitting..." : "Submit"}
                 </button>
               </form>
 
@@ -243,13 +264,12 @@ const Register = () => {
                 </a>
               </p>
             </div>
-
             {/* Image Section */}
             <div className="w-full md:w-1/2 md:h-[662px] mt-8 md:mt-0">
               <img
-                src="https://i.postimg.cc/KY7m7xXj/singin.jpg"
-                alt="Registration"
-                className="w-full h-full object-cover rounded-lg"
+                src="https://i.postimg.cc/7L45rBwC/signin.png"
+                alt="Login illustration"
+                className="w-full h-full object-cover rounded-lg shadow-lg"
               />
             </div>
           </div>

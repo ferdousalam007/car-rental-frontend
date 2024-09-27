@@ -23,7 +23,7 @@ const Stars = ({ star = 0 }) => {
     <div className="text-orange-400 flex items-center">
       {ratings}
       <span className="text-sm ml-2 hidden md:block">
-        {star.toFixed(1)} out of 5
+        {/* {star?.toFixed(1)} out of 5 */}
       </span>
     </div>
   );

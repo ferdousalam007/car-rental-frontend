@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import SectionHeading from "@/component/SectionHeading/SectionHeading";
 import { feedBackApi } from "../../redux/features/FeedBack/feedBackApi";
 
 const Testimonial = () => {
@@ -7,12 +8,15 @@ const Testimonial = () => {
   const comments = getAllComment?.data;
 
   return (
-    <div className="bg-[#F7F7F7] py-12">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">
-          What Our Satisfied
-          <span className="text-red-600"> Customer Feedback</span>
-        </h2>
+    <div className="bg-[#F7F7F7] dark:bg-[#26324d] py-12 container">
+      <SectionHeading title="Our Satisfied Customer Feedback">
+        <p className="text-gray-600 dark:text-white max-w-2xl mx-auto text-center pb-16">
+          We believe in delivering excellence through personalized services,
+          available support, and a dedicated team. Our commitment to quality
+          ensures that you receive the best possible experience every time.
+        </p>
+      </SectionHeading>
+      <div className="mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16 lg:gap-20">
           {comments?.map((testimonial: any, index: number) => (
             <div

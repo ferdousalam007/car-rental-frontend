@@ -5,8 +5,11 @@ import { MultiValue } from "react-select";
 import Select from "react-select";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useDropzone,Accept  } from "react-dropzone";
-import {  carFeatures, vehicleSpecifications } from "../../../../type/global.type";
+import { useDropzone, Accept } from "react-dropzone";
+import {
+  carFeatures,
+  vehicleSpecifications,
+} from "../../../../type/global.type";
 import { carApi } from "../../../../redux/features/Car/carApi";
 import { toast } from "sonner";
 
@@ -27,10 +30,10 @@ const isValidImageFile = (file?: File) => {
 // Zod schema for validation
 const schema = z.object({
   carName: z.string().min(1, "Car Name is required"),
-  rating: z
-    .number({ invalid_type_error: "Rating must be a number" })
-    .min(0)
-    .max(5),
+  // rating: z
+  //   .number({ invalid_type_error: "Rating must be a number" })
+  //   .min(0)
+  //   .max(5),
   isElectric: z.enum(["true", "false"], {
     invalid_type_error: "Select Yes or No",
   }),
@@ -48,15 +51,19 @@ const schema = z.object({
   carImgUrl: z
     .array(z.instanceof(File))
     .nullable()
-    .refine((files) => files === null || (files.length > 0 && files.length <= MAX_IMAGES), {
-      message: `Please upload between 1 and ${MAX_IMAGES} images.`,
-    })
+    .refine(
+      (files) =>
+        files === null || (files.length > 0 && files.length <= MAX_IMAGES),
+      {
+        message: `Please upload between 1 and ${MAX_IMAGES} images.`,
+      }
+    )
     .refine((files) => files === null || files.every(isValidImageFile), {
       message:
         "Each image must be a valid file type (jpg, png, jpeg, webp) and under 5MB.",
     }),
-    carFeatures: z.array(z.string()).optional(),
-    vehicleSpecifications: z.array(z.string()).optional(),    
+  carFeatures: z.array(z.string()).optional(),
+  vehicleSpecifications: z.array(z.string()).optional(),
 });
 
 type CarData = z.infer<typeof schema>;
@@ -69,10 +76,9 @@ const UpdateCar = ({ data }: { data: CarData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const keyData:any =data;
-const keyId:string =keyData.key
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const keyData: any = data;
+  const keyId: string = keyData.key;
 
   const {
     register,
@@ -85,9 +91,9 @@ const keyId:string =keyData.key
     resolver: zodResolver(schema),
     defaultValues: {
       carName: data?.carName || "",
-      rating: data?.rating || 0,
-      isElectric: data?.isElectric ? "true" : "false",
-      pricePerHour: data?.pricePerHour || 0,
+      // rating: data?.rating,
+      isElectric: data?.isElectric || "false",
+      pricePerHour: Number(data?.pricePerHour) || 0,
       maxSeats: data?.maxSeats || 0,
       color: data?.color || "",
       gearType: data?.gearType || "",
@@ -99,12 +105,26 @@ const keyId:string =keyData.key
       vehicleSpecifications: data?.vehicleSpecifications || [],
     },
   });
-  const watchImages = watch("carImgUrl");
+  // const watchImages = watch("carImgUrl");
 
   const [updateCar] = carApi.useUpdateCarMutation();
 
   useEffect(() => {
-    reset();
+    reset({
+      carName: data?.carName || "",
+      // rating: data?.rating,
+      isElectric: data?.isElectric || "false",
+      pricePerHour: Number(data?.pricePerHour) || 0,
+      maxSeats: data?.maxSeats || 0,
+      color: data?.color || "",
+      gearType: data?.gearType || "",
+      fuelType: data?.fuelType || "",
+      carType: data?.carType || "",
+      description: data?.description || "",
+      carImgUrl: null,
+      carFeatures: data?.carFeatures || [],
+      vehicleSpecifications: data?.vehicleSpecifications || [],
+    });
   }, [data, reset]);
 
   const showModal = () => {
@@ -145,12 +165,14 @@ const keyId:string =keyData.key
     const currentImages = watch("carImgUrl") || [];
     const updatedImages = currentImages.filter((_, i) => i !== index);
     setValue("carImgUrl", updatedImages);
-    setImagePreviews(updatedImages.map((file: File) => URL.createObjectURL(file)));
+    setImagePreviews(
+      updatedImages.map((file: File) => URL.createObjectURL(file))
+    );
   };
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
-      'image/*': []
+      "image/*": [],
     } as Accept,
     multiple: true,
     maxSize: MAX_IMAGE_SIZE,
@@ -161,11 +183,13 @@ const keyId:string =keyData.key
 
     // Prepare FormData to handle file uploads and other fields
     const formData = new FormData();
-    formData.append("carName", cdata.carName);
-    formData.append("rating", String(cdata.rating));
-    formData.append("isElectric", cdata.isElectric === "true" ? "true" : "false");
-    formData.append("pricePerHour", String(cdata.pricePerHour));
-    formData.append("maxSeats", String(cdata.maxSeats));
+    formData.append("name", cdata.carName);
+    // formData.append("rating", cdata.rating);
+    formData.append(
+      "isElectric",
+      cdata.isElectric === "true" ? "true" : "false"
+    );
+    formData.append("pricePerHour", cdata.pricePerHour);
     formData.append("color", cdata.color);
     formData.append("gearType", cdata.gearType);
     formData.append("fuelType", cdata.fuelType);
@@ -174,37 +198,37 @@ const keyId:string =keyData.key
 
     if (cdata.carFeatures && cdata.carFeatures.length > 0) {
       formData.append("carFeatures", JSON.stringify(cdata.carFeatures));
-  }
-  
-  if (cdata.vehicleSpecifications && Object.keys(cdata.vehicleSpecifications).length > 0) {
-      formData.append("vehicleSpecifications", JSON.stringify(cdata.vehicleSpecifications));
-  }
-  
+    }
+
+    if (
+      cdata.vehicleSpecifications &&
+      Object.keys(cdata.vehicleSpecifications).length > 0
+    ) {
+      formData.append(
+        "vehicleSpecifications",
+        JSON.stringify(cdata.vehicleSpecifications)
+      );
+    }
 
     // Append each image file
     cdata.carImgUrl?.forEach((file: File) => {
       formData.append("carImgUrl", file);
     });
-    // if (watchImages && watchImages.length > 0) {
-    //   watchImages.forEach((file: File) => formData.append("carImgUrl", file));
-    // } else if (Array.isArray(cdata.carImgUrl) && cdata.carImgUrl.length > 0) {
-    //   cdata.carImgUrl.forEach((url: string) => formData.append("carImgUrl", url));
-    // } else if (typeof cdata.carImgUrl === "string") {
-    //   formData.append("carImgUrl", cdata.carImgUrl);
-    // }
-  
-    // console.log(data,"cdata")
 
-    console.log([...formData],"formDataaaa");
+    console.log([...formData], "formDataaaa");
 
-//  console.log(cdata,"cdata?.key");
+    //  console.log(cdata,"cdata?.key");
     try {
       await updateCar({
         id: keyId,
         carData: formData,
       }).unwrap();
       toast.success("Car Updated Successfully", { position: "top-center" });
+      reset({
+        carImgUrl: null,
+      });
       setIsModalOpen(false);
+      setImagePreviews([]);
     } catch (error) {
       console.error(error);
     } finally {
@@ -223,7 +247,7 @@ const keyId:string =keyData.key
         footer={null}
       >
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
             <div>
               <label
                 htmlFor="name"
@@ -242,7 +266,7 @@ const keyId:string =keyData.key
               )}
             </div>
 
-            <div>
+            {/* <div>
               <label
                 htmlFor="rating"
                 className="block text-sm font-medium text-gray-700"
@@ -258,7 +282,7 @@ const keyId:string =keyData.key
               {errors.rating && (
                 <p className="text-red-600">{errors.rating.message}</p>
               )}
-            </div>
+            </div> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -301,19 +325,32 @@ const keyId:string =keyData.key
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
             {/* Image Upload Section */}
-            <div {...getRootProps()} className="border-dashed border-2 border-gray-300 p-4 text-center">
+            <div
+              {...getRootProps()}
+              className="border-dashed border-2 border-gray-300 p-4 text-center"
+            >
               <input {...getInputProps()} />
-              <p className="text-gray-600">Drag and drop images here, or click to select files</p>
-              <p className="text-gray-500">Max {MAX_IMAGES} images, each under 5MB</p>
-              <p className="text-gray-500">Allowed formats: .jpg, .jpeg, .png, .webp</p>
+              <p className="text-gray-600">
+                Drag and drop images here, or click to select files
+              </p>
+              <p className="text-gray-500">
+                Max {MAX_IMAGES} images, each under 5MB
+              </p>
+              <p className="text-gray-500">
+                Allowed formats: .jpg, .jpeg, .png, .webp
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div className="flex flex-wrap gap-4 mt-4">
               {imagePreviews.map((preview, index) => (
                 <div key={index} className="relative">
-                  <img src={preview} alt={`Preview ${index}`} className="w-full h-24 object-cover" />
+                  <img
+                    src={preview}
+                    alt={`Preview ${index}`}
+                    className="w-[100px] h-[100px] object-cover"
+                  />
                   <button
                     type="button"
                     onClick={() => removeImage(index)}
@@ -326,7 +363,7 @@ const keyId:string =keyData.key
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
             <div>
               <label
                 htmlFor="maxSeats"
@@ -463,7 +500,9 @@ const keyId:string =keyData.key
                 className="mt-1"
               />
               {errors.vehicleSpecifications && (
-                <p className="text-red-600">{errors.vehicleSpecifications.message}</p>
+                <p className="text-red-600">
+                  {errors.vehicleSpecifications.message}
+                </p>
               )}
             </div>
           </div>
