@@ -7,6 +7,7 @@ import { TCarBooking } from "../../../../type/global.type";
 import Swal from "sweetalert2";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { carApi } from "../../../../redux/features/Car/carApi";
+import DashboardHeading from "../../DashboardHeading/DashboardHeading";
 
 const AdminManageBooking = () => {
   const { data: allBookings, isLoading } =
@@ -197,12 +198,9 @@ const AdminManageBooking = () => {
   ];
 
   return (
-    <div className="bg-gray-50 min-h-screen p-4">
-      <div className="bg-gradient-to-r from-slate-500 p-8 mb-10 rounded-lg shadow-md">
-        <h2 className="text-4xl font-bold text-center text-white">
-          Manage All <span className="text-yellow-300">User Bookings</span>
-        </h2>
-      </div>
+    <div className="min-h-screen p-3">
+      <DashboardHeading title="Manage All User" highlightedText="Bookings" />
+      
       {/* Show loading spinner while data is loading */}
       {isLoading ? (
         <div className="flex justify-center items-center h-full">
@@ -212,7 +210,8 @@ const AdminManageBooking = () => {
         <Table
           columns={columns}
           dataSource={tableData || []}
-          className="overflow-x-auto"
+          className="overflow-x-auto "
+        
         />
       )}
     </div>

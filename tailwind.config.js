@@ -15,9 +15,9 @@ export default {
       colors: {
         'bg-primary': 'var(--color-background-primary)',
         'bg-secondary': 'var(--color-background-secondary)',
+        'bg-tertiary': 'var(--color-background-tertiary)',
         'text-primary': 'var(--color-text-primary)',
         'text-secondary': 'var(--color-text-secondary)',
-        'text-tertiary': 'var(--color-text-tertiary)',
         'bg-input': 'var(--color-background-input)',
         'bg-button': 'var(--color-mybtn)',  
         'btn-hover': 'var(--color-mybtn-hover)',  

@@ -12,6 +12,7 @@ import {
 import { useCallback, useState } from "react";
 import { carApi } from "../../../../redux/features/Car/carApi";
 import Swal from "sweetalert2";
+import DashboardHeading from "../../DashboardHeading/DashboardHeading";
 
 type OptionType = {
   value: string;
@@ -216,12 +217,9 @@ formData.append("maxSeats", Number(data.maxSeats).toString());
     }
   };
   return (
-    <div className="bg-gray-50 min-h-screen p-4">
-      <div className="bg-gradient-to-r from-slate-500 p-6 mb-10 rounded-lg shadow-md">
-        <h2 className="text-4xl font-bold text-center text-white">
-          Create New <span className="text-yellow-300">Car</span>
-        </h2>
-      </div>
+    <div className=" min-h-screen p-4">
+      <DashboardHeading title="Create New " highlightedText="Car" />
+     
       <div className="container mx-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

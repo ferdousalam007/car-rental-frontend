@@ -9,6 +9,7 @@ import { FaEdit } from "react-icons/fa";
 import { TCar } from "../../../../type/global.type";
 import Loader from "../../../../shared/Loader/Loader";
 import { FaCar, FaCaretLeft, FaUsers } from "react-icons/fa6";
+import DashboardHeading from "../../DashboardHeading/DashboardHeading";
 
 const AdminViewProfile = () => {
   // Fetch all cars
@@ -109,13 +110,12 @@ const AdminViewProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
+      <DashboardHeading
+        title=" Dashboard"
+        highlightedText={userData?.name.toUpperCase()}
+      />
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-slate-500 p-8 mb-10 rounded-lg shadow-md">
-        <h2 className="text-4xl font-bold text-center text-white">
-          Welcome Back ,<span className="text-red-500"> {userData?.name}</span>!
-        </h2>
-      </div>
 
       {/* Content Section */}
       <div className="max-w-7xl mx-auto px-4">
@@ -188,14 +188,12 @@ const AdminViewProfile = () => {
         </div>
       </div>
 
-      <hr className="mt-10" />
+   
       <div>
         <div className="mt-6 mb-6">
-          <h2 className="text-4xl font-bold text-center">
-            Available <span className="text-red-500">Car List</span>
-          </h2>
+          <DashboardHeading title="Available" highlightedText="Car List" />
         </div>
-        <hr />
+
         <div className="md:p-6">
           <Table
             columns={columns}

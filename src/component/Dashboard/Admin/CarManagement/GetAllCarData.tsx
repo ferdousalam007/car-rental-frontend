@@ -6,6 +6,7 @@ import Loader from "../../../../shared/Loader/Loader";
 import { TCar } from "../../../../type/global.type";
 
 import UpdateCar from "./UpdateCar";
+import DashboardHeading from "../../DashboardHeading/DashboardHeading";
 
 const GetAllCarData = () => {
   const { data: allCars, isLoading: isFetching } = carApi.useGetAllCarsQuery(
@@ -50,9 +51,9 @@ const GetAllCarData = () => {
           src={carImage}
           alt="Car"
           style={{
-            width: 70,
-            height: 70,
-            borderRadius: "100%",
+            width: 80,
+            height: 80,
+            borderRadius: "5%",
             objectFit: "cover",
           }}
         />
@@ -74,8 +75,9 @@ const GetAllCarData = () => {
       key: "status",
       render: (status: string) => (
         <Tag
+        style={{color: "#000"}}
           className={`status ${
-            status === "completed" ? "text-green-500" : "text-red-500"
+            status === "completed" ? "text-green-700" : "text-yeallow-700"
           }`}
         >
           {status}
@@ -101,16 +103,15 @@ const GetAllCarData = () => {
     );
 
   return (
-    <div className="bg-gray-50 min-h-screen p-4">
-      <div className="bg-gradient-to-r from-slate-500 p-8 mb-10 rounded-lg shadow-md">
-        <h2 className="text-4xl font-bold text-center text-white">
-          Manage All <span className="text-yellow-300">Cars</span>
-        </h2>
-      </div>
+    <div className=" min-h-screen p-4">
+      <DashboardHeading title="Manage All " highlightedText="Cars" />
+      
       <Table
         columns={columns}
         dataSource={tableData || []}
-        pagination={false}
+        pagination={{
+          pageSize: 5,
+        }}
         className="overflow-x-auto"
       />
     </div>

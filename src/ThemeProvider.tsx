@@ -37,6 +37,15 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import { ConfigProvider, theme } from "antd";
+import { AliasToken } from 'antd/es/theme/interface';
+
+interface CustomAliasToken extends AliasToken {
+  colorBgInput?: string;
+  colorBgButton?: string;
+  colorButtonHover?: string;
+}
+
+// Then use CustomAliasToken instead of AliasToken when defining your theme
 
 const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -64,16 +73,21 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
         algorithm:
           themeMode === "dark" ? theme.darkAlgorithm : theme.defaultAlgorithm,
         token: {
-          colorPrimary: 'var(--color-primary)',
-          colorSuccess: 'var(--color-success)',
-          colorWarning: 'var(--color-warning)',
-          colorError: 'var(--color-error)',
-          colorBgContainer: 'var(--color-background-primary)',
-          colorBgElevated: 'var(--color-background-secondary)',
-          colorText: 'var(--color-text-primary)',
-          colorTextSecondary: 'var(--color-text-secondary)',
-          colorBorder: 'var(--color-border)',
-        },
+          colorPrimary: "var(--color-primary)",
+          colorPrimaryHover: "var(--color-primary-hover)",
+          colorSuccess: "var(--color-success)",
+          colorWarning: "var(--color-warning)",
+          colorError: "var(--color-error)",
+          colorBgContainer: "var(--color-background-primary)",
+          colorBgElevated: "var(--color-background-secondary)",
+          colorText: "var(--color-text-primary)",
+          colorTextSecondary: "var(--color-text-secondary)",
+          colorTextTertiary: "var(--color-text-tertiary)",
+          colorBgInput: "var(--color-background-input)",
+          colorBgButton: "var(--color-mybtn)",
+          colorButtonHover: "var(--color-mybtn-hover)",
+          colorBorder: "var(--color-border)",
+        } as CustomAliasToken,
       }}
     >
       {children}

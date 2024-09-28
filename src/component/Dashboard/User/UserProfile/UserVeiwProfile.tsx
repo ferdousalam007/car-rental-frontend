@@ -108,7 +108,7 @@ const UserViewProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {/* Header Section */}
       <div className="bg-gradient-to-r from-slate-400 to-slate-600 p-8 mb-10 rounded-lg shadow-md">
         <h2 className="text-4xl font-bold text-center text-white">

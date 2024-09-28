@@ -7,6 +7,7 @@ import { TUser } from "../../../../type/global.type";
 import { userApi } from "../../../../redux/features/user/userApi";
 import Loader from "../../../../shared/Loader/Loader";
 import Swal from "sweetalert2";
+import DashboardHeading from "../../DashboardHeading/DashboardHeading";
 
 const AdminAllUser = () => {
   const { data: allUser, isLoading: isLoadingAllUsers } =
@@ -125,12 +126,9 @@ const AdminAllUser = () => {
   ];
 
   return (
-    <div className="bg-gray-50 min-h-screen p-4">
-      <div className="bg-gradient-to-r from-slate-500 p-8 mb-10 rounded-lg shadow-md">
-        <h2 className="text-4xl font-bold text-center text-white">
-          Manage All <span className="text-yellow-300">Users</span>
-        </h2>
-      </div>
+    <div className=" min-h-screen p-4">
+      <DashboardHeading title="Manage All " highlightedText="Users" />
+      
       {isLoadingAllUsers ? (
         <div className="flex justify-center items-center h-full">
           <Loader />
@@ -139,7 +137,9 @@ const AdminAllUser = () => {
         <Table
           columns={columns}
           dataSource={tableData || []}
-          pagination={false}
+          pagination={{
+            pageSize: 5,
+          }}
           className="overflow-x-auto"
         />
       )}

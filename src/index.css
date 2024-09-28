@@ -76,7 +76,7 @@ body {
 .ant-layout-footer,
 .ant-layout-sider,
 .ant-menu,
-.ant-menu-item {
+.ant-menu-item{
   transition: background-color var(--transition-speed) ease, 
               color var(--transition-speed) ease, 
               border-color var(--transition-speed) ease !important;
@@ -112,4 +112,72 @@ line-height: 1.5 !important;
   100% {
     transform: rotate(360deg);
   }
+}
+.ant-table-thead > tr > th {
+  background-color: #f0f0f0 !important; /* Change this to your desired background color */
+  color: #333; /* Change this to your desired text color */
+}
+.dark .ant-table-thead > tr > th {
+  background-color: #1f2937 !important; /* Change this to your desired background color */
+  color: #e0e0e0; /* Change this to your desired text color */
+}
+/* Light mode pagination styles */
+.ant-pagination-item {
+  background-color: #f0f0f0 !important; /* Light mode background color */
+  color: #979696 !important;               /* Light mode text color */
+}
+
+ .ant-pagination-item-active {
+  background-color: #84888b; /* Light mode active background color */
+  color: #fff;               /* Light mode active text color */
+}
+
+.ant-pagination-next, 
+ .ant-pagination-prev {
+  color: #1890ff;            /* Light mode next/previous button color */
+}
+
+/* Dark mode pagination styles */
+/* Dark mode pagination item styles */
+
+.dark-mode .ant-pagination-item,
+ .ant-pagination-item-2,
+.ant-pagination-item-3,
+.ant-pagination-item-4,
+.ant-pagination-item-5,
+.ant-pagination-item-6,
+.ant-pagination-item-7,
+.ant-pagination-item-8,
+.ant-pagination-item-9,
+.ant-pagination-item-10{
+  background-color: #333 !important;     /* Change to desired dark mode background color */
+  color: #ffffff !important;             /* Change to desired dark mode text color */
+  border-color: #555 !important;         /* Optional: Change dark mode border color */
+}
+.ant-pagination-item {
+  background-color: #a39f9f !important;
+  color: #979696 !important;               /* Light mode text color */
+}
+.dark-mode .ant-pagination-item-active {
+   background-color: #84888b !important; /* Light mode active background color */
+  color: #292828 !important;                /* Dark mode active text color */
+}
+
+.dark-mode .ant-pagination-next, 
+.dark-mode .ant-pagination-prev {
+  background-color: #84888b !important;
+  color: #1b1b1b !important;             /* Dark mode next/previous button color */
+}
+.ant-table-tbody > tr:hover > td {
+  background-color: unset !important;
+ 
+}
+
+/* Dark mode hover color */
+.dark-mode .ant-table-tbody > tr:hover > td .ant-table-row ant-table-row-level-0{
+  background-color: #333 !important;
+}
+.ant-tag {
+  background-color: #ffffff !important;
+  font-weight: 700 !important;
 }

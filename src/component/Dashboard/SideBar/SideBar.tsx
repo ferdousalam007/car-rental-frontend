@@ -12,6 +12,7 @@ import Logo from "../../../shared/Navbar/Logo";
 import AdminMenu from "./AdimMenu/AdminMenu";
 import { FaHome } from "react-icons/fa";
 import { authApi } from "../../../redux/features/Auth/authApi";
+import ThemeMenu from "@/shared/Navbar/ThemeMenu";
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const SideBar = () => {
   return (
     <>
       {/* Small Screen Navbar */}
-      <div className="bg-[#F7F7F7] text-gray-800 flex justify-between md:hidden">
+      <div className="bg-bg-secondary text-gray-800 flex justify-between md:hidden">
         <div>
           <div className="block cursor-pointer p-4 font-bold">
             <Avatar />
@@ -77,7 +78,7 @@ const SideBar = () => {
                 />
               </Link>
               <Link to="/dashboard">
-                <h4 className="mx-2 mt-2 font-bold text-yellow-800 dark:text-white hover:underline">
+                <h4 className="mx-2 mt-2 font-bold text-text-primary  hover:underline">
                   {user?.name}
                 </h4>
               </Link>
@@ -96,6 +97,7 @@ const SideBar = () => {
 
         <div>
           <hr />
+          <ThemeMenu />
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -104,17 +106,17 @@ const SideBar = () => {
               }`
             }
           >
-            <FaHome className="w-5 h-5 text-gray-700 dark:text-white" />
+            <FaHome className="w-5 h-5 dark:text-yellow-400 text-yellow-600" />
 
-            <span className="mx-4 font-medium text-gray-700 dark:text-white">
+            <span className="mx-4 font-medium dark:text-[#f9fafb] text-[#111827]">
               Home
             </span>
           </NavLink>
           <button
             onClick={handleLogOut}
-            className="flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
+            className="flex w-full items-center px-4 py-2 mt-5 text-text-primary hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
           >
-            <GrLogout className="w-5 h-5" />
+            <GrLogout className="w-5 h-5 dark:text-yellow-400 text-yellow-600" />
 
             <span className="mx-4 font-medium">Logout</span>
           </button>
