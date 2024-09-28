@@ -10,7 +10,26 @@ export default {
         "2xl": "1400px",
       },
     },
-    extend: {},
+    extend: {
+       extend: {
+      colors: {
+        'bg-primary': 'var(--color-background-primary)',
+        'bg-secondary': 'var(--color-background-secondary)',
+        'text-primary': 'var(--color-text-primary)',
+        'text-secondary': 'var(--color-text-secondary)',
+        'text-tertiary': 'var(--color-text-tertiary)',
+        'bg-input': 'var(--color-background-input)',
+        'bg-button': 'var(--color-mybtn)',  
+        'btn-hover': 'var(--color-mybtn-hover)',  
+        'border': 'var(--color-border)',
+        'primary': 'var(--color-primary)',
+        'primary-hover': 'var(--color-primary-hover)',
+        'success': 'var(--color-success)',
+        'warning': 'var(--color-warning)',
+        'error': 'var(--color-error)',
+      },
+    },
+    },
   },
   plugins: [],
 };

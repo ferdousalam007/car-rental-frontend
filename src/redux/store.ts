@@ -22,6 +22,11 @@ const themePersistConfig = {
   key: "theme",
   storage,
 };
+// const themePersistConfig = {
+//   key: 'root',
+//   storage,
+//   whitelist: ['theme'],
+// };
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 const persistedThemeReducer = persistReducer(themePersistConfig, themeReducer);
 export const store = configureStore({
