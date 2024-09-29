@@ -14,7 +14,7 @@ const DashboardHeading: React.FC<DashboardHeadingProps> = ({
 }) => {
   return (
     <div 
-      className="p-8 mb-10 rounded-lg shadow-md bg-cover bg-center bg-no-repeat bg-gray-900 min-h-[200px] flex items-center justify-center"
+      className=" p-8 mb-10 rounded-lg shadow-md bg-cover bg-center bg-no-repeat bg-gray-900 min-h-[200px] flex items-center justify-center"
       style={{ backgroundImage: `url(${backgroundImage}) ` }}
     >
       <div className="bg-black bg-opacity-80 p-4 rounded">

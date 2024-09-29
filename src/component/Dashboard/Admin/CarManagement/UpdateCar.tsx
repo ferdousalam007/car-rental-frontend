@@ -79,7 +79,6 @@ const UpdateCar = ({ data }: { data: CarData }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const keyData: any = data;
   const keyId: string = keyData.key;
-
   const {
     register,
     setValue,
@@ -215,22 +214,24 @@ const UpdateCar = ({ data }: { data: CarData }) => {
       formData.append("carImgUrl", file);
     });
 
-    console.log([...formData], "formDataaaa");
+  
 
     //  console.log(cdata,"cdata?.key");
     try {
-      await updateCar({
+  await updateCar({
         id: keyId,
         carData: formData,
       }).unwrap();
+
       toast.success("Car Updated Successfully", { position: "top-center" });
       reset({
         carImgUrl: null,
       });
       setIsModalOpen(false);
       setImagePreviews([]);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update car", { position: "top-center" });
     } finally {
       setIsLoading(false);
     }

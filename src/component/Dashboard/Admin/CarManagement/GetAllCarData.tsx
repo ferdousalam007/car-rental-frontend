@@ -13,6 +13,7 @@ const GetAllCarData = () => {
     {}
   );
   const carData = allCars?.data;
+  console.log(carData,"carData");
   const [deleteCar] = carApi.useDeleteCarMutation();
 
   const tableData = carData?.map((item: TCar) => ({
@@ -29,6 +30,7 @@ const GetAllCarData = () => {
     maxSeats: item?.maxSeats,
     gearType: item?.gearType,
     fuelType: item?.fuelType,
+    isElectric: item?.isElectric,
   }));
 
   // delete car
