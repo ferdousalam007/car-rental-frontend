@@ -10,7 +10,7 @@ const FeaturedCarCard = ({ car }: { car: TCar }) => {
   const { pathname } = useLocation();
 
   return (
-    <div className="border rounded-lg p-3 md:h-[500px] shadow-lg max-w-xs mx-auto dark:bg-slate-900">
+    <div className="border rounded-lg p-3 md:h-[500px] shadow-lg   dark:bg-slate-900">
       <div className="border border-gray-800  p-3 rounded-lg mb-4">
         <img
           src={car?.carImgUrl[0]}
@@ -19,7 +19,7 @@ const FeaturedCarCard = ({ car }: { car: TCar }) => {
         />
       </div>
 
-      <div className="  md:px-4 p-4 md:py-7 rounded-lg">
+      <div className="md:px-4 p-4 md:py-7 rounded-lg">
         <div>
           <Starts star={star}></Starts>
         </div>

@@ -1,66 +1,104 @@
-import { FaCircleDollarToSlot, FaFacebook, FaInstagram } from "react-icons/fa6";
+import { FaCircleDollarToSlot,  } from "react-icons/fa6";
 import { GiCarWheel } from "react-icons/gi";
 import { MdAddCall } from "react-icons/md";
-import { LiaLinkedin } from "react-icons/lia";
-
+import PageBreadcamp from "@/component/PageBreadcamp/PageBreadcamp";
+import SectionHeading from "@/component/SectionHeading/SectionHeading";
+import TeamCard from "./TeamCard";
+import img1 from "../../assets/team/team1.jpg"
+import img2 from "../../assets/team/team2.jpg"
+import img3 from "../../assets/team/team3.jpg"
+import img4 from "../../assets/team/team4.jpg"
+const teamMembers = [
+  {
+    imageUrl: img1,
+    name: "Andrew Wills",
+    position: "CEO",
+    socialLinks: {
+      facebook: "https://facebook.com",
+      twitter: "https://twitter.com",
+      youtube: "https://youtube.com",
+      linkedin: "https://linkedin.com",
+      instagram: "https://instagram.com",
+    },
+  },
+  {
+    imageUrl: img2,
+    name: "Sarah Connor",
+    position: "CTO",
+    socialLinks: {
+      facebook: "https://facebook.com",
+      twitter: "https://twitter.com",
+      youtube: "https://youtube.com",
+      linkedin: "https://linkedin.com",
+      instagram: "https://instagram.com",
+    },
+  },
+  {
+    imageUrl: img3,
+    name: "John Doe",
+    position: "Marketing Director",
+    socialLinks: {
+      facebook: "https://facebook.com",
+      twitter: "https://twitter.com",
+      youtube: "https://youtube.com",
+      linkedin: "https://linkedin.com",
+      instagram: "https://instagram.com",
+    },
+  },
+  {
+    imageUrl: img4,
+    name: "Jane Doe",
+    position: "Accountant",
+    socialLinks: {
+      facebook: "https://facebook.com",
+      twitter: "https://twitter.com",
+      youtube: "https://youtube.com",
+      linkedin: "https://linkedin.com",
+      instagram: "https://instagram.com",
+    },
+  },
+];
 const AboutUs = () => {
   return (
     <div>
       {/* Background Section */}
-      <div className="relative h-[300px] md:h-[650px] w-full">
-        <div
-          style={{
-            backgroundImage: "url('https://i.ibb.co/dMVkjZv/aboutpage.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundAttachment: "fixed",
-          }}
-          className="absolute inset-0"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
-        </div>
-        {/* <div className="relative container mx-auto flex justify-center items-center h-full px-4">
-          <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center">
-            About Us
-          </h1>
-        </div> */}
+      <div className="">
+        <PageBreadcamp title="About Us">
+          <p className="text-white text-center px-4"></p>
+        </PageBreadcamp>
       </div>
 
       {/* Services Section */}
-      <div className="bg-gray-100 container mx-auto p-6 md:p-12 grid gap-6 md:gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        <div className="bg-white text-center p-6 md:p-10 shadow-md">
-          <FaCircleDollarToSlot className="text-5xl mx-auto text-teal-600 mb-4" />
+      <div className=" container mx-auto p-6 md:p-12 grid gap-6 md:gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="bg-white dark:bg-slate-900 border text-center p-6 md:p-10 shadow-md">
+          <FaCircleDollarToSlot className="text-5xl mx-auto  mb-4" />
           <h2 className="text-lg md:text-xl font-semibold mb-2">
             Easy Financing
           </h2>
-          <p className="text-gray-600">
+          <p className="">
             Our flexible financing options make it easy for you to get behind
             the wheel of your dream car. Enjoy low rates and hassle-free
             approval.
           </p>
         </div>
 
-        <div className="bg-teal-800 text-center p-6 md:p-10 shadow-md">
-          <GiCarWheel className="text-5xl text-white mx-auto mb-4" />
-          <h2 className="text-lg md:text-xl font-semibold text-white mb-2">
+        <div className="bg-white dark:bg-slate-900 border text-center text-text-primary p-6 md:p-10 shadow-md">
+          <GiCarWheel className="text-5xl  mx-auto mb-4" />
+          <h2 className="text-lg md:text-xl font-semibold  mb-2">
             All Brands Cars
           </h2>
-          <p className="text-gray-200">
+          <p className="">
             Whether you're looking for a luxury vehicle or a practical family
             car, we offer a wide range of brands and models to suit your needs.
           </p>
         </div>
 
-        <div className="bg-white text-center p-6 md:p-10 shadow-md">
-          <img
-            src="https://i.ibb.co/L1Nbg2X/car-icon.png"
-            className="w-12 h-12 mx-auto mb-4"
-            alt="Car Icon"
-          />
+        <div className="bg-white dark:bg-slate-900 border text-center p-6 md:p-10 shadow-md text-text-primary">
+          <GiCarWheel className="text-5xl  mx-auto mb-4" />
           <h2 className="text-lg md:text-xl font-semibold mb-2">
             Quality Services
           </h2>
-          <p className="text-gray-600">
+          <p className="">
             Our commitment to quality ensures that you receive the best service
             possible. From our experienced team to our rigorous standards, we
             prioritize your satisfaction.
@@ -162,93 +200,20 @@ const AboutUs = () => {
       </div>
       {/* Meet our Team */}
       <div className="container mx-auto text-center mt-20 px-4">
-        <p className="text-gray-600 text-sm md:text-base">
-          HELPS YOU TO FIND THE PERFECT CAR
-        </p>
-        <h2 className="text-3xl md:text-4xl font-semibold mt-2">
-          Meet our <span className="text-red-700">Sales Team</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <img
-              src="https://i.ibb.co/LxpHv9N/rubel-princ.png"
-              className="w-40 h-40 mx-auto object-cover rounded-full border border-gray-200"
-              alt="Prince Rubel"
+        <SectionHeading title="Meet Our Team">
+          <p>HELPS YOU TO FIND THE PERFECT CAR</p>
+        </SectionHeading>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pt-12">
+          {teamMembers.map((member, index) => (
+            <TeamCard
+              key={index}
+              imageUrl={member.imageUrl}
+              name={member.name}
+              position={member.position}
+              socialLinks={member.socialLinks}
             />
-            <h3 className="text-xl font-semibold mt-4">Prince Rubel</h3>
-            <p className="text-gray-600">Director</p>
-            <div className="flex justify-center mt-4 space-x-4">
-              <a href="#" className="text-gray-600 hover:text-blue-600">
-                <FaFacebook size={24} />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-blue-700">
-                <LiaLinkedin size={24} />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-pink-600">
-                <FaInstagram size={24} />
-              </a>
-            </div>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <img
-              src="https://i.ibb.co/jVf4PHF/man1.jpg"
-              className="w-40 h-40 mx-auto object-cover rounded-full border border-gray-200"
-              alt="Diago Johnson"
-            />
-            <h3 className="text-xl font-semibold mt-4">Diago Johnson</h3>
-            <p className="text-gray-600">Sales Manager</p>
-            <div className="flex justify-center mt-4 space-x-4">
-              <a href="#" className="text-gray-600 hover:text-blue-600">
-                <FaFacebook size={24} />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-blue-700">
-                <LiaLinkedin size={24} />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-pink-600">
-                <FaInstagram size={24} />
-              </a>
-            </div>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <img
-              src="https://i.ibb.co/Gds0ZFQ/women1.jpg"
-              className="w-40 h-40 mx-auto rounded-full  border border-gray-200"
-              alt="Sophia Lauren"
-            />
-            <h3 className="text-xl font-semibold mt-4">Sophia Lauren</h3>
-            <p className="text-gray-600">Co-Founder</p>
-            <div className="flex justify-center mt-4 space-x-4">
-              <a href="#" className="text-gray-600 hover:text-blue-600">
-                <FaFacebook size={24} />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-blue-700">
-                <LiaLinkedin size={24} />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-pink-600">
-                <FaInstagram size={24} />
-              </a>
-            </div>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <img
-              src="https://i.ibb.co/R2j250b/women1.jpg"
-              className="w-40 h-40 mx-auto rounded-full object-cover border border-gray-200"
-              alt="Inaya"
-            />
-            <h3 className="text-xl font-semibold mt-4">Inaya</h3>
-            <p className="text-gray-600">Marketing</p>
-            <div className="flex justify-center mt-4 space-x-4">
-              <a href="#" className="text-gray-600 hover:text-blue-600">
-                <FaFacebook size={24} />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-blue-700">
-                <LiaLinkedin size={24} />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-pink-600">
-                <FaInstagram size={24} />
-              </a>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

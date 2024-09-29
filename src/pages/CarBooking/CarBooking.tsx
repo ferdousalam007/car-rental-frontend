@@ -7,6 +7,7 @@ import Loader from "../../shared/Loader/Loader";
 import { debounce } from "lodash";
 import { TCar } from "../../type/global.type";
 import { useSearchParams, useLocation } from "react-router-dom"; // Import useSearchParams, useLocation, useNavigate
+import PageBreadcamp from "@/component/PageBreadcamp/PageBreadcamp";
 
 // Define the SearchParams type
 type SearchParams = {
@@ -87,29 +88,19 @@ useEffect(() => {
 
   return (
     <div>
-      <div className="relative h-[300px] md:h-[500px] w-full">
-        <div
-          style={{
-            backgroundImage: "url('https://i.ibb.co/T8Wy3z9/bookings.jpg')",
-            backgroundAttachment: "fixed",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          className="absolute inset-0"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
-        </div>
+      <div className="py-8">
+        <PageBreadcamp title="Car Booking"></PageBreadcamp>
       </div>
 
       {/* Booking Form */}
-      <div className="relative -mt-24 max-w-7xl mx-auto bg-white shadow-lg rounded-lg p-6 md:p-8">
+      <div className=" -mt-24 max-w-7xl mx-auto bg-white dark:bg-slate-700 shadow-lg rounded-lg p-6 md:p-8">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
           {/* Car Type */}
           <div className="lg:col-span-2 flex flex-col">
             <label className="font-semibold mb-2">Select Car Type</label>
             <div className="relative">
               <select
-                className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="w-full pl-10 pr-4 py-2 dark:bg-slate-800 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
                 value={carType}
                 onChange={handleTypeChange}
               >
@@ -129,7 +120,7 @@ useEffect(() => {
             <label className="font-semibold mb-2">Select Car Feature</label>
             <div className="relative">
               <select
-                className="bg-white w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2"
+                className="w-full pl-10 pr-4 py-2 dark:bg-slate-800 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
                 value={features}
                 onChange={handleFeaturesChange}
               >
@@ -149,7 +140,7 @@ useEffect(() => {
             <label className="font-semibold mb-2">Select Car Seats</label>
             <div className="relative">
               <select
-                className="bg-white w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2"
+                className="w-full pl-10 pr-4 py-2 dark:bg-slate-800 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
                 value={seats}
                 onChange={handleSeatsChange}
               >

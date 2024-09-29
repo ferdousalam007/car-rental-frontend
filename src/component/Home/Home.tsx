@@ -13,7 +13,7 @@ const Home = () => {
       <CarBanner></CarBanner>
       <CarBookingSearchButton />
       <div className="bg-white dark:bg-[#26324d]">
-        <div className="container mx-auto">
+        <div className="container">
           <FeaturedCart></FeaturedCart>
           <WhyChoose></WhyChoose>
         </div>

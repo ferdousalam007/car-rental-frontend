@@ -12,6 +12,7 @@ export default {
     },
     extend: {
        extend: {
+        
       colors: {
         'bg-primary': 'var(--color-background-primary)',
         'bg-secondary': 'var(--color-background-secondary)',

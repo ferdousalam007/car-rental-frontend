@@ -9,7 +9,7 @@ const CarBanner = () => {
     >
       <div className="container mx-auto">
         <div className="text-center pt-[180px] sm:pt-[250px]">
-          <h1 className="leading-relaxed uppercase text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold text-text-primary">
+          <h1 className="leading-relaxed uppercase text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold text-[#111827]">
             Make Your Ride Easy & Fast <br /> with Rento Rental
           </h1>
         </div>

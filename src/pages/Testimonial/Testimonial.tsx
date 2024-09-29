@@ -4,7 +4,7 @@ import { feedBackApi } from "../../redux/features/FeedBack/feedBackApi";
 
 const Testimonial = () => {
   const { data: getAllComment } = feedBackApi.useGetMyFeedBacksQuery(undefined);
-
+console.log(getAllComment ,"getAllComment");
   const comments = getAllComment?.data;
 
   return (
@@ -17,23 +17,23 @@ const Testimonial = () => {
         </p>
       </SectionHeading>
       <div className="mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16 lg:gap-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {comments?.map((testimonial: any, index: number) => (
             <div
               key={index}
-              className="p-6 bg-white rounded-md shadow-lg flex flex-col items-center md:items-start text-center md:text-left relative"
+              className="p-6 bg-white rounded-md shadow-lg flex flex-col items-center  text-center md:text-left  border bg-slate-100 dark:bg-slate-900 border-gray-300 dark:border-slate-700"
             >
               <img
-                src={testimonial.image}
+                src={testimonial.userData.image}
                 alt={testimonial.name}
-                className="w-20 h-20 md:w-24 md:h-24 rounded-full mb-4 md:absolute left-0 md:transform md:-translate-x-1/2"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-lg mb-4 "
               />
-              <div className="mt-2 md:ml-8 w-full">
-                <h3 className="text-lg md:text-xl font-semibold mb-1">
-                  {testimonial.name}
+              <div className="mt-2  w-full">
+                <h3 className="text-lg md:text-xl font-semibold mb-1 text-text-primary text-center">
+                  {testimonial.name}{testimonial.userData.name}
                 </h3>
-                <p className="text-gray-500 mb-3">customer</p>
-                <div className="flex justify-center md:justify-start mb-2">
+                {/* <p className="text-gray-500 mb-3">customer</p> */}
+                <div className="flex justify-center mb-2">
                   {Array(testimonial.rating)
                     .fill(2)
                     .map((_, i) => (
