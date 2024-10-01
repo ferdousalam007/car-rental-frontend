@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { authApi } from "../../../../redux/features/Auth/authApi";
@@ -153,7 +154,7 @@ setIsUpdating(true);
         </div>
       </div>
 
-      <div className="p-6 max-w-6xl mx-auto rounded shadow-md">
+      <div className="p-6 max-w-6xl mx-auto rounded shadow-md dark:bg-slate-800">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col md:flex-row items-center justify-between gap-5">
             <div className="w-full md:w-1/2">

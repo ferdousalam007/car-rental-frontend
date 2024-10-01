@@ -8,6 +8,8 @@ import img1 from "../../assets/team/team1.jpg"
 import img2 from "../../assets/team/team2.jpg"
 import img3 from "../../assets/team/team3.jpg"
 import img4 from "../../assets/team/team4.jpg"
+import aboutImg from "../../assets/about.webp";
+import ContactUs from "../ContactUs/ContactUs";
 const teamMembers = [
   {
     imageUrl: img1,
@@ -113,11 +115,11 @@ const AboutUs = () => {
             FIND YOUR NEXT CAR WITH EASE
           </span>
           <h4 className="text-4xl font-bold mt-2 px-4">
-            Welcome to <span className="text-red-700">Drive Lux</span>
+            Welcome to <span className="text-text-primary">Rent <span className="text-yellow-600 text-5xl">O</span></span>
           </h4>
           <div>
             <p className="mt-10 px-4">
-              At Drive Lux, we are dedicated to providing you with a seamless
+              At Rent O, we are dedicated to providing you with a seamless
               car buying experience. Our extensive inventory, competitive
               pricing, and exceptional customer service set us apart in the
               industry.
@@ -163,7 +165,7 @@ const AboutUs = () => {
         </div>
         <div>
           <img
-            src="https://i.ibb.co/DkBNx10/Pngtree-black-super-car-14860193.png"
+            src={aboutImg}
             alt="Car Display"
           />
         </div>
@@ -183,7 +185,7 @@ const AboutUs = () => {
             </p>
           </div>
           <div className="flex flex-col md:flex-row justify-center md:justify-end items-center space-y-4 md:space-y-0 md:space-x-8">
-            <button className="bg-red-600 text-white px-4 py-2 hover:bg-red-700 transition">
+            <button className="bg-slate-900 text-white px-4 py-2 hover:bg-red-700 transition">
               GET STARTED
             </button>
             <div className="text-center md:text-left">
@@ -216,6 +218,7 @@ const AboutUs = () => {
           ))}
         </div>
       </div>
+      <ContactUs/>
     </div>
   );
 };

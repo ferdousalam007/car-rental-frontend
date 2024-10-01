@@ -1,7 +1,7 @@
-import Container from "../Container/Container";
+
 // import Logo from "./Logo";
 import MenuDropDown from "./MenuDropDown";
-import MenuItem from "./MenuItem";
+
 import  { useState } from 'react';
 import { Link } from 'react-router-dom'
 import Avatar from "./Avater";
@@ -71,14 +71,9 @@ const Navbar = () => {
                 >
                   About
                 </Link>
-                <Link
-                  to="/contact-us"
-                  className="dark:text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Contact
-                </Link>
-                <MenuDropDown />
+
                 <Avatar />
+                <MenuDropDown />
                 <ThemeMenu />
               </div>
             </div>
@@ -132,7 +127,11 @@ const Navbar = () => {
 
       {isOpen && (
         <div className="md:hidden" id="mobile-menu">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <div className="px-2 pt-2 pb-10 space-y-1 sm:px-3">
+            <div className="flex items-center justify-start">
+              <Avatar />
+              <MenuDropDown />
+            </div>
             <Link
               to="/"
               className="dark:text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
@@ -146,7 +145,7 @@ const Navbar = () => {
               Booking
             </Link>
             <Link
-              to="/cars"
+              to="/car"
               className="dark:text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Cars
@@ -163,7 +162,6 @@ const Navbar = () => {
             >
               Contact
             </Link>
-            <MenuDropDown />
           </div>
         </div>
       )}

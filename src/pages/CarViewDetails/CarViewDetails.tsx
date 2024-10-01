@@ -3,6 +3,7 @@ import { carApi } from "../../redux/features/Car/carApi";
 import CarDetailsCard from "./CarDetailsCard";
 import CarInformation from "./CarInformation";
 import Loader from "../../shared/Loader/Loader";
+import PageBreadcamp from "@/component/PageBreadcamp/PageBreadcamp";
 
 const CarViewDetails = () => {
   const { id } = useParams();
@@ -14,19 +15,10 @@ const CarViewDetails = () => {
 
   return (
     <div>
-      <div className="relative h-[300px] md:h-[500px] w-full">
-        <div
-          style={{
-            backgroundImage:
-              "url('https://i.postimg.cc/zBBwKh8p/car-details.jpg')",
-            backgroundAttachment: "fixed",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          className="absolute inset-0"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
-        </div>
+      <div className="">
+        <PageBreadcamp title="Car Details">
+          <p className="text-white text-center px-4"></p>
+        </PageBreadcamp>
       </div>
 
       {isFetching ? (

@@ -1,16 +1,18 @@
 ;
-import PageBreadcamp from "@/component/PageBreadcamp/PageBreadcamp";
-import faqImg from "../../assets/bgtes.webp";
+
+import SectionHeading from "@/component/SectionHeading/SectionHeading";
 import { Mail, MapIcon, PhoneCall } from "lucide-react";
 const ContactUs = () => {
   
 
   return (
     <div>
-      <div className="">
-        <PageBreadcamp title="Contact Us"></PageBreadcamp>
+      <div className="pt-16">
+        <SectionHeading title="Contact Us">
+          <p> We'd love to hear from you! </p>
+        </SectionHeading>
       </div>
-      <div className="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto mt-6 px-4 sm:px-6 lg:px-8">
         {/* <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
         
           <div className="bg-white p-6 rounded-lg shadow-md">

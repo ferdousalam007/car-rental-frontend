@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useAppSelector } from "../../redux/hooks";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Modal } from "antd";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { bookingApi } from "../../redux/features/Booking/bookingApi";
@@ -59,16 +59,16 @@ const BookingFormModal = ({ car }: { car: TCar }) => {
     <>
       <button
         onClick={showModel}
-        className="w-full bg-red-600 text-white py-2 px-4  hover:bg-orange-600 transition duration-300"
+        className="w-full bg-slate-600 text-white  py-2 px-4  hover:bg-slate-700 transition duration-300"
       >
         Book Now
       </button>
       <Modal open={open} onCancel={handelCancel} footer={null}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className=" mx-auto ">
-            <div className="bg-white p-3 rounded-lg shadow-md">
-              <div className="flex mb-6 border-b-2 border-gray-200 ">
-                <div className="text-red-500 items-center font-semibold py-2 px-4 border-b-2 border-blue-500">
+            <div className="bg-white dark:bg-slate-900 p-3 rounded-lg shadow-md">
+              <div className="flex mb-6  ">
+                <div className="text-text-primary items-center font-semibold py-2 px-4 border-b-4 border-yellow-500">
                   Booking Form
                 </div>
               </div>
@@ -125,13 +125,13 @@ const BookingFormModal = ({ car }: { car: TCar }) => {
                         <div className="">
                           {/* Toggle */}
                           <div className="flex justify-center mb-6">
-                            <div className="relative flex w-full p-1 bg-gray-50 rounded">
+                            <div className="relative flex w-full p-1 dark:bg-gray-700 rounded">
                               <span
                                 className="absolute inset-0 m-1 pointer-events-none"
                                 aria-hidden="true"
                               >
                                 <span
-                                  className={`absolute inset-0 w-1/2 bg-white rounded border border-gray-200 shadow-sm transform transition duration-150 ease-in-out ${
+                                  className={`absolute inset-0 w-1/2 bg-white dark:bg-yellow-700 rounded border border-gray-200 shadow-sm transform transition duration-150 ease-in-out ${
                                     card ? "translate-x-0" : "translate-x-full"
                                   }`}
                                 ></span>
@@ -278,17 +278,16 @@ const BookingFormModal = ({ car }: { car: TCar }) => {
                     />
                     <span className="ml-2">
                       I have read and agree to the website{" "}
-                      <a href="#" className="text-red-500">
-                        terms and conditions
-                      </a>
-                      *
+                      <Link to="/terms-condition">
+                        <b className="text-blue-500">Terms & Conditions</b>
+                      </Link>
                     </span>
                   </label>
                 </div>
 
                 {/* Booking Button */}
                 <div className="md:col-span-2 mt-4">
-                  <button className="border-2 border-red-600 px-4 w-full py-1 text-red-600 hover:bg-black hover:text-white transition mb-2 md:mb-0">
+                  <button className="border-2 border-slate-600 px-4 w-full py-1 text-text-primary hover:bg-black hover:text-white transition mb-2 md:mb-0">
                     Submit
                   </button>
                 </div>

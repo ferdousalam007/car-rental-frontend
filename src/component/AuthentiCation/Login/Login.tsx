@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldValues, useForm } from "react-hook-form";
 import { authApi } from "../../../redux/features/Auth/authApi";
 import { toast } from "sonner";
@@ -10,6 +11,7 @@ import {
   useLocation,
   // useSearchParams,
 } from "react-router-dom";
+import PageBreadcamp from "@/component/PageBreadcamp/PageBreadcamp";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
@@ -60,28 +62,20 @@ console.log("targetUrl", targetUrl)
   return (
     <div>
       {/* Background Section */}
-      <div className="relative h-[300px] md:h-[400px] w-full">
-        <div
-          style={{
-            backgroundImage: "url('https://i.postimg.cc/7Lr2YHMZ/login.png')",
-            backgroundAttachment: "fixed",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          className="absolute inset-0"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
-        </div>
+      <div className="">
+        <PageBreadcamp title="Login">
+          <p className="text-white text-center px-4"></p>
+        </PageBreadcamp>
       </div>
 
       {/* Main Content Section */}
-      <div style={{ background: "#E9E9E7" }}>
+      <div>
         <div className="container mx-auto pb-10 pt-20 px-4">
-          <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
+          <div className="flex items-center justify-center  md:space-x-8">
             {/* Form Section */}
-            <div className="w-full my-auto md:w-1/2 bg-[#4252B1] p-8 rounded-lg">
+            <div className="max-w-[550px] my-auto  bg-gray-700 p-8 rounded-lg">
               <h2 className="text-4xl font-serif font-bold text-center text-white mb-8">
-                Welcome to Drive Lux
+                Login to your account
               </h2>
               <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Email Field */}
@@ -93,7 +87,7 @@ console.log("targetUrl", targetUrl)
                     type="email"
                     id="email"
                     placeholder="Email"
-                    className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2   border-transparent rounded-md  transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     {...register("email", { required: true })}
                   />
                 </div>
@@ -107,7 +101,7 @@ console.log("targetUrl", targetUrl)
                     type="password"
                     id="password"
                     placeholder="Password"
-                    className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 bg-white dark:bg-[#121212] myinput  border-transparent rounded-md  transition duration-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
                     {...register("password", { required: true })}
                   />
                 </div>
@@ -123,8 +117,8 @@ console.log("targetUrl", targetUrl)
                   className={`w-full mt-4 py-2 rounded-md transition duration-200 
                     ${
                       isLoading
-                        ? "bg-blue-300"
-                        : "bg-blue-500 hover:bg-blue-600"
+                        ? "bg-slate-300"
+                        : "bg-slate-500 hover:bg-slate-600 cursor-pointer"
                     } 
                     text-white flex items-center justify-center`}
                   disabled={isLoading}
@@ -145,7 +139,7 @@ console.log("targetUrl", targetUrl)
                 Don't have an account?
                 <Link
                   to="/register"
-                  className="text-blue-500 ml-2 hover:underline"
+                  className="text-blue-600 ml-2 hover:underline"
                 >
                   Please Register
                 </Link>
@@ -153,13 +147,6 @@ console.log("targetUrl", targetUrl)
             </div>
 
             {/* Image Section */}
-            <div className="w-full md:w-1/2  md:h-[570px] mt-8 md:mt-0">
-              <img
-                src="https://i.postimg.cc/ydvB5j8z/vecteezy-free-vector-login-concept-illustration-23261974.jpg"
-                alt="Login Illustration"
-                className="w-full h-full object-cover rounded-lg"
-              />
-            </div>
           </div>
         </div>
       </div>

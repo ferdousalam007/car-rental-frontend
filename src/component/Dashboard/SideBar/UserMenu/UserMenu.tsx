@@ -20,12 +20,14 @@ const UserMenu = () => {
         <NavLink
           to="/dashboard/profile-view"
           className={({ isActive }) =>
-            `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-              isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"
+            `flex items-center px-4 py-2 mt-5  transition-colors border  cursor-pointer duration-300 transform  hover:bg-gray-300   hover:text-gray-700 dark:hover:bg-slate-800 dark:hover:text-white rounded-lg ${
+              isActive
+                ? "bg-slate-700 dark:bg-slate-900  text-gray-100"
+                : "text-text-primary"
             }`
           }
         >
-          <BsFillHouseAddFill className="w-5 h-5" />
+          <BsFillHouseAddFill className="w-5 h-5 dark:text-yellow-400 text-yellow-600" />
 
           <span className="mx-4 font-medium">User Profile</span>
         </NavLink>
@@ -35,9 +37,9 @@ const UserMenu = () => {
       <div className="relative">
         <button
           onClick={() => toggleDropdown("manageBookings")}
-          className="flex items-center px-4 py-2 w-full text-left transition-colors duration-300 transform rounded-lg text-gray-600 hover:bg-gray-300 hover:text-gray-700"
+          className="flex items-center px-4 py-2 w-full text-left transition-colors duration-300 transform rounded-lg text-text-primary border hover:bg-gray-300 hover:text-gray-700"
         >
-          <MdOutlineManageHistory className="w-5 h-5" />
+          <MdOutlineManageHistory className="w-5 h-5 dark:text-yellow-400 text-yellow-600" />
           <span className="mx-4 font-medium">Manage Bookings</span>
           <AiOutlineDown
             className={`ml-auto transform transition-transform ${
@@ -47,14 +49,14 @@ const UserMenu = () => {
         </button>
 
         {activeDropdown === "manageBookings" && (
-          <div className="absolute left-0 mt-2 w-full bg-white border rounded shadow-lg z-10">
+          <div className="  w-full  bg-gray-200 dark:bg-slate-800 border rounded  z-10 pb-2 px-1">
             <NavLink
               to="/dashboard/all-bookings"
               className={({ isActive }) =>
-                `block px-4 py-2 transition-colors duration-300 transform ${
+                `flex items-center px-4 py-2 mt-5  transition-colors border  cursor-pointer duration-300 transform  hover:bg-gray-300   hover:text-gray-700 dark:hover:bg-slate-800 bg-slate-300 dark:bg-slate-700 dark:hover:text-white rounded-lg ${
                   isActive
-                    ? "bg-gray-300 text-gray-700"
-                    : "text-gray-600 hover:bg-gray-300 hover:text-gray-700"
+                    ? "bg-slate-700 dark:bg-slate-900  text-gray-100"
+                    : "text-text-primary"
                 }`
               }
             >

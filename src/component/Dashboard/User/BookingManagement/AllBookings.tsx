@@ -11,6 +11,7 @@ import type { ColumnsType } from "antd/es/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { feedBackApi } from "@/redux/features/FeedBack/feedBackApi";
+import DashboardHeading from "../../DashboardHeading/DashboardHeading";
 const reviewSchema = z.object({
   rating: z
     .number()
@@ -201,19 +202,17 @@ console.log(bookingData);
 
   return (
     <div className="p-4 md:p-8">
-      <div className="bg-slate-300 p-4 mb-10 rounded-lg shadow-md">
-        <h2 className="text-2xl md:text-4xl font-serif font-bold text-center text-black mb-4 md:mb-8">
-          Total Bookings <span className="text-red-600">List</span>
-        </h2>
-      </div>
+      <DashboardHeading title="All Bookings" highlightedText="List" />
+
       {isLoading || isFetching ? (
         <Loader />
       ) : (
-        <div className="overflow-x-auto">
+        <div >
           <Table
             columns={columns}
             dataSource={tableData || []}
             pagination={false}
+            scroll={{ x: 800 }}
           />
         </div>
       )}
@@ -288,8 +287,8 @@ const AddReviewModel = ({ bookingKey }: { bookingKey: any }) => {
         onCancel={handleCancel}
         footer={null}
       >
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          Leave a <span className="text-red-600">Comment</span>
+        <h2 className="text-2xl font-bold text-text-primary mb-4">
+          Leave a Comment
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -307,7 +306,7 @@ const AddReviewModel = ({ bookingKey }: { bookingKey: any }) => {
           </div>
           <textarea
             placeholder="Enter Your Comment..."
-            className={`p-4 border rounded-md w-full bg-white shadow-lg mt-6 ${
+            className={`p-4 border rounded-md w-full  shadow-lg mt-6 ${
               errors.comment ? "border-red-500" : ""
             }`}
             {...register("comment")}
@@ -318,12 +317,12 @@ const AddReviewModel = ({ bookingKey }: { bookingKey: any }) => {
 
           <button
             type="submit"
-            className={`bg-red-500 text-white px-4 py-2 hover:bg-red-600 transition rounded-md mt-4 ${
+            className={`bg-slate-500 text-white px-4 py-2 hover:bg-red-600 transition rounded-md mt-4 ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={loading}
           >
-            {loading ? "Loading..." : "Post Comment"}
+            {loading ? "Loading..." : "Add Review"}
           </button>
         </form>
       </Modal>
@@ -390,7 +389,7 @@ const UpdateBookingModel = ({ data }: any) => {
           <div className="flex flex-col mb-3">
             <label>NID/PASSPORT</label>
             <select
-              className="mt-1 bg-white border text-gray-900 text-sm rounded block w-full p-2.5 shadow-lg"
+              className="mt-1  border text-gray-900 text-sm rounded block w-full p-2.5 shadow-lg"
               {...register("identity")}
             >
               <option value="nid" selected={data.identity === "nid"}>
@@ -417,7 +416,7 @@ const UpdateBookingModel = ({ data }: any) => {
               defaultValue={data.drivingLicenseNo}
             />
           </div>
-          <Button className="mt-4 bg-blue-500 text-white" htmlType="submit">
+          <Button className="mt-4 bg-slate-500 text-white" htmlType="submit">
             Submit
           </Button>
         </form>

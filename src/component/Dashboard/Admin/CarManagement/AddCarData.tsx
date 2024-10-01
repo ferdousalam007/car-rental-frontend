@@ -3,16 +3,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useDropzone, Accept } from "react-dropzone";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Select, { MultiValue } from "react-select";
+import Select, { MultiValue,StylesConfig } from "react-select";
 import { ImagePlus } from "lucide-react";
 import {
   carFeatures,
   vehicleSpecifications,
 } from "../../../../type/global.type";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { carApi } from "../../../../redux/features/Car/carApi";
 import Swal from "sweetalert2";
 import DashboardHeading from "../../DashboardHeading/DashboardHeading";
+
+
 
 type OptionType = {
   value: string;
@@ -30,11 +32,6 @@ const isValidImageFile = (file?: File) => {
 const carSchema = z.object({
   name: z.string().nonempty("Car Name is required"),
 
-  // Use z.coerce.number to ensure input is converted to number, even from string
-  // rating: z.coerce
-  //   .number()
-  //   .min(1, "Rating must be at least 1")
-  //   .max(5, "Rating must be at most 5"),
 
   // Use z.coerce.boolean() for proper boolean coercion
   isElectric: z.string().refine((val) => val === "true" || val === "false", {
@@ -78,7 +75,39 @@ const AddCarData = () => {
   const [addCar] = carApi.useCreateCarMutation();
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [darkMode, setDarkMode] = useState(false);
 
+  useEffect(() => {
+    const isDarkMode = document.documentElement.classList.contains("dark");
+    setDarkMode(isDarkMode);
+  }, []);
+
+  const customStyles: StylesConfig<OptionType, true> = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: darkMode ? "#2d3748" : "#f0f0f0",
+      color: darkMode ? "#e2e8f0" : "#2d3748",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: darkMode ? "#4a5568" : "#f8f9fa",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? darkMode
+          ? "#2c5282"
+          : "#d1e7dd"
+        : state.isFocused
+        ? darkMode
+          ? "#2d3748"
+          : "#e9ecef"
+        : darkMode
+        ? "#1a202c"
+        : "#ffffff",
+      color: darkMode ? "#cbd5e0" : "#212529",
+    }),
+  };
   const {
     register,
     handleSubmit,
@@ -132,22 +161,7 @@ const AddCarData = () => {
       setValue("carFeatures", [] as unknown as [string, ...string[]]);
     }
   };
-  // const handleFeatureChange = (selectedOptions: MultiValue<OptionType>) => {
-  //   setSelectOptions(selectedOptions as OptionType[]);
-  //   const featureValues = selectedOptions.map((option) => option.value);
-  
-  //   // Always set an array, even if it's empty
-  //   setValue("carFeatures", featureValues as [string, ...string[]]);
-  // };
-//  const handleSpecificationChange = (
-//    selectedOptions: MultiValue<OptionType>
-//  ) => {
-//    setSelectVehicleSpecifications(selectedOptions as OptionType[]);
-//    setValue("vehicleSpecifications", [
-//      selectedOptions[0]?.value,
-//      ...selectedOptions.slice(1).map((option) => option.value),
-//    ]);
-//  };
+
   
   const handleSpecificationChange = (
     selectedOptions: MultiValue<OptionType>
@@ -412,6 +426,7 @@ formData.append("maxSeats", Number(data.maxSeats).toString());
                 Car Features
               </label>
               <Select
+              styles={customStyles}
                 options={carFeatures}
                 value={selectOptions}
                 isMulti={true}
@@ -432,9 +447,10 @@ formData.append("maxSeats", Number(data.maxSeats).toString());
                 Vehicle Specifications
               </label>
               <Select
+              styles={customStyles}
                 options={vehicleSpecifications}
                 value={selectVehicleSpecifications}
-                isMulti={true}
+                isMulti={true }
                 onChange={handleSpecificationChange}
               />
               {errors.vehicleSpecifications && (
@@ -522,3 +538,4 @@ formData.append("maxSeats", Number(data.maxSeats).toString());
 };
 
 export default AddCarData;
+

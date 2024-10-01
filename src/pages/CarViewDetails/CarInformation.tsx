@@ -8,166 +8,99 @@ import {
 } from "react-icons/fa";
 import ReturnPolicy from "./ReturnPolicy";
 import "./CarInformation.css";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { feedBackApi } from "../../redux/features/FeedBack/feedBackApi";
-import Swal from "sweetalert2";
-import { useState } from "react";
+import CarTestimonial from "./CarTestimonial";
 
 // Define the types for vehicle specifications and features
 interface CarDetails {
   vehicleSpecification: string[];
   features: string[];
   description: string;
+  _id: string;
 }
 
 interface CarInformationProps {
   carDetails: CarDetails;
 }
 
-const feedbackSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  rating: z
-    .number()
-    .min(1, { message: "Rating must be at least 1" })
-    .max(5, { message: "Rating must be at most 5" }),
-  comment: z.string().min(1, { message: "Comment is required" }),
-  image: z.instanceof(FileList).refine((files) => files.length > 0, {
-    message: "Image is required",
-  }),
-  // profile: z.custom<FileList>(
-  //   (val) => val instanceof FileList && val.length > 0,
-  //   { message: "Profile image is required" }
-  // ),
-});
-
 const CarInformation: React.FC<CarInformationProps> = ({ carDetails }) => {
-  const [addFeedBack] = feedBackApi.useCreateFeedBackMutation();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: zodResolver(feedbackSchema),
-  });
-  const [loading, setLoading] = useState(false);
-
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // const { name, rating, comment, profile, ...rest } = data;
-    //   console.log(data);
-    // setLoading(true);
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("rating", data.rating.toString());
-    formData.append("message", data.comment);
-    formData.append("image", data.image[0]);
-   
-    setLoading(true);
-    try {
-      const response = await addFeedBack(formData).unwrap();
-      Swal.fire({
-        title: "Success!",
-        text: "Feedback added successfully.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-      console.log(response);
-    } catch (error) {
-      Swal.fire({
-        title: "Error!",
-        text: "Failed to add feedback.",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      console.error(error);
-    } finally {
-      setLoading(false);
-      reset();
-    }
-  };
-    
-
-
+  console.log(carDetails);
   return (
-    <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <div className="w-full">
+    <div className="container mx-auto">
+      <div className=" p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="w-full">
         <Tabs>
-          <TabList className="flex flex-wrap justify-center sm:justify-start mb-5 border-b border-gray-200">
-            {[
-              "Vehicle Specifications",
-              "Features & Options",
-              "Description",
-              "Reviews",
-            ].map((tab, index) => (
-              <Tab
-                key={index}
-                className="cursor-pointer px-4 py-2 text-center w-full sm:w-auto hover:bg-gray-100 transition"
-              >
-                {tab}
-              </Tab>
-            ))}
-          </TabList>
+            <TabList className=" flex flex-wrap justify-center sm:justify-start  border-b border-gray-200 dark:bg-slate-900 bg-white dark:text-white p-2 rounded-lg">
+              {[
+                "Vehicle Specifications",
+                "Features & Options",
+                "Description",
+              ].map((tab, index) => (
+                <Tab
+                  key={index}
+                  className=" cursor-pointer px-4 py-2 text-center w-full dark:bg-slate-900 bg-white dark:text-white sm:w-auto hover:bg-gray-100 transition"
+                >
+                  {tab}
+                </Tab>
+              ))}
+            </TabList>
 
-          <TabPanel>
-            <div>
-              <h2 className="text-2xl font-extrabold text-gray-800 mb-6">
-                Vehicle Specifications
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {carDetails.vehicleSpecification
-                  .slice(0, 5)
-                  .map((spec, index) => (
+            <TabPanel className="dark:bg-slate-900 bg-white dark:text-white p-6 ">
+              <div className="dark:bg-slate-900 bg-white dark:text-white   ">
+                <h2 className="text-2xl font-extrabold text-text-primary mb-6">
+                  Vehicle Specifications
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {carDetails.vehicleSpecification
+                    .slice(0, 5)
+                    .map((spec, index) => (
+                      <div key={index} className="flex items-center">
+                        <i className="text-yellow-600 mr-2">
+                          {index === 0 && <FaCogs />}
+                          {index === 1 && <FaTachometerAlt />}
+                          {index === 2 && <FaHorse />}
+                          {index === 3 && <FaExchangeAlt />}
+                          {index === 4 && <FaGasPump />}
+                        </i>
+                        <h3 className="text-lg font-medium text-text-primary">
+                          <span className="font-normal">{spec}</span>
+                        </h3>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </TabPanel>
+
+            <TabPanel className="dark:bg-slate-900 bg-white dark:text-white  px-6 pb-2">
+              <div>
+                <h2 className="text-2xl font-extrabold text-text-primary mb-6">
+                  Features & Options
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {carDetails.features.slice(0, 5).map((feature, index) => (
                     <div key={index} className="flex items-center">
-                      <i className="text-red-500 mr-2">
+                      <i className="text-yellow-600 mr-2">
                         {index === 0 && <FaCogs />}
                         {index === 1 && <FaTachometerAlt />}
                         {index === 2 && <FaHorse />}
                         {index === 3 && <FaExchangeAlt />}
                         {index === 4 && <FaGasPump />}
                       </i>
-                      <h3 className="text-lg font-medium text-gray-700">
-                        <span className="font-normal">{spec}</span>
+                      <h3 className="text-lg font-medium text-text-primary">
+                        <span className="font-normal">{feature}</span>
                       </h3>
                     </div>
                   ))}
+                </div>
               </div>
-            </div>
-          </TabPanel>
+            </TabPanel>
 
-          <TabPanel>
-            <div>
-              <h2 className="text-2xl font-extrabold text-gray-800 mb-6">
-                Features & Options
+            <TabPanel className="dark:bg-slate-900 bg-white dark:text-white  px-6 pb-4 ">
+              <h2 className="text-2xl font-bold text-text-primary mb-6">
+                Description
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {carDetails.features.slice(0, 5).map((feature, index) => (
-                  <div key={index} className="flex items-center">
-                    <i className="text-red-500 mr-2">
-                      {index === 0 && <FaCogs />}
-                      {index === 1 && <FaTachometerAlt />}
-                      {index === 2 && <FaHorse />}
-                      {index === 3 && <FaExchangeAlt />}
-                      {index === 4 && <FaGasPump />}
-                    </i>
-                    <h3 className="text-lg font-medium text-gray-700">
-                      <span className="font-normal">{feature}</span>
-                    </h3>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </TabPanel>
-
-          <TabPanel>
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
-              Description
-            </h2>
-            <p className="text-justify">{carDetails.description}</p>
-          </TabPanel>
-
+              <p className="text-justify">{carDetails.description}</p>
+            </TabPanel>
+            {/* 
           <TabPanel>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               Leave a <span className="text-red-600">Comment</span>
@@ -239,13 +172,15 @@ const CarInformation: React.FC<CarInformationProps> = ({ carDetails }) => {
                 {loading ? "Loading..." : "Post Comment"}
               </button>
             </form>
-          </TabPanel>
-        </Tabs>
-      </div>
+          </TabPanel> */}
+          </Tabs>
+        </div>
 
-      <div>
-        <ReturnPolicy />
+        <div>
+          <ReturnPolicy />
+        </div>
       </div>
+      <CarTestimonial carId={carDetails?._id} />
     </div>
   );
 };

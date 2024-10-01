@@ -22,6 +22,7 @@ import AddCarData from "../component/Dashboard/Admin/CarManagement/AddCarData";
 import UpdateCar from "../component/Dashboard/Admin/CarManagement/UpdateCar";
 import ForgotPassword from "../component/AuthentiCation/ForgotPassword/ForgotPassword";
 import ResetPassword from "../component/AuthentiCation/ResetPassword/ResetPassword";
+import TempOfService from "@/component/AuthentiCation/Register/TempOfService";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register></Register>,
+      },
+      {
+        path: "/terms-condition",
+        element: <TempOfService></TempOfService>,
       },
       {
         path: "/login",
@@ -121,7 +126,22 @@ export const router = createBrowserRouter([
       },
       {
         path: "update-car/:id",
-        element: <UpdateCar />,
+        element: (
+          <UpdateCar
+            data={{
+              color: "",
+              carName: "",
+              isElectric: "",
+              pricePerHour: 0,
+              maxSeats: 0,
+              gearType: "",
+              fuelType: "",
+              carType: "",
+              description: "",
+              carImgUrl: null,
+            }}
+          />
+        ),
       },
     ],
   },

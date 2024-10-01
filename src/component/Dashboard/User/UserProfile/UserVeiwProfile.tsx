@@ -7,6 +7,7 @@ import { userApi } from "../../../../redux/features/user/userApi";
 import Loader from "../../../../shared/Loader/Loader";
 import { TCarBooking } from "../../../../type/global.type";
 import { GetStatusTag, PaymentStatusTag } from "../../../../utils/getStatusTag";
+import DashboardHeading from "../../DashboardHeading/DashboardHeading";
 
 const UserViewProfile = () => {
   // Fetch user data
@@ -110,18 +111,16 @@ const UserViewProfile = () => {
   return (
     <div className="min-h-screen">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-slate-400 to-slate-600 p-8 mb-10 rounded-lg shadow-md">
-        <h2 className="text-4xl font-bold text-center text-white">
-          Welcome Back,{" "}
-          <span className="text-yellow-300">{userData?.name}</span>!
-        </h2>
-      </div>
+      <DashboardHeading
+        title=" Welcome Back"
+        highlightedText={userData?.name}
+      />
 
       {/* Content Section */}
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* User Profile Card */}
-          <div className="relative bg-white shadow-lg rounded-lg p-8 transition-transform duration-300 hover:shadow-xl transform hover:-translate-y-1">
+          <div className="relative border bg-white dark:bg-slate-800 shadow-lg rounded-lg p-8 transition-transform duration-300 hover:shadow-xl transform hover:-translate-y-1">
             <div className="flex justify-center cursor-pointer">
               <Link to="/dashboard/profile-update" className="relative">
                 <img
@@ -130,18 +129,20 @@ const UserViewProfile = () => {
                   alt={userData?.name}
                 />
                 {/* Edit Icon */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 hover:opacity-100 rounded-full">
-                  <FaEdit className="text-3xl text-white" />
+                <div className=" inset-0 flex items-center justify-center  transition-opacity duration-300 rounded-full">
+                  <FaEdit className="text-3xl text-text-primary" />
                 </div>
               </Link>
             </div>
             <div className="text-center mt-6">
-              <h2 className="text-3xl font-semibold text-gray-800">
+              <h2 className="text-3xl font-semibold text-text-primary">
                 {userData?.name}
               </h2>
-              <Tag className="mt-2 text-gray-600">{userData?.role}</Tag>
+              <Tag className="mt-2 text-gray-500 text-base">
+                {userData?.role}
+              </Tag>
             </div>
-            <div className="mt-8 text-center text-gray-600">
+            <div className="mt-8 text-center text-text-primary">
               <p>
                 <span className="font-semibold">Mobile: </span>
                 {userData?.phone}
@@ -154,25 +155,23 @@ const UserViewProfile = () => {
           </div>
 
           {/* Total Completed Booking History Card */}
-          <div className="bg-white shadow-lg rounded-lg p-8 transition-transform duration-300 hover:shadow-xl col-span-1 md:col-span-2 transform hover:-translate-y-1">
-            <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
-              My Completed Booking{" "}
-              <span className="text-yellow-500">Summary</span>
+          <div className="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-8 transition-transform duration-300 hover:shadow-xl col-span-1 md:col-span-2 transform hover:-translate-y-1 border">
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-white text-center mb-6">
+              My Completed Booking Summary
             </h2>
-            <div className="bg-gray-100 p-8 rounded-lg text-center">
+            <div className="bg-gray-100 dark:bg-slate-900 p-8 rounded-lg text-center">
               {totalBooking > 0 ? (
-                <p className="text-xl text-gray-700">
+                <p className="text-xl text-gray-700 dark:text-white">
                   You have completed
-                  <span className="text-red-600 font-bold">
-                    {" "}
-                    {totalBooking}{" "}
+                  <span className="text-yellow-700 font-bold text-2xl">
+                    {"  "} {totalBooking} {"  "}
                   </span>
                   car bookings so far.
                 </p>
               ) : (
                 <p className="text-xl text-gray-700 font-bold">
                   You currently have
-                  <span className="text-red-600"> no completed bookings</span>.
+                  <span className="text-red-700"> no completed bookings</span>.
                   Keep exploring and book a car!
                 </p>
               )}
@@ -182,19 +181,17 @@ const UserViewProfile = () => {
       </div>
       {/* End Content Section */}
       <hr className="mt-10" />
-      <div>
-        <div className="mt-6 mb-6">
-          <h2 className="text-4xl font-bold text-center">
-            Completed Booking <span className="text-red-500">History</span>
-          </h2>
-        </div>
-        <hr className="mt-10" />
+      <div className="pb-12">
+        <DashboardHeading title="My Completed Booking" />
+
         <div>
           {totalBooking > 0 ? (
             <Table
               columns={columns}
               dataSource={tableData || []}
-              pagination={false}
+              pagination={{
+                pageSize: 5,
+              }}
               className="overflow-x-auto"
             />
           ) : (

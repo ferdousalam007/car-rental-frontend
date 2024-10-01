@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCar, FaCogs, FaChair } from "react-icons/fa";
@@ -40,7 +41,17 @@ const CarBooking = () => {
       skip: !Object.values(searchCriteria).some((param) => param),
     }
   );
+const {data:allCars,isLoading:isCarLoading}=carApi.useGetAllCarsQuery(500);
+const carData = allCars?.data || [];
+   const uniqueCarTypes = [...new Set(carData?.map((car:any) => car.carType))];
+const uniqueFeatures = [
+  ...new Set(carData.flatMap((car: any) => car.features)),
+];
+// const uniqueMaxSeats = [...new Set(carData.map((car: any) => car.maxSeats))];
+const uniqueMaxSeats = [...new Set(carData.map((car: any) => car.maxSeats))].filter((seat): seat is number => typeof seat === 'number');
 
+console.log(uniqueCarTypes, "carTypes");
+console.log(uniqueFeatures, "uniqueFeatures");
   // Update the search parameters state when form values change, debounced
   const handleSearchCar = useCallback(
     debounce((value: SearchParams) => {
@@ -101,16 +112,45 @@ useEffect(() => {
             <div className="relative">
               <select
                 className="w-full pl-10 pr-4 py-2 dark:bg-slate-800 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
-                value={carType}
-                onChange={handleTypeChange}
+                value={carType} // Assuming carType is a state variable
+                onChange={handleTypeChange} // Assuming handleTypeChange updates the selected car type
+                disabled={isCarLoading} // Disable dropdown while loading
+              >
+                {isCarLoading ? (
+                  <option>Loading...</option> // Show loading message while data is being fetched
+                ) : (
+                  <>
+                    <option value="">Select Car Type</option>
+                    {uniqueCarTypes?.map((type) => {
+                      if (typeof type === "string") {
+                        return (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
+                        );
+                      }
+                      return null;
+                    })}
+                  </>
+                )}
+              </select>
+              {/* <select
+                className="w-full pl-10 pr-4 py-2 dark:bg-slate-800 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
+                value={carType} 
+                onChange={handleTypeChange} 
               >
                 <option value="">Select Car Type</option>
-                <option value="Sports Car">Sports Car</option>
-                <option value="Muscle Car">Muscle Car</option>
-                <option value="Sedan">Sedan</option>
-                <option value="Luxury Sedan">Luxury Sedan</option>
-                <option value="Truck">Truck</option>
-              </select>
+                {uniqueCarTypes?.map((type) => {
+                  if (typeof type === "string") {
+                    return (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    );
+                  }
+                  return null; 
+                })}
+              </select> */}
               <FaCar className="absolute left-3 top-3 text-gray-400" />
             </div>
           </div>
@@ -121,16 +161,45 @@ useEffect(() => {
             <div className="relative">
               <select
                 className="w-full pl-10 pr-4 py-2 dark:bg-slate-800 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
-                value={features}
-                onChange={handleFeaturesChange}
+                value={features} // Assuming features is a state variable
+                onChange={handleFeaturesChange} // Assuming handleFeaturesChange updates the selected feature
+                disabled={isCarLoading} // Disable dropdown while loading
+              >
+                {isCarLoading ? (
+                  <option>Loading...</option>
+                ) : (
+                  <>
+                    <option value="">Select Feature</option>
+                    {uniqueFeatures?.map((feature) => {
+                      if (typeof feature === "string") {
+                        return (
+                          <option key={feature} value={feature}>
+                            {feature}
+                          </option>
+                        );
+                      }
+                      return null;
+                    })}
+                  </>
+                )}
+              </select>
+              {/* <select
+                className="w-full pl-10 pr-4 py-2 dark:bg-slate-800 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
+                value={features} 
+                onChange={handleFeaturesChange} 
               >
                 <option value="">Select Feature</option>
-                <option value="V8 Engine">V8 Engine</option>
-                <option value="Manual Transmission">Manual Transmission</option>
-                <option value="Rear-Wheel Drive">Rear-Wheel Drive</option>
-                <option value="Performance Exhaust">Performance Exhaust</option>
-                <option value="Sports Seats">Sports Seats</option>
-              </select>
+                {uniqueFeatures?.map((feature) => {
+                  if (typeof feature === "string") {
+                    return (
+                      <option key={feature} value={feature}>
+                        {feature}
+                      </option>
+                    );
+                  }
+                  return null;
+                })}
+              </select> */}
               <FaCogs className="absolute left-3 top-3 text-gray-400" />
             </div>
           </div>
@@ -139,16 +208,41 @@ useEffect(() => {
           <div className="lg:col-span-2 flex flex-col">
             <label className="font-semibold mb-2">Select Car Seats</label>
             <div className="relative">
-              <select
+              {/* <select
                 className="w-full pl-10 pr-4 py-2 dark:bg-slate-800 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
                 value={seats}
-                onChange={handleSeatsChange}
+                onChange={handleSeatsChange} 
               >
-                <option value="">Select Seats</option>
-                <option value="1">1 Seat</option>
-                <option value="2">2 Seats</option>
-                <option value="3">3 Seats</option>
-                <option value="4">4 Seats</option>
+                <option value="">Select Max Seats</option>
+                {uniqueMaxSeats?.map((seats) => {
+                  if (typeof seats === "number") {
+                    return (
+                      <option key={seats} value={seats}>
+                        {seats}
+                      </option>
+                    );
+                  }
+                  return null; 
+                })}
+              </select> */}
+              <select
+                className="w-full pl-10 pr-4 py-2 dark:bg-slate-800 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
+                value={seats} // Assuming maxSeats is a state variable
+                onChange={handleSeatsChange} // Assuming handleSeatsChange updates the selected max seats
+                disabled={isCarLoading} // Disable dropdown while loading
+              >
+                {isCarLoading ? (
+                  <option>Loading...</option> // Show loading message while data is being fetched
+                ) : (
+                  <>
+                    <option value="">Select Max Seats</option>
+                    {uniqueMaxSeats?.map((seat: number) => (
+                      <option key={seat} value={seat}>
+                        {seat}
+                      </option>
+                    ))}
+                  </>
+                )}
               </select>
               <FaChair className="absolute left-3 top-3 text-gray-400" />
             </div>

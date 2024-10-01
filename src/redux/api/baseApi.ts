@@ -11,6 +11,7 @@ import { logOut, setUser } from "../features/Auth/AuthSlice";
 
 // Base query configuration with the API base URL
 const baseQuery = fetchBaseQuery({
+  // baseUrl: "https://car-rental-backend-six.vercel.app/api",
   baseUrl: "http://localhost:5000/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Modal } from "antd";
 import { useState, useEffect, useCallback } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { MultiValue } from "react-select";
+import { MultiValue, StylesConfig } from "react-select";
 import Select from "react-select";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,9 +35,7 @@ const schema = z.object({
   //   .number({ invalid_type_error: "Rating must be a number" })
   //   .min(0)
   //   .max(5),
-  isElectric: z.enum(["true", "false"], {
-    invalid_type_error: "Select Yes or No",
-  }),
+  isElectric: z.any(),
   pricePerHour: z
     .number({ invalid_type_error: "Price must be a number" })
     .positive(),
@@ -68,6 +67,9 @@ const schema = z.object({
 
 type CarData = z.infer<typeof schema>;
 
+
+
+
 const UpdateCar = ({ data }: { data: CarData }) => {
   const [selectOptions, setSelectOptions] = useState<OptionType[]>([]);
   const [selectVehicleSpecifications, setSelectVehicleSpecifications] =
@@ -75,10 +77,41 @@ const UpdateCar = ({ data }: { data: CarData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-
+  const [darkMode, setDarkMode] = useState(false);
+  useEffect(() => {
+    const isDarkMode = document.documentElement.classList.contains("dark");
+    setDarkMode(isDarkMode);
+  }, []);
+const customStyles: StylesConfig<OptionType, true> = {
+  control: (provided) => ({
+    ...provided,
+    backgroundColor: darkMode ? "#121212" : "#f0f0f0",
+    color: darkMode ? "#e2e8f0" : "#2d3748",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    backgroundColor: darkMode ? "#4a5568" : "#f8f9fa",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected
+      ? darkMode
+        ? "#2c5282"
+        : "#d1e7dd"
+      : state.isFocused
+      ? darkMode
+        ? "#2d3748"
+        : "#e9ecef"
+      : darkMode
+      ? "#1a202c"
+      : "#ffffff",
+    color: darkMode ? "#cbd5e0" : "#212529",
+  }),
+};
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const keyData: any = data;
   const keyId: string = keyData.key;
+  // const isElectric =data.isElectric.toString() === "true" ? "true" : "false";
   const {
     register,
     setValue,
@@ -91,7 +124,7 @@ const UpdateCar = ({ data }: { data: CarData }) => {
     defaultValues: {
       carName: data?.carName || "",
       // rating: data?.rating,
-      isElectric: data?.isElectric || "false",
+      isElectric: data.isElectric ? "true" : "false",
       pricePerHour: Number(data?.pricePerHour) || 0,
       maxSeats: data?.maxSeats || 0,
       color: data?.color || "",
@@ -112,7 +145,7 @@ const UpdateCar = ({ data }: { data: CarData }) => {
     reset({
       carName: data?.carName || "",
       // rating: data?.rating,
-      isElectric: data?.isElectric || "false",
+      isElectric: data?.isElectric ,
       pricePerHour: Number(data?.pricePerHour) || 0,
       maxSeats: data?.maxSeats || 0,
       color: data?.color || "",
@@ -184,10 +217,10 @@ const UpdateCar = ({ data }: { data: CarData }) => {
     const formData = new FormData();
     formData.append("name", cdata.carName);
     // formData.append("rating", cdata.rating);
-    formData.append(
-      "isElectric",
-      cdata.isElectric === "true" ? "true" : "false"
-    );
+       formData.append(
+         "isElectric",
+         cdata.isElectric === "true" ? "true" : "false"
+       );
     formData.append("pricePerHour", cdata.pricePerHour);
     formData.append("color", cdata.color);
     formData.append("gearType", cdata.gearType);
@@ -214,11 +247,9 @@ const UpdateCar = ({ data }: { data: CarData }) => {
       formData.append("carImgUrl", file);
     });
 
-  
-
     //  console.log(cdata,"cdata?.key");
     try {
-  await updateCar({
+      await updateCar({
         id: keyId,
         carData: formData,
       }).unwrap();
@@ -303,7 +334,11 @@ const UpdateCar = ({ data }: { data: CarData }) => {
                 <option value="false">No</option>
               </select>
               {errors.isElectric && (
-                <p className="text-red-600">{errors.isElectric.message}</p>
+                <p className="text-red-600">
+                  {typeof errors.isElectric?.message === "string"
+                    ? errors.isElectric.message
+                    : ""}
+                </p>
               )}
             </div>
 
@@ -475,11 +510,12 @@ const UpdateCar = ({ data }: { data: CarData }) => {
                 Car Features
               </label>
               <Select
+                styles={customStyles}
                 options={carFeatures}
                 value={selectOptions}
                 isMulti={true}
                 onChange={handleFeatureChange}
-                className="mt-1"
+                className="mt-1 "
               />
               {errors.carFeatures && (
                 <p className="text-red-600">{errors.carFeatures.message}</p>
@@ -494,6 +530,7 @@ const UpdateCar = ({ data }: { data: CarData }) => {
                 Vehicle Specifications
               </label>
               <Select
+                styles={customStyles}
                 options={vehicleSpecifications}
                 value={selectVehicleSpecifications}
                 isMulti={true}
