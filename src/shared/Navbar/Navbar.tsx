@@ -6,6 +6,7 @@ import  { useState } from 'react';
 import { Link } from 'react-router-dom'
 import Avatar from "./Avater";
 import ThemeMenu from "./ThemeMenu";
+import MobileDropdown from "./MobileDropdown";
 const Navbar = () => {
    const [isOpen, setIsOpen] = useState(false);
   // const token = useAppSelector(useCurrentToken);
@@ -156,12 +157,13 @@ const Navbar = () => {
             >
               About
             </Link>
-            <Link
+            {/* <Link
               to="/contact-us"
               className="dark:text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Contact
-            </Link>
+            </Link> */}
+            <MobileDropdown />
           </div>
         </div>
       )}

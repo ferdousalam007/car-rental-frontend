@@ -8,6 +8,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { TCar } from "../../type/global.type";
 import SectionHeading from "@/component/SectionHeading/SectionHeading";
+import CarCard from "./CarCard";
 
 const FeaturedCart = () => {
   const settings = {
@@ -84,7 +85,8 @@ const FeaturedCart = () => {
         ) : (
           <Slider {...settings}>
             {carData?.map((car: TCar, index: number) => (
-              <FeaturedCarCard car={car} key={index} />
+              // <FeaturedCarCard car={car} key={index} />
+              <CarCard car={car} key={index} />
             ))}
           </Slider>
         )}

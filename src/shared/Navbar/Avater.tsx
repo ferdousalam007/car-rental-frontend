@@ -10,7 +10,7 @@ const Avatar = () => {
   const user = getMe?.data;
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center md:mb-0 mb-4">
       {user ? (
         <div className="flex items-center gap-1">
           <img

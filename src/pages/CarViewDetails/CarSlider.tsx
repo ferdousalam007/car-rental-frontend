@@ -34,6 +34,13 @@ const CarSlider: React.FC<CarSliderProps> = ({ imageUrls }) => {
                 smallImage: {
                   alt: `Product Image ${currentIndex + 1}`,
                   isFluidWidth: true,
+                  srcSet:
+                    imageUrls && imageUrls.length > 0
+                      ? imageUrls[currentIndex]
+                      : "",
+                  sizes:
+                    "(min-width: 800px) 33.5vw, (min-width: 415px) 50vw, 100vw",
+
                   // ... existing code ...
 
                   src:
@@ -50,10 +57,11 @@ const CarSlider: React.FC<CarSliderProps> = ({ imageUrls }) => {
                       ? imageUrls[currentIndex]
                       : "",
                   // ... existing code ...
-                  width: 836,
-                  height: 1400,
+                  width: 1200,
+                  height: 1800,
+                  // isHintEnabled: true,
                 },
-                enlargedImagePosition: "over",
+                // enlargedImagePosition: "over",
                 lensStyle: { backgroundColor: "rgba(0,0,0,.3)" },
               }}
             />

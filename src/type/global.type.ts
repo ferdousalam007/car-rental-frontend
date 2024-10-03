@@ -13,11 +13,12 @@ export type TCar = {
   carImgUrl: string[];
   vehicleSpecification: string;
   maxSeats: number;
-  rating: number;
+  rating: number[] | null;
   gearType: string;
   fuelType: string;
   carType: string;
   location: string;
+  avgRating: number;
 };
 export type TCarBooking = {
   _id: string;

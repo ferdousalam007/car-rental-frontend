@@ -3,12 +3,13 @@ import { useCallback, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCar, FaCogs, FaChair } from "react-icons/fa";
 import { carApi } from "../../redux/features/Car/carApi";
-import FeaturedCarCard from "../FeaturedCar/FeaturedCarCard";
+// import FeaturedCarCard from "../FeaturedCar/FeaturedCarCard";
 import Loader from "../../shared/Loader/Loader";
 import { debounce } from "lodash";
 import { TCar } from "../../type/global.type";
 import { useSearchParams, useLocation } from "react-router-dom"; // Import useSearchParams, useLocation, useNavigate
 import PageBreadcamp from "@/component/PageBreadcamp/PageBreadcamp";
+import CarCard from "../FeaturedCar/CarCard";
 
 // Define the SearchParams type
 type SearchParams = {
@@ -261,7 +262,8 @@ useEffect(() => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {carSearch?.data.map((car: TCar) => (
-              <FeaturedCarCard key={car._id} car={car} />
+              // <FeaturedCarCard key={car._id} car={car} />
+              <CarCard car={car} key={car._id} />
             ))}
           </div>
         )}

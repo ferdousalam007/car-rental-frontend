@@ -228,25 +228,26 @@ const customStyles: StylesConfig<OptionType, true> = {
     formData.append("carType", cdata.carType);
     formData.append("description", cdata.description);
 
-    if (cdata.carFeatures && cdata.carFeatures.length > 0) {
-      formData.append("carFeatures", JSON.stringify(cdata.carFeatures));
-    }
+    // Append car features if they exist
+  if (cdata.carFeatures && cdata.carFeatures.length > 0) {
+    formData.append("features", JSON.stringify(cdata.carFeatures));
+  }
 
-    if (
-      cdata.vehicleSpecifications &&
-      Object.keys(cdata.vehicleSpecifications).length > 0
-    ) {
-      formData.append(
-        "vehicleSpecifications",
-        JSON.stringify(cdata.vehicleSpecifications)
-      );
-    }
+
+     // Append vehicle specifications if they exist
+  if (cdata.vehicleSpecifications && cdata.vehicleSpecifications.length > 0) {
+    formData.append(
+      "vehicleSpecification",
+      JSON.stringify(cdata.vehicleSpecifications)
+    );
+  }
+
 
     // Append each image file
     cdata.carImgUrl?.forEach((file: File) => {
       formData.append("carImgUrl", file);
     });
-
+console.log([...formData],"formData");
     //  console.log(cdata,"cdata?.key");
     try {
       await updateCar({

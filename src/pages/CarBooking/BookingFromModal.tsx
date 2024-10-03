@@ -59,7 +59,7 @@ const BookingFormModal = ({ car }: { car: TCar }) => {
     <>
       <button
         onClick={showModel}
-        className="w-full bg-slate-600 text-white  py-2 px-4  hover:bg-slate-700 transition duration-300"
+        className="bg-slate-900 hover:bg-slate-700 text-white  py-2 px-2 rounded border-transparent border dark:border-slate-600 transition-all duration-300 ease-in-out text-sm"
       >
         Book Now
       </button>

@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useDropzone, Accept } from "react-dropzone";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Select, { MultiValue,StylesConfig } from "react-select";
+import Select, { MultiValue, StylesConfig } from "react-select";
 import { ImagePlus } from "lucide-react";
 import {
   carFeatures,
@@ -13,8 +13,6 @@ import { useCallback, useEffect, useState } from "react";
 import { carApi } from "../../../../redux/features/Car/carApi";
 import Swal from "sweetalert2";
 import DashboardHeading from "../../DashboardHeading/DashboardHeading";
-
-
 
 type OptionType = {
   value: string;
@@ -32,7 +30,6 @@ const isValidImageFile = (file?: File) => {
 const carSchema = z.object({
   name: z.string().nonempty("Car Name is required"),
 
-
   // Use z.coerce.boolean() for proper boolean coercion
   isElectric: z.string().refine((val) => val === "true" || val === "false", {
     message: "Please select a valid option for isElectric",
@@ -43,7 +40,6 @@ const carSchema = z.object({
     .min(1, "Price Per Hour must be a non-negative number min value 1"),
 
   maxSeats: z.coerce.number().min(1, "Max Seats must be at least 1"),
-
 
   carImgUrl: z
     .array(z.instanceof(File))
@@ -121,7 +117,7 @@ const AddCarData = () => {
       isElectric: undefined,
       carFeatures: [],
       vehicleSpecifications: [],
-      carImgUrl:[],
+      carImgUrl: [],
     },
   });
   const onDrop = useCallback(
@@ -145,7 +141,7 @@ const AddCarData = () => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
-      "image/*":[],
+      "image/*": [],
     } as Accept,
     multiple: true,
     maxSize: MAX_IMAGE_SIZE,
@@ -162,7 +158,6 @@ const AddCarData = () => {
     }
   };
 
-  
   const handleSpecificationChange = (
     selectedOptions: MultiValue<OptionType>
   ) => {
@@ -183,15 +178,14 @@ const AddCarData = () => {
     setIsLoading(true);
 
     const formData = new FormData();
-    formData.append("name",data.name);
+    formData.append("name", data.name);
     formData.append("description", data.description);
     formData.append("color", data.color);
     formData.append("fuelType", data.fuelType);
     formData.append("carType", data.carType);
     formData.append("gearType", data.gearType);
-// formData.append("rating", Number(data.rating).toString());
-formData.append("pricePerHour", Number(data.pricePerHour).toString());
-formData.append("maxSeats", Number(data.maxSeats).toString());
+    formData.append("pricePerHour", Number(data.pricePerHour).toString());
+    formData.append("maxSeats", Number(data.maxSeats).toString());
     data.carImgUrl.forEach((file: any) => {
       formData.append("carImgUrl", file);
     });
@@ -216,7 +210,7 @@ formData.append("maxSeats", Number(data.maxSeats).toString());
       console.log(response);
       reset();
       setSelectOptions([]); // Reset the select options
-      setSelectVehicleSpecifications([]); 
+      setSelectVehicleSpecifications([]);
       setImagePreviews([]);
     } catch (error) {
       Swal.fire({
@@ -233,7 +227,7 @@ formData.append("maxSeats", Number(data.maxSeats).toString());
   return (
     <div className=" min-h-screen p-4">
       <DashboardHeading title="Create New " highlightedText="Car" />
-     
+
       <div className="container mx-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -255,25 +249,6 @@ formData.append("maxSeats", Number(data.maxSeats).toString());
                 </p>
               )}
             </div>
-
-            {/* <div>
-              <label
-                htmlFor="rating"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Rating
-              </label>
-              <input
-                type="number"
-                {...register("rating")}
-                className="mt-1 p-2 border border-gray-300 rounded w-full"
-              />
-              {errors.rating && (
-                <p className="text-red-500 text-xs">
-                  {String(errors.rating.message)}
-                </p>
-              )}
-            </div> */}
 
             <div>
               <label
@@ -426,7 +401,7 @@ formData.append("maxSeats", Number(data.maxSeats).toString());
                 Car Features
               </label>
               <Select
-              styles={customStyles}
+                styles={customStyles}
                 options={carFeatures}
                 value={selectOptions}
                 isMulti={true}
@@ -447,10 +422,10 @@ formData.append("maxSeats", Number(data.maxSeats).toString());
                 Vehicle Specifications
               </label>
               <Select
-              styles={customStyles}
+                styles={customStyles}
                 options={vehicleSpecifications}
                 value={selectVehicleSpecifications}
-                isMulti={true }
+                isMulti={true}
                 onChange={handleSpecificationChange}
               />
               {errors.vehicleSpecifications && (
@@ -538,4 +513,3 @@ formData.append("maxSeats", Number(data.maxSeats).toString());
 };
 
 export default AddCarData;
-

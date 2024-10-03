@@ -32,12 +32,12 @@ const MenuDropDown = () => {
   };
 
   return (
-    <div className="relative">
-      {" "}
+    <div className="relative hidden md:block">
+    
       {/* Add relative positioning for dropdown */}
       <div className="text-sm">
         <div className="flex gap-3 cursor-pointer" onClick={toggleDropdown}>
-          {" "}
+        
           {/* Toggle dropdown on click */}
           <FaAngleDown className="text-yellow-700 text-xl dark:text-gray-300" />
         </div>
@@ -80,6 +80,7 @@ const MenuDropDown = () => {
             )}
           </div>
         )}
+      
       </div>
     </div>
   );

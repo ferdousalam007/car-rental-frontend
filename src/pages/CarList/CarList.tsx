@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { carApi } from "../../redux/features/Car/carApi";
-import FeaturedCarCard from "../FeaturedCar/FeaturedCarCard";
+// import FeaturedCarCard from "../FeaturedCar/FeaturedCarCard";
 import Loader from "../../shared/Loader/Loader";
 import { TCar } from "../../type/global.type";
 import PageBreadcamp from "@/component/PageBreadcamp/PageBreadcamp";
+import CarCard from "../FeaturedCar/CarCard";
 
 const CarList = () => {
   const [carType, setCarType] = useState("");
@@ -100,7 +101,8 @@ const CarList = () => {
               </div>
             ) : (
               carData?.map((car: TCar) => (
-                <FeaturedCarCard key={car._id} car={car} />
+                // <FeaturedCarCard key={car._id} car={car} />
+                <CarCard key={car._id} car={car} />
               ))
             )}
           </div>
