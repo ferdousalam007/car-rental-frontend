@@ -210,7 +210,10 @@ const AdminManageBooking = () => {
         <Table
           columns={columns}
           dataSource={tableData || []}
-          className="overflow-x-auto "
+          className="w-50"
+          pagination={{ pageSize: 10 }}
+          rowKey="_id"
+          scroll={{ x: 1000 }}
         
         />
       )}

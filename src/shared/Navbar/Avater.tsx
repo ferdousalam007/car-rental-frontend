@@ -2,6 +2,7 @@ import { userApi } from "../../redux/features/user/userApi";
 import { useAppSelector } from "../../redux/hooks";
 // import { useCurrentToken } from "../../redux/features/Auth/authSlice";
 import { useCurrentToken } from "../../redux/features/Auth/AuthSlice";
+import { Link } from "react-router-dom";
 
 const Avatar = () => {
   const token = useAppSelector(useCurrentToken);
@@ -36,6 +37,12 @@ const Avatar = () => {
         <div>
           {/* <FaUser className="h-8 w-8 rounded-full text-gray-500 " />
           <p className="dark:text-gray-300">{user?.name}</p> */}
+          <Link
+            className="dark:text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            to="/login"
+          >
+            login
+          </Link>
         </div>
       )}
     </div>

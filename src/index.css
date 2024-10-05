@@ -330,3 +330,85 @@ background-color: #121212 !important;
 .myinput{
 background:#121212 !important; ;
 }
+
+
+.bg_banner{
+  background-image: url("../src/assets/carBanner.webp");
+}
+
+
+/* SideBar.css */
+/* .custom-menu {
+  background-color: #f0f2f5;
+} */
+
+.custom-menu .ant-menu-item {
+  /* color: #333;  */
+  color: #272727; 
+}
+.dark .custom-menu .ant-menu-item {
+  /* color: #333;  */
+  
+  color: #bdb9b9 !important; 
+}
+.custom-menu .ant-menu-item-selected {
+  background-color: #fff; /* Selected item background color */
+  color: #272727; /* Selected item text color */
+}
+.dark .custom-menu .ant-menu-item-selected {
+  background-color: #111827; 
+  color: #fff; 
+}
+
+.custom-menu .ant-menu-item:hover {
+  background-color: #e6f7ff; /* Hover background color */
+  color: #ffffff; /* Hover text color */
+}
+
+.custom-menu .ant-menu-submenu-title {
+  color: #333; /* Submenu title text color */
+}
+
+.custom-menu .ant-menu-submenu-title:hover {
+  background-color: #e6f7ff; /* Submenu title hover background color */
+  color: #333; /* Submenu title hover text color */
+}
+ .custom-menu.ant-menu-light .ant-menu-item-selected {
+          background-color: #272727;
+          color: white;
+        }
+        .custom-menu.ant-menu-light .ant-menu-item-selected a,
+        .custom-menu.ant-menu-light .ant-menu-item-selected span {
+          color: white;
+        }
+        .custom-menu.ant-menu-light .ant-menu-item-selected .anticon {
+          color: white;
+          background-color: #272727;
+        }
+
+
+.custom-menu.ant-menu-light .ant-menu-submenu-open > .ant-menu-submenu-title,
+        .custom-menu.ant-menu-light .ant-menu-submenu-active > .ant-menu-submenu-title {
+          color: #171718;
+          background-color: #fff;
+        }
+.dark .custom-menu.ant-menu-light .ant-menu-submenu-open > .ant-menu-submenu-title,
+        .custom-menu.ant-menu-light .ant-menu-submenu-active > .ant-menu-submenu-title {
+          color: #ffffff;
+          background-color: #272727;
+        }
+.custom-menu.ant-menu-light .ant-menu-submenu-title:hover {
+          color: #222222;
+          background-color: #afafaf !important;
+        }
+.dark .custom-menu.ant-menu-light .ant-menu-submenu-title:hover {
+          color: #f7f7f7;
+          background-color: #111827 !important;
+        }
+
+/* DashboardLayout.css */
+@media (max-width: 992px) {
+  .site-layout {
+    margin-left: 0 !important;
+  }
+}

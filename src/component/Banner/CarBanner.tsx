@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import bannerImg from "../../assets/carBanner.webp"
+// import bannerImg from "../../assets/carBanner.webp"
 
 const CarBanner = () => {
   return (
     <div
-      className="relative bg-cover bg-center bg-no-repeat min-h-[850px] w-full flex justify-center overflow-hidden"
-      style={{ backgroundImage: `url(${bannerImg})` }}
+      className="bg_banner relative bg-cover bg-center bg-no-repeat min-h-[850px] w-full flex justify-center overflow-hidden"
+      // style={{ backgroundImage: ` url(${bannerImg})` }}
     >
       <div className="container mx-auto">
         <div className="text-center pt-[180px] sm:pt-[250px]">

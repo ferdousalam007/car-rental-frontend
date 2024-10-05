@@ -6,7 +6,7 @@ import { TCar } from "../../type/global.type";
 
 const FeaturedCarCard = ({ car }: { car: TCar }) => {
   const id = car?._id;
-  const star = car?.rating;
+  const star = car?.avgRating;
   const { pathname } = useLocation();
 
   return (

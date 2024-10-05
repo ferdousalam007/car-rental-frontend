@@ -1,5 +1,4 @@
-import { useState } from "react";
-import ReactImageMagnify from "react-image-magnify";
+import { useState, useRef } from "react";
 
 interface CarSliderProps {
   imageUrls: string[];
@@ -7,6 +6,30 @@ interface CarSliderProps {
 
 const CarSlider: React.FC<CarSliderProps> = ({ imageUrls }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [magnifierStyle, setMagnifierStyle] = useState<React.CSSProperties>({});
+  const imgRef = useRef<HTMLImageElement>(null);
+  const zoom: number = 2; 
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLImageElement>) => {
+    if (!imgRef.current) return;
+
+    const { left, top, width, height } = imgRef.current.getBoundingClientRect();
+    const x = e.clientX - left;
+    const y = e.clientY - top;
+
+    if (x > 0 && x < width && y > 0 && y < height) {
+      setMagnifierStyle({
+        display: "block",
+        left: `${x}px`,
+        top: `${y}px`,
+        backgroundImage: `url(${imageUrls[currentIndex]})`,
+        backgroundSize: `${width * zoom}px ${height * zoom}px`,
+        backgroundPosition: `-${x * zoom - 50}px -${y * zoom - 50}px`,
+      });
+    } else {
+      setMagnifierStyle({ display: "none" });
+    }
+  };
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
@@ -21,50 +44,40 @@ const CarSlider: React.FC<CarSliderProps> = ({ imageUrls }) => {
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
   };
+
   return (
     <div>
-      <div className="product-slider overflow-hidden max-h-[500px] ">
+      <div className="product-slider overflow-hidden max-h-[500px]">
         <button onClick={prevSlide} className="slider-button prev">
           &lt;
         </button>
         <div className="slider-image-container">
-          <div className=" mx-auto ">
-            <ReactImageMagnify
-              {...{
-                smallImage: {
-                  alt: `Product Image ${currentIndex + 1}`,
-                  isFluidWidth: true,
-                  srcSet:
-                    imageUrls && imageUrls.length > 0
-                      ? imageUrls[currentIndex]
-                      : "",
-                  sizes:
-                    "(min-width: 800px) 33.5vw, (min-width: 415px) 50vw, 100vw",
-
-                  // ... existing code ...
-
-                  src:
-                    imageUrls && imageUrls.length > 0
-                      ? imageUrls[currentIndex]
-                      : "",
-                  // ... existing code ...
-                },
-                largeImage: {
-                  // ... existing code ...
-
-                  src:
-                    imageUrls && imageUrls.length > 0
-                      ? imageUrls[currentIndex]
-                      : "",
-                  // ... existing code ...
-                  width: 1200,
-                  height: 1800,
-                  // isHintEnabled: true,
-                },
-                // enlargedImagePosition: "over",
-                lensStyle: { backgroundColor: "rgba(0,0,0,.3)" },
-              }}
-            />
+          <div className="mx-auto">
+            <div className="relative">
+              <img
+                ref={imgRef}
+                src={imageUrls[currentIndex]}
+                alt="Car Image"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={() => setMagnifierStyle({ display: "none" })}
+                className="w-full h-auto object-cover rounded-lg shadow-md"
+              />
+              <div
+                className="magnifier absolute rounded-full border-2 border-gray-400"
+                style={magnifierStyle}
+              ></div>
+              <style>{`
+                .magnifier {
+                  width: 150px;
+                  height: 150px;
+                  pointer-events: none;
+                  display: none;
+                  transform: translate(-50%, -50%);
+                  border: 1px solid #121212;
+                  border-radius: 5%;
+                }
+              `}</style>
+            </div>
           </div>
         </div>
         <button onClick={nextSlide} className="slider-button next">

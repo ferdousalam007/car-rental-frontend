@@ -35,9 +35,9 @@ const CarList = () => {
         </PageBreadcamp>
       </div>
 
-      <div className="container gap-4 mx-auto flex flex-col md:flex-row justify-around mt-20 px-4">
-        <div className="rounded-md w-full md:w-80 p-4 mb-4 md:mb-0 bg-[#EFF2F4] dark:bg-slate-900">
-          <div className="p-2 rounded-lg w-full h-[500px] mx-auto">
+      <div className="container grid grid-cols-1 gap-10">
+        <div className="rounded-md w-full  p-4 mb-4 md:mb-0 bg-white shadow border dark:bg-slate-800 -mt-10">
+          <div className="p-2 rounded-lg w-full  mx-auto">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Filter For Car Type
             </label>
@@ -94,7 +94,7 @@ const CarList = () => {
           </div>
         </div>
         <div className="w-full">
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {isFetching ? (
               <div className="col-span-full text-center">
                 <Loader />

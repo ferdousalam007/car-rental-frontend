@@ -1,5 +1,5 @@
 import Slider from "react-slick";
-import FeaturedCarCard from "./FeaturedCarCard";
+// import FeaturedCarCard from "./FeaturedCarCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { carApi } from "../../redux/features/Car/carApi";

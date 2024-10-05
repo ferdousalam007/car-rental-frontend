@@ -1,6 +1,5 @@
 
 import { CiSquareCheck } from "react-icons/ci";
-import ReturnPolicy from "./ReturnPolicy";
 import "./CarInformation.css";
 import CarTestimonial from "./CarTestimonial";
 
@@ -19,8 +18,8 @@ interface CarInformationProps {
 const CarInformation: React.FC<CarInformationProps> = ({ carDetails }) => {
  
   return (
-    <div className="container mx-auto">
-      <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-6 ">
+    <div className=" mx-auto">
+      <div className=" grid grid-cols-1 lg:grid-cols-2 gap-6 ">
         <div className="w-full shadow-md border rounded-md p-6">
           <h2 className="text-2xl font-extrabold text-text-primary mb-6">
             Vehicle Specifications
@@ -61,9 +60,7 @@ const CarInformation: React.FC<CarInformationProps> = ({ carDetails }) => {
         </div>
       </div>
 
-      <div className="mt-6">
-        <ReturnPolicy />
-      </div>
+      
       <CarTestimonial carId={carDetails?._id} />
     </div>
   );

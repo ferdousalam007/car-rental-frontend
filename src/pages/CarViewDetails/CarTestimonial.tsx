@@ -62,7 +62,7 @@ const CarTestimonial = ({ carId }: { carId: string }) => {
             ))}
           </div>
         ) : (
-          <div className="p-6 bg-white rounded-md shadow-lg flex flex-col items-center  text-center md:text-left  border  dark:bg-slate-900 border-gray-300 dark:border-slate-700">
+          <div className="py-6 bg-white rounded-md shadow-lg flex flex-col items-center  text-center md:text-left  border  dark:bg-slate-900 border-gray-300 dark:border-slate-700">
             <h3 className="text-lg md:text-xl font-semibold mb-1 text-text-primary text-center">
               No reviews yet
             </h3>

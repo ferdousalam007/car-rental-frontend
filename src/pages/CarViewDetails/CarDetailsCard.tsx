@@ -2,8 +2,8 @@
 
 import Stars from "../../shared/Starts/Starts";
 
-import {  FaDoorOpen, FaGasPump, FaUsers } from "react-icons/fa6";
-import {  FaCogs  } from "react-icons/fa";
+import { FaCarSide, FaGasPump, FaUsers } from "react-icons/fa6";
+import { FaCogs } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import CarSlider from "./CarSlider";
 
@@ -29,7 +29,10 @@ const CarDetailsCard = ({ carDetails }: any) => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="flex items-center text-text-primary">
-                    <Stars star={star} /><span className="ml-1 font-bold">({review?.length})total reviews</span>
+                    <Stars star={star} />
+                    <span className="ml-1 font-bold">
+                      ({review?.length})total reviews
+                    </span>
                   </div>
                 </div>
               </div>
@@ -46,8 +49,6 @@ const CarDetailsCard = ({ carDetails }: any) => {
                   Key Feature
                 </div>
                 <div className="grid grid-cols-2 gap-4 mt-4">
-                  
-
                   <div className="flex items-center">
                     <FaUsers className="text-text-primary w-6 h-6" />
                     <div className="ml-2 text-sm">
@@ -65,10 +66,11 @@ const CarDetailsCard = ({ carDetails }: any) => {
                   </div>
 
                   <div className="flex items-center">
-                    <FaDoorOpen className="text-text-primary w-6 h-6" />
+                  <FaCarSide className="text-text-primary w-6 h-6"/>
+
                     <div className="ml-2 text-sm">
-                      <span className="text-text-primary">DOORS:</span>{" "}
-                      {carDetails?.doors || "N/A"} Doors
+                      <span className="text-text-primary">CARTYPE:</span>{" "}
+                      {carDetails?.carType || "N/A"} 
                     </div>
                   </div>
 
@@ -82,7 +84,18 @@ const CarDetailsCard = ({ carDetails }: any) => {
                 </div>
               </div>
 
-              <hr className="mt-6" />
+              <hr className="mt-6 mb-5" />
+              <span
+                className={`text-base font-medium px-3 py-1  rounded-lg  text-text-primary  ${
+                  carDetails?.status === "available"
+                    ? "bg-green-200 dark:bg-green-800"
+                     : carDetails?.status === "unavailable"
+                    ? "bg-red-200 dark:bg-red-800 "
+                    : ""
+                }`}
+              >
+                {carDetails?.status}
+              </span>
               <div className="mt-6">
                 {carDetails?.status === "available" ? (
                   <Link
