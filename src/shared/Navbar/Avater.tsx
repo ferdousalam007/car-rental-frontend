@@ -38,7 +38,7 @@ const Avatar = () => {
           {/* <FaUser className="h-8 w-8 rounded-full text-gray-500 " />
           <p className="dark:text-gray-300">{user?.name}</p> */}
           <Link
-            className="dark:text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            className="hidden md:block dark:text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             to="/login"
           >
             login

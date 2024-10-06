@@ -23,11 +23,17 @@ import UpdateCar from "../component/Dashboard/Admin/CarManagement/UpdateCar";
 import ForgotPassword from "../component/AuthentiCation/ForgotPassword/ForgotPassword";
 import ResetPassword from "../component/AuthentiCation/ResetPassword/ResetPassword";
 import TempOfService from "@/component/AuthentiCation/Register/TempOfService";
+import ScrollToTop from "./ScrollToTop";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Main></Main>,
+    element: (
+      <>
+        <ScrollToTop />
+        <Main></Main>
+      </>
+    ),
     children: [
       {
         path: "/",

@@ -22,7 +22,7 @@ const TeamCard: React.FC<TeamMemberProps> = ({
       <div>
         <img src={imageUrl} alt={name} />
         <div className="absolute right-[14px] bottom-[55px]">
-          <div className="bg-yellow-500 border-2 border-[#fff] p-3 rounded-full cursor-pointer">
+          <div className="bg-slate-900 border-2 border-[#fff] p-3 rounded-full cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

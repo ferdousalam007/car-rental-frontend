@@ -27,14 +27,16 @@ const AllBookings = () => {
     data: myBookings,
     isFetching,
     isLoading,
+    refetch,
   } = bookingApi.useGetMyBookingsQuery(undefined);
   const bookingData = myBookings?.data;
-console.log(bookingData);
+ 
   const [deleteMyBooking, { isLoading: isDeleting }] =
     bookingApi.useDeleteBookingMutation();
   const tableData = bookingData?.map((item: TCarBooking) => ({
     key: item._id,
     name: item?.car?.name,
+    image: item?.car?.carImgUrl,
     price: item?.car.pricePerHour,
     pickUpDate: item?.pickUpDate,
     pickOfTime: item?.pickTime,
@@ -46,6 +48,7 @@ console.log(bookingData);
     identityNo: item?.identityNo,
     drivingLicenseNo: item?.drivingLicenseNo,
     totalCost: item?.totalCost,
+    isRatings: item?.isRatings,
   }));
 
   const handleDeleteMyBooking: SubmitHandler<FieldValues> = async (
@@ -176,13 +179,15 @@ console.log(bookingData);
         const onGoing = item.status === "ongoing";
         const paymentPaid = item.paymentStatus === "paid";
         const payment = item.status === "pending";
-        // console.log(item);
+        const payStatus = item.paymentStatus==="pending";
+      
+     
         return (
           <Space size="middle">
             <UpdateBookingModel data={item} />
             <Button
               onClick={() => handleDeleteMyBooking(item.key)}
-              disabled={onGoing || isDeleting}
+              disabled={onGoing || isDeleting || payStatus}
             >
               Delete
             </Button>
@@ -192,11 +197,18 @@ console.log(bookingData);
             >
               Payment
             </Button>
-            <AddReviewModel bookingKey={item} />
+      
+       
+              <AddReviewModel
+                bookingKey={item}
+     
+              />
+        
+       
           </Space>
         );
       },
-      responsive: ["xs", "sm", "md", "lg"],
+   
     },
   ];
 
@@ -207,12 +219,16 @@ console.log(bookingData);
       {isLoading || isFetching ? (
         <Loader />
       ) : (
-        <div >
+        <div>
+          <Button onClick={() => refetch()} className="my-5">
+            Reload Table
+          </Button>
           <Table
             columns={columns}
             dataSource={tableData || []}
             pagination={false}
-            scroll={{ x: 800 }}
+            // scroll={{ x: 1000 }}
+            scroll={{ x: "100%" }}
           />
         </div>
       )}
@@ -222,13 +238,20 @@ console.log(bookingData);
 
 export default AllBookings;
 
-const AddReviewModel = ({ bookingKey }: { bookingKey: any }) => {
+const AddReviewModel = ({
+  bookingKey,
+
+}: {
+  bookingKey: any;
+
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
     setIsModalOpen(false);
+  
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -240,17 +263,19 @@ const AddReviewModel = ({ bookingKey }: { bookingKey: any }) => {
     handleSubmit,
     formState: { errors },
     reset,
+
   } = useForm({
     resolver: zodResolver(reviewSchema),
   });
   const [loading, setLoading] = useState(false);
+  const { refetch } = bookingApi.useGetMyBookingsQuery(undefined);
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const formData = new FormData();
     formData.append("bookingId", bookingKey.key);
     formData.append("rating", data.rating.toString());
     formData.append("message", data.comment);
 
-    console.log(formData);
+
     setLoading(true);
     try {
       const response = await addFeedBack(formData).unwrap();
@@ -260,6 +285,9 @@ const AddReviewModel = ({ bookingKey }: { bookingKey: any }) => {
         icon: "success",
         confirmButtonText: "OK",
       });
+     handleOk(); // Close the modal
+     refetch(); 
+    
       console.log(response);
     } catch (error) {
       Swal.fire({
@@ -274,10 +302,18 @@ const AddReviewModel = ({ bookingKey }: { bookingKey: any }) => {
       reset();
     }
   };
-    const isCompleted = bookingKey.status === "completed";
+  const isCompleted = bookingKey.status === "completed";
+  const isPayment = bookingKey.paymentStatus === "pending";
+  const isRating = bookingKey.isRatings === false;
+ 
+
   return (
     <div>
-      <Button type="primary" onClick={showModal} disabled={!isCompleted}>
+      <Button
+        type="primary"
+        onClick={showModal}
+        disabled={!isCompleted || isPayment || !isRating} // This logic should work correctly
+      >
         Add Review
       </Button>
       <Modal
@@ -373,23 +409,42 @@ const UpdateBookingModel = ({ data }: any) => {
 
   const onGoing = data.status === "ongoing";
   const isCompleted = data.status === "completed";
+
   return (
     <div>
       <Button onClick={showModal} disabled={onGoing || isCompleted}>
         Update
       </Button>
       <Modal
-        title="Update Booking"
+        title="Update Payment Method"
         open={isModalOpen}
         onCancel={handleCancel}
         footer={null}
         className="w-full max-w-lg"
       >
+        <div className="text-2xl font-bold text-text-primary mb-4">
+          Your Booking Details
+          <div className="flex gap-3 flex-wrap py-3">
+            <img
+              src={data?.image[0]}
+              className="w-20 h-20 rounded-full"
+              alt=""
+            />
+            <span className="flex flex-wrap flex-col text-text-primary text-base font-medium">
+              <p>car name: {data?.name}</p>
+              <p>price per hour: {data?.price}/hour</p>
+
+              <p>your status: {data?.status}</p>
+            </span>
+          </div>
+        </div>
+        <hr />
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col mb-3">
             <label>NID/PASSPORT</label>
             <select
-              className="mt-1  border text-gray-900 text-sm rounded block w-full p-2.5 shadow-lg"
+              className="mt-1  border text-text-primary text-sm rounded block w-full p-2.5 shadow-lg"
               {...register("identity")}
             >
               <option value="nid" selected={data.identity === "nid"}>
@@ -403,7 +458,7 @@ const UpdateBookingModel = ({ data }: any) => {
           <div className="flex flex-col mb-3">
             <label>ID Number</label>
             <input
-              className="mt-1 bg-white border text-gray-900 text-sm rounded block w-full p-2.5 shadow-lg"
+              className="mt-1 bg-white border text-text-primary text-sm rounded block w-full p-2.5 shadow-lg"
               {...register("identityNo")}
               defaultValue={data.identityNo}
             />
@@ -411,7 +466,7 @@ const UpdateBookingModel = ({ data }: any) => {
           <div className="flex flex-col mb-3">
             <label>Driving License Number</label>
             <input
-              className="mt-1 bg-white border text-gray-900 text-sm rounded block w-full p-2.5 shadow-lg"
+              className="mt-1 bg-white border text-text-primary text-sm rounded block w-full p-2.5 shadow-lg"
               {...register("drivingLicenseNo")}
               defaultValue={data.drivingLicenseNo}
             />

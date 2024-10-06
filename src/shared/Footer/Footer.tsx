@@ -9,10 +9,7 @@ const Footer = () => {
             <div className="mb-4 md:mb-0 text-center md:text-left md:border-r md:border-[#D0D6BC3D] px-6">
               <h5 className="text-[25px] font-medium text-white mb-4">About</h5>
               <p>
-                At Rent O, we turn outdoor dreams into reality with high-quality
-                 gear for all adventurers. Grow with us as we innovate
-                and expand, offering the best in outdoor car rent and
-                expertise.
+                RentO offers reliable, affordable car rentals with a focus on exceptional service. Since 2015, we've grown into a trusted nationwide network.
               </p>
             </div>
             <div className="mb-4 md:mb-0 text-center">
@@ -148,11 +145,17 @@ const Footer = () => {
                 <Link to="/" className="hover:text-white">
                   Home
                 </Link>
-                <Link to="/aboutus" className="hover:text-white ">
-                  About
+                <Link to="/about-us" className="hover:text-white ">
+                  About Us
                 </Link>
-                <Link to="/products" className="hover:text-white">
-                  Products
+                <Link to="/contact-us" className="hover:text-white ">
+                  Contact us
+                </Link>
+                <Link to="/car" className="hover:text-white">
+                  Cars
+                </Link>
+                <Link to="/Booking" className="hover:text-white">
+                  Bookings
                 </Link>
               </div>
             </div>

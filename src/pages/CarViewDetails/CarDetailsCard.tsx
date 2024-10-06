@@ -66,11 +66,11 @@ const CarDetailsCard = ({ carDetails }: any) => {
                   </div>
 
                   <div className="flex items-center">
-                  <FaCarSide className="text-text-primary w-6 h-6"/>
+                    <FaCarSide className="text-text-primary w-6 h-6" />
 
                     <div className="ml-2 text-sm">
                       <span className="text-text-primary">CARTYPE:</span>{" "}
-                      {carDetails?.carType || "N/A"} 
+                      {carDetails?.carType || "N/A"}
                     </div>
                   </div>
 
@@ -89,7 +89,7 @@ const CarDetailsCard = ({ carDetails }: any) => {
                 className={`text-base font-medium px-3 py-1  rounded-lg  text-text-primary  ${
                   carDetails?.status === "available"
                     ? "bg-green-200 dark:bg-green-800"
-                     : carDetails?.status === "unavailable"
+                    : carDetails?.status === "unavailable"
                     ? "bg-red-200 dark:bg-red-800 "
                     : ""
                 }`}
@@ -99,7 +99,8 @@ const CarDetailsCard = ({ carDetails }: any) => {
               <div className="mt-6">
                 {carDetails?.status === "available" ? (
                   <Link
-                    to={`/booking?carType=${carDetails?.carType}`}
+                    to={`/booking?id=${carDetails?._id}`}
+                    // to={`/booking?id=${carDetails?._id}`}
                     className="w-full"
                   >
                     <button className="border-2 font-semibold border-text-text-primary px-4 w-full py-1 text-text-primary hover:bg-black hover:text-white transition mb-2 md:mb-0">

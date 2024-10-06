@@ -118,7 +118,7 @@ const UserViewProfile = () => {
 
       {/* Content Section */}
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
           {/* User Profile Card */}
           <div className="relative border bg-white dark:bg-slate-800 shadow-lg rounded-lg p-8 transition-transform duration-300 hover:shadow-xl transform hover:-translate-y-1">
             <div className="flex justify-center cursor-pointer">
@@ -155,7 +155,7 @@ const UserViewProfile = () => {
           </div>
 
           {/* Total Completed Booking History Card */}
-          <div className="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-8 transition-transform duration-300 hover:shadow-xl col-span-1 md:col-span-2 transform hover:-translate-y-1 border">
+          <div className="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-8 transition-transform duration-300 hover:shadow-xl  transform hover:-translate-y-1 border">
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white text-center mb-6">
               My Completed Booking Summary
             </h2>
@@ -195,7 +195,7 @@ const UserViewProfile = () => {
               className="overflow-x-auto"
             />
           ) : (
-            <div className="text-center text-red-700 bg-gray-200 max-w-4xl p-4 mx-auto mt-10 sm:mt-20 lg:mt-40 rounded-md shadow-lg">
+            <div className="text-center text-red-700 border max-w-4xl p-4 mx-auto mt-10 sm:mt-20 lg:mt-40 rounded-md shadow-lg">
               <p className="text-lg sm:text-xl font-bold">
                 It looks like you haven't completed any bookings yet.
               </p>

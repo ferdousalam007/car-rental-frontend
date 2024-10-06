@@ -10,7 +10,7 @@ import { carApi } from "../../../../redux/features/Car/carApi";
 import DashboardHeading from "../../DashboardHeading/DashboardHeading";
 
 const AdminManageBooking = () => {
-  const { data: allBookings, isLoading } =
+  const { data: allBookings, isLoading,refetch } =
     bookingApi.useGetAllBookingsQuery(undefined);
   const allBookingData = allBookings?.data;
   const [updateStatus] = bookingApi.useUpdateBookingStatusMutation();
@@ -32,6 +32,7 @@ const AdminManageBooking = () => {
         try {
           await returnCarIntoGraze(bookingId).unwrap();
           Swal.fire("Returned!", "The car has been returned.", "success");
+          refetch();
         } catch (error: any) {
           Swal.fire("Error!", error.message, "error");
         }
@@ -171,51 +172,63 @@ const AdminManageBooking = () => {
       render: (item: any) => {
         const isOngoing = item.status === "ongoing";
         const isCompleted = item.status === "completed";
+        const paymentStatus = item.paymentStatus=="pending";
+
         return (
           <Space size="middle">
             <Button
               onClick={() => handleApprove(item.key)}
               disabled={isOngoing || isCompleted}
+              className="px-1"
             >
               Approve
             </Button>
             <Button
               onClick={() => handleReturnCar(item.key)}
               disabled={isCompleted}
+              className="px-1"
             >
               Return Car
             </Button>
             <Button
               onClick={() => handleDeleteBooking(item.key)}
-              disabled={isOngoing}
+              disabled={isOngoing ||paymentStatus}
+              className="px-1"
             >
               Delete
             </Button>
           </Space>
         );
       },
+
     },
   ];
 
   return (
     <div className="min-h-screen p-3">
       <DashboardHeading title="Manage All User" highlightedText="Bookings" />
-      
+
       {/* Show loading spinner while data is loading */}
       {isLoading ? (
         <div className="flex justify-center items-center h-full">
           <Loader />
         </div>
       ) : (
-        <Table
-          columns={columns}
-          dataSource={tableData || []}
-          className="w-50"
-          pagination={{ pageSize: 10 }}
-          rowKey="_id"
-          scroll={{ x: 1000 }}
-        
-        />
+        <>
+          <Button onClick={() => refetch()} className="my-5">
+            Reload Table
+          </Button>
+          <Table
+            columns={columns}
+            dataSource={tableData || []}
+            className="w-50"
+            pagination={{ pageSize: 10 }}
+            rowKey="_id"
+            // scroll={{ x: 1000 }}
+            // scroll={{ x: "max-content" }}
+            scroll={{ x: "100%" }}
+          />
+        </>
       )}
     </div>
   );

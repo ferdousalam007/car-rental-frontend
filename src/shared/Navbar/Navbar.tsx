@@ -39,12 +39,14 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center justify-between w-full">
             <div className="">
-              <h2 className="dark:text-white font-bold text-2xl">
-                Rent{" "}
-                <span className="text-white bg-yellow-600 px-2 rounded ">
-                  O
-                </span>
-              </h2>
+              <Link to="/">
+                <h2 className="dark:text-white font-bold text-2xl">
+                  Rent{" "}
+                  <span className="text-white bg-yellow-600 px-2 rounded ">
+                    O
+                  </span>
+                </h2>
+              </Link>
             </div>
             <div className="hidden md:block ">
               <div className="ml-10 flex items-center space-x-1">
@@ -135,35 +137,35 @@ const Navbar = () => {
             </div>
             <Link
               to="/"
+              onClick={() => setIsOpen(false)}
               className="dark:text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Home
             </Link>
             <Link
               to="/booking"
+              onClick={() => setIsOpen(false)}
               className="dark:text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Booking
             </Link>
             <Link
               to="/car"
+              onClick={() => setIsOpen(false)}
               className="dark:text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Cars
             </Link>
             <Link
               to="/about-us"
+              onClick={() => setIsOpen(false)}
               className="dark:text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               About
             </Link>
-            {/* <Link
-              to="/contact-us"
-              className="dark:text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Contact
-            </Link> */}
-            <MobileDropdown />
+
+            <MobileDropdown onClick={() => setIsOpen(false)} />
+            <ThemeMenu />
           </div>
         </div>
       )}

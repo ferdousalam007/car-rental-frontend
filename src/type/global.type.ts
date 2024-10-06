@@ -38,6 +38,7 @@ export type TCarBooking = {
   updatedAt: string;
   pickTime: string;
   dropTime: string;
+  isRatings?: boolean;
 };
 export type TUser = {
   _id: string;

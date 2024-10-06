@@ -13,7 +13,7 @@ const CarTestimonial = ({ carId }: { carId: string }) => {
      console.log(comments);
   return (
     <div>
-      <div className="mx-auto px-4 pt-10">
+      <div className="mx-auto  pt-10">
         <SectionHeading title="Our Satisfied Customer Feedback">
           <p className="text-gray-600 dark:text-white max-w-2xl mx-auto text-center pb-16">
        
@@ -62,7 +62,7 @@ const CarTestimonial = ({ carId }: { carId: string }) => {
             ))}
           </div>
         ) : (
-          <div className="py-6 bg-white rounded-md shadow-lg flex flex-col items-center  text-center md:text-left  border  dark:bg-slate-900 border-gray-300 dark:border-slate-700">
+          <div className="py-6 px-2 bg-white rounded-md shadow-lg flex flex-col items-center  text-center md:text-left  border  dark:bg-slate-900 border-gray-300 dark:border-slate-700">
             <h3 className="text-lg md:text-xl font-semibold mb-1 text-text-primary text-center">
               No reviews yet
             </h3>

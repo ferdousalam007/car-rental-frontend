@@ -14,8 +14,11 @@ export const carApi = baseApi.injectEndpoints({
       invalidatesTags: ["car"],
     }),
     getAllCars: builder.query({
-      query: ({ name, carType, price, location }) => {
+      query: ({id, name, carType, price, location }) => {
         const params = new URLSearchParams();
+        if (id) {
+          params.append("id", id);
+        }
         if (name) {
           params.append("name", name);
         }
