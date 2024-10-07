@@ -43,8 +43,7 @@ This repository contains the code for the Rent O car rental reservation client a
 1. **Create an `.env` file:** Create a file named `.env` at the root of your project.
 2. **Add environment variables:** Inside the `.env` file, add the following variables:
    ```
-   REACT_APP_API_URL=your-api-url
-   REACT_APP_AUTH_URL=your-auth-url
+   VITE_BACKEND_URLL=your-api-url
    ```
    Replace `your-api-url` and `your-auth-url` with the actual URLs of your API and authentication services.
 3. **Use environment variables:** You can access these variables in your code using `VITE_BACKEND_URL`
