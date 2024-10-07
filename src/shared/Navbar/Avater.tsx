@@ -1,6 +1,5 @@
 import { userApi } from "../../redux/features/user/userApi";
 import { useAppSelector } from "../../redux/hooks";
-// import { useCurrentToken } from "../../redux/features/Auth/authSlice";
 import { useCurrentToken } from "../../redux/features/Auth/AuthSlice";
 import { Link } from "react-router-dom";
 

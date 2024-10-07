@@ -91,7 +91,7 @@ const carFleet = [
     return (
       <div className="container">
         <div>
-          <h2 className="text-4xl font-bold text-text-primary">Our Fleet</h2>
+          <h2 className="text-4xl font-bold text-text-primary text-center">Our Fleet</h2>
           {carFleet.map((category, categoryIndex) => (
             <div key={categoryIndex} className="mt-8">
               <h3 className="text-2xl font-semibold text-text-primary">

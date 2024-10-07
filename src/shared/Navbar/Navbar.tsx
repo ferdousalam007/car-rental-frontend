@@ -1,39 +1,16 @@
-
 // import Logo from "./Logo";
 import MenuDropDown from "./MenuDropDown";
 
-import  { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import Avatar from "./Avater";
 import ThemeMenu from "./ThemeMenu";
 import MobileDropdown from "./MobileDropdown";
 const Navbar = () => {
-   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   // const token = useAppSelector(useCurrentToken);
   // console.log(token);
   return (
-    // <div className="fixed w-full bg-white z-10 shadow-sm">
-    //   <div className="py-4 border-b-[1px]">
-    //     <Container>
-    //       <div className="flex flex-row items-center justify-between gap-3 md:gap-x-0.5">
-    //         {/* Logo Section */}
-    //         <div>
-    //           <h2>RentO</h2>
-    //         </div>
-
-    //         {/* Menu Items: Hidden on smaller screens */}
-    //         <div className="">
-    //           <MenuItem />
-    //         </div>
-
-    //         {/* Menu Dropdown: Visible on all screens */}
-    //         <div>
-    //           <MenuDropDown />
-    //         </div>
-    //       </div>
-    //     </Container>
-    //   </div>
-    // </div>
     <nav className="bg-slate-50  dark:bg-gray-800 fixed w-full top-0 z-50 shadow-md border-b-[1px] border-gray-400 dark:border-gray-100">
       <div className="container">
         <div className="flex items-center justify-between h-16">

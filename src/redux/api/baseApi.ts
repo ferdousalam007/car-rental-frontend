@@ -15,10 +15,10 @@ const baseQuery = fetchBaseQuery({
   // baseUrl: "http://localhost:5000/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState)?.auth?.token; // Access the token from state
+    const token = (getState() as RootState)?.auth?.token; 
 
     if (token) {
-      headers.set("Authorization", `Bearer ${token}`); // Set the Authorization header
+      headers.set("Authorization", `Bearer ${token}`); 
     }
     return headers;
   },
@@ -36,7 +36,8 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   if (result?.error?.status === 401) {
     // Attempt to refresh the token
     const res = await fetch(
-      "http://localhost:5000/api/auth/refresh-token",
+      // "http://localhost:5000/api/auth/refresh-token,
+      `${backendURL}/auth/refresh-token`,
       {
         method: "POST",
         credentials: "include",
@@ -50,12 +51,12 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       api.dispatch(
         setUser({
           user,
-          token: data.data.accessToken, // Update the token in the state
+          token: data.data.accessToken,
         })
       );
-      result = await baseQuery(args, api, extraOptions); // Retry the original request
+      result = await baseQuery(args, api, extraOptions); 
     } else {
-      api.dispatch(logOut()); // Log out if no access token is received
+      api.dispatch(logOut()); 
     }
   }
 

@@ -38,11 +38,10 @@ const WhyChoose = () => {
 
   return (
     <div className="text-center py-12">
-      <SectionHeading title=" Why We are Specialized! Why Choose">
+      <SectionHeading title="Why Choose RentO">
         <p className="text-gray-600 dark:text-white max-w-2xl mx-auto text-center pb-16">
-          We believe in delivering excellence through personalized services,
-          available support, and a dedicated team. Our commitment to quality
-          ensures that you receive the best possible experience every time.
+          Discover what sets RentO apart—offering unmatched service, a wide
+          selection of vehicles, and a seamless rental experience.
         </p>
       </SectionHeading>
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-11 pt-12 pb-10 dark:bg-slate-900 rounded-lg shadow-custom px-4">

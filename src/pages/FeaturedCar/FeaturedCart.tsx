@@ -81,9 +81,8 @@ const FeaturedCart = () => {
       <div className="text-center py-16">
         <SectionHeading title="Recommended Cars">
           <p className="text-gray-600 dark:text-white max-w-2xl mx-auto text-center ">
-            Experience the perfect blend of performance and comfort with our
-            top-rated vehicles, featuring advanced technology, sleek design, and
-            exceptional fuel efficiency.
+            Explore our top picks, carefully selected to offer the perfect blend
+            of comfort, style, and performance for your next trip.
           </p>
           <div className="mb-7 flex justify-end">
             <div className="flex items-center justify-center bg-gray-200 rounded-full w-12 h-12 cursor-pointer">

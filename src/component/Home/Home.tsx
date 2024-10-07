@@ -8,7 +8,6 @@ import CarBanner from "../Banner/CarBanner";
 const Home = () => {
   return (
     <div>
-      {/* <Banner></Banner> */}
       <CarBanner></CarBanner>
       <CarBookingSearchButton />
       <div className="bg-white dark:bg-[#26324d]">

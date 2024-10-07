@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 
 interface CarSliderProps {
-  imageUrls: string[];
+  imageUrls?: string[];
 }
 
 const CarSlider: React.FC<CarSliderProps> = ({ imageUrls }) => {
@@ -9,7 +9,7 @@ const CarSlider: React.FC<CarSliderProps> = ({ imageUrls }) => {
   const [magnifierStyle, setMagnifierStyle] = useState<React.CSSProperties>({});
   const imgRef = useRef<HTMLImageElement>(null);
   const zoom: number = 2; 
-
+ if (!imageUrls || imageUrls.length === 0) return null;
   const handleMouseMove = (e: React.MouseEvent<HTMLImageElement>) => {
     if (!imgRef.current) return;
 
@@ -56,7 +56,7 @@ const CarSlider: React.FC<CarSliderProps> = ({ imageUrls }) => {
             <div className="relative">
               <img
                 ref={imgRef}
-                src={imageUrls[currentIndex]}
+                src={imageUrls[currentIndex] || ""}
                 alt="Car Image"
                 onMouseMove={handleMouseMove}
                 onMouseLeave={() => setMagnifierStyle({ display: "none" })}

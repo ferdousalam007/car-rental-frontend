@@ -67,18 +67,18 @@ const ResetPassword = () => {
       <div className="flex items-center justify-center pt-[150px]">
         <div className="w-full max-w-md">
           <form
-            className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            className="bg-white dark:bg-slate-800 shadow-md rounded px-8 pt-6 pb-8 mb-4"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-text-primary text-sm font-bold mb-2"
                 htmlFor="password"
               >
                 New Password
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline text-text-primary"
                 id="password"
                 type="password"
                 placeholder="Enter your new password"
@@ -92,13 +92,13 @@ const ResetPassword = () => {
             </div>
             <div className="mb-6">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-tex-primary text-sm font-bold mb-2"
                 htmlFor="confirmPassword"
               >
                 Confirm Password
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3  mb-3 leading-tight focus:outline-none focus:shadow-outline text-text-primary"
                 id="confirmPassword"
                 type="password"
                 placeholder="Confirm your new password"

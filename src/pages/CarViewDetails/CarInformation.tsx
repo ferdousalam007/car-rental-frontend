@@ -25,7 +25,7 @@ const CarInformation: React.FC<CarInformationProps> = ({ carDetails }) => {
             Vehicle Specifications
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {carDetails.vehicleSpecification.map((spec, index) => (
+            {carDetails?.vehicleSpecification.map((spec, index) => (
               <div key={index} className="flex items-center">
                 <p className="text-lg font-medium text-text-primary flex items-center gap-2">
                   <CiSquareCheck />
@@ -41,7 +41,7 @@ const CarInformation: React.FC<CarInformationProps> = ({ carDetails }) => {
             Features & Options
           </h2>
           <div className="flex flex-wrap gap-4">
-            {carDetails.features.map((feature, index) => (
+            {carDetails?.features.map((feature, index) => (
               <div key={index}>
                 <p className="text-lg font-medium text-text-primary flex items-center gap-2">
                   <CiSquareCheck />
@@ -56,7 +56,7 @@ const CarInformation: React.FC<CarInformationProps> = ({ carDetails }) => {
           <h2 className="text-2xl font-bold text-text-primary mb-6">
             Description
           </h2>
-          <p className="text-lg font-medium text-text-primary">{carDetails.description}</p>
+          <p className="text-lg font-medium text-text-primary">{carDetails?.description}</p>
         </div>
       </div>
 
