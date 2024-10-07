@@ -111,14 +111,16 @@ const AdminAllUser = () => {
       key: "action",
       render: (item: any) => (
         <Space size="middle">
-          <Button onClick={() => updateRoleHandler(item.key)}>
+          <Button
+          disabled={item.status === "Blocked"}
+          onClick={() => updateRoleHandler(item.key)}>
             Update Role
           </Button>
           <Button
             onClick={() => handleDeleteUser(item.key)}
             disabled={item.status === "Blocked"}
           >
-            Delete
+            {item.status === "Blocked" ? "Deleted" : "Delete"}
           </Button>
         </Space>
       ),

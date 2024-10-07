@@ -345,8 +345,8 @@ const CarBooking = () => {
                   <>
                     <option value="">Select Car Type</option>
                     {uniqueCarTypes?.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
+                      <option key={type as string} value={type as string}>
+                        {type as string}
                       </option>
                     ))}
                   </>
@@ -371,8 +371,8 @@ const CarBooking = () => {
                   <>
                     <option value="">Select Feature</option>
                     {uniqueFeatures?.map((feature) => (
-                      <option key={feature} value={feature}>
-                        {feature}
+                      <option key={feature as string} value={feature as string}>
+                        {feature as string}
                       </option>
                     ))}
                   </>

@@ -18,7 +18,8 @@ console.log(getAllComment ,"getAllComment");
       </SectionHeading>
       <div className="mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {comments?.map((testimonial: any, index: number) => (
+        {comments?.slice(-4).reverse().map((testimonial: any, index: number) => (
+
             <div
               key={index}
               className="p-6 bg-white rounded-md shadow-lg flex flex-col items-center  text-center md:text-left  border bg-slate-100 dark:bg-slate-900 border-gray-300 dark:border-slate-700"

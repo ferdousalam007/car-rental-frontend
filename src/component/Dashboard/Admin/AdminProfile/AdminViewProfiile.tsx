@@ -22,6 +22,16 @@ const AdminViewProfile = () => {
   const { data: getMe, isLoading: isLoadingUser } =
     authApi.useGetMeQuery(undefined);
   const userData = getMe?.data;
+console.log(userData,"userData")
+ const {
+   data: allBookings,
+ 
+ } = bookingApi.useGetAllBookingsQuery(undefined);
+ const allBookingData = allBookings?.data;
+ const totalCost = allBookingData?.reduce(
+   (acc:any, booking:any) => acc + booking.totalCost,
+   0
+ );
 
   // Fetch all bookings
   const { data: myBookings, isLoading: isLoadingBookings } =
@@ -161,11 +171,17 @@ const AdminViewProfile = () => {
             <div className="text-text-primary p-8 rounded-lg text-center">
               <span className="text-yellow-600 font-bold text-4xl">
                 {totalBookings}{" "}
-                {/* <FaCaretLeft className="inline justify-center items-center mr-2 text-red-500" /> */}
               </span>
               <p className="text-xl text-text-primary">
                 You have received a total of car bookings.
               </p>
+
+              <h2 className="text-xl text-text-primary mt-4">
+                Total revenue :
+              </h2>
+              <span className="text-yellow-600 font-bold text-4xl">
+                {totalCost}tk
+              </span>
             </div>
           </div>
 
@@ -188,7 +204,6 @@ const AdminViewProfile = () => {
         </div>
       </div>
 
-   
       <div>
         <div className="mt-6 mb-6">
           <DashboardHeading title="Available" highlightedText="Car List" />

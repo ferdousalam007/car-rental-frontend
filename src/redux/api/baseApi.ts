@@ -8,11 +8,11 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { logOut, setUser } from "../features/Auth/AuthSlice";
-
+const backendURL = import.meta.env.VITE_BACKEND_URL
 // Base query configuration with the API base URL
 const baseQuery = fetchBaseQuery({
-  // baseUrl: "https://car-rental-backend-six.vercel.app/api",
-  baseUrl: "http://localhost:5000/api",
+  baseUrl: backendURL,
+  // baseUrl: "http://localhost:5000/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState)?.auth?.token; // Access the token from state
