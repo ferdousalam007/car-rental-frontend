@@ -1,25 +1,40 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { carApi } from "../../redux/features/Car/carApi";
-// import FeaturedCarCard from "../FeaturedCar/FeaturedCarCard";
 import Loader from "../../shared/Loader/Loader";
 import { TCar } from "../../type/global.type";
 import PageBreadcamp from "@/component/PageBreadcamp/PageBreadcamp";
 import CarCard from "../FeaturedCar/CarCard";
 
 const CarList = () => {
-  const [carType, setCarType] = useState("");
+  // State for car type and price range
+  const [carType, setCarType] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
 
+  // Fetch car data with carType and price filters
   const { data: getCars, isFetching } = carApi.useGetAllCarsQuery({
     price,
     carType,
   });
 
   const carData = getCars?.data;
-
+  // Get unique car types for the dropdown
   const uniqueCarTypes = [...new Set(carData?.map((car: any) => car.carType))];
 
+  // Handle sorting by price: ascending if starting at 0, descending if starting at 2000
+  const sortedCarData = carData?.slice().sort((a: TCar, b: TCar) => {
+    const priceA = a.price ?? Infinity; // Use Infinity if price is undefined
+    const priceB = b.price ?? Infinity;
+    if (price === 0) {
+      // Sort in ascending order when price is 0
+      return priceA - priceB;
+    } else if (price === 2000) {
+      // Sort in descending order when price is 2000
+      return priceB - priceA;
+    }
+    return 0; // Default (no sorting in between)
+  });
+
+  // Handle price range slider input
   const handlePriceRange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const parsedValue = parseInt(e.target.value);
     setPrice(parsedValue);
@@ -27,7 +42,8 @@ const CarList = () => {
 
   return (
     <>
-      <div className="">
+      {/* Page Header with Breadcrumb */}
+      <div>
         <PageBreadcamp title="All Car List">
           <p className="text-white text-center px-4">
             All available and available cars
@@ -35,9 +51,12 @@ const CarList = () => {
         </PageBreadcamp>
       </div>
 
+      {/* Main Container */}
       <div className="container grid grid-cols-1 gap-10">
-        <div className="rounded-md w-full  p-4 mb-4 md:mb-0 bg-white shadow border dark:bg-slate-800 -mt-10">
-          <div className="p-2 rounded-lg w-full  mx-auto">
+        {/* Filters for car type and price */}
+        <div className="rounded-md w-full p-4 mb-4 bg-white shadow border dark:bg-slate-800 -mt-10">
+          <div className="p-2 rounded-lg w-full mx-auto">
+            {/* Car Type Filter */}
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Filter For Car Type
             </label>
@@ -45,7 +64,7 @@ const CarList = () => {
               onChange={(e) => setCarType(e.target.value)}
               id="car-type"
               className="bg-white border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white shadow-lg mb-10"
-              value={carType} // Controlled component
+              value={carType}
             >
               <option value="">Select Car Type</option>
               {uniqueCarTypes?.map((type) => {
@@ -60,7 +79,8 @@ const CarList = () => {
               })}
             </select>
 
-            <div className="w-full">
+            {/* Price Range Filter */}
+            <div className="w-full mb-6">
               <div className="flex items-center justify-between">
                 <button
                   className="px-3 py-1 text-sm font-medium text-white bg-gray-700 rounded-lg"
@@ -93,6 +113,8 @@ const CarList = () => {
             </div>
           </div>
         </div>
+
+        {/* Display Car Cards */}
         <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {isFetching ? (
@@ -100,8 +122,7 @@ const CarList = () => {
                 <Loader />
               </div>
             ) : (
-              carData?.map((car: TCar) => (
-                // <FeaturedCarCard key={car._id} car={car} />
+              sortedCarData?.map((car: TCar) => (
                 <CarCard key={car._id} car={car} />
               ))
             )}

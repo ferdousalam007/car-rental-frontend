@@ -565,7 +565,7 @@ console.log([...formData],"formData");
 
           <button
             type="submit"
-            className={`bg-blue-500 text-white w-full font-bold py-2 px-4 rounded ${
+            className={`bg-white border border-gray-300  dark:bg-slate-900 text-text-primary w-full font-bold py-2 px-4 rounded ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={isLoading}

@@ -329,9 +329,9 @@ background-color: #121212 !important;
 .dark form input {
   background-color: #10b981;
 }
-.myinput {
+/* .myinput {
   background: #121212 !important;
-}
+} */
 
 .bg_banner {
   background-image: url("../src/assets/carBanner.webp");

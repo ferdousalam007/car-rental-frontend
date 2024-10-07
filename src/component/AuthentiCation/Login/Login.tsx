@@ -101,7 +101,7 @@ console.log("targetUrl", targetUrl)
                     type="password"
                     id="password"
                     placeholder="Password"
-                    className="w-full px-3 py-2 bg-white dark:bg-[#121212] myinput  border-transparent rounded-md  transition duration-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
+                    className="w-full px-3 py-2 bg-white dark:bg-[#121212]   border-transparent rounded-md  transition duration-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
                     {...register("password", { required: true })}
                   />
                 </div>

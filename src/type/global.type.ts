@@ -19,6 +19,7 @@ export type TCar = {
   carType: string;
   location: string;
   avgRating: number;
+  price?: number;
 };
 export type TCarBooking = {
   _id: string;

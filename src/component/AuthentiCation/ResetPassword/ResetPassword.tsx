@@ -112,7 +112,7 @@ const ResetPassword = () => {
             </div>
             <div className="flex items-center justify-between">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-slate-600 hover:bg-slate-500 dark:bg-slate-900  text-text-primary font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
                 disabled={isLoading}
               >

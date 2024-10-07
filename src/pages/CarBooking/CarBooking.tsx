@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // import { useCallback, useEffect, useState } from "react";
 // import "react-datepicker/dist/react-datepicker.css";
 // import { FaCar, FaCogs, FaChair } from "react-icons/fa";
@@ -419,7 +420,12 @@ const CarBooking = () => {
           </div>
         ) : searchCriteria.id ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <CarCard car={carSearch?.data[0]} />
+            {/* <CarCard car={carSearch?.data[0]} /> */}{" "}
+            {carSearch?.data
+              .filter((car: TCar) => car._id === searchCriteria.id) // Filter by ID
+              .map((car: TCar) => (
+                <CarCard key={car._id} car={car} />
+              ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

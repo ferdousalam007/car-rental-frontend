@@ -10,8 +10,11 @@ import { carApi } from "../../../../redux/features/Car/carApi";
 import DashboardHeading from "../../DashboardHeading/DashboardHeading";
 
 const AdminManageBooking = () => {
-  const { data: allBookings, isLoading,refetch } =
-    bookingApi.useGetAllBookingsQuery(undefined);
+  const {
+    data: allBookings,
+    isLoading,
+    refetch,
+  } = bookingApi.useGetAllBookingsQuery(undefined);
   const allBookingData = allBookings?.data;
   const [updateStatus] = bookingApi.useUpdateBookingStatusMutation();
   const [deleteBooking] = bookingApi.useDeleteBookingMutation();
@@ -170,9 +173,10 @@ const AdminManageBooking = () => {
       title: "Action",
       key: "action",
       render: (item: any) => {
+        const isPending = item.status === "pending";
         const isOngoing = item.status === "ongoing";
         const isCompleted = item.status === "completed";
-        const paymentStatus = item.paymentStatus=="pending";
+        const paymentStatus = item.paymentStatus == "pending";
 
         return (
           <Space size="middle">
@@ -190,17 +194,26 @@ const AdminManageBooking = () => {
             >
               Return Car
             </Button>
-            <Button
-              onClick={() => handleDeleteBooking(item.key)}
-              disabled={isOngoing ||paymentStatus}
-              className="px-1"
-            >
-              Delete
-            </Button>
+            {isPending ? (
+              <Button
+                onClick={() => handleDeleteBooking(item.key)}
+                className="px-1"
+              >
+                Delete
+              </Button>
+            ) : (
+              <Button
+                onClick={() => handleDeleteBooking(item.key)}
+                disabled={isOngoing || paymentStatus}
+                className="px-1"
+              >
+                Delete
+              </Button>
+            )}
+            
           </Space>
         );
       },
-
     },
   ];
 

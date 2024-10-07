@@ -498,7 +498,7 @@ const AddCarData = () => {
           <div className="flex justify-center mt-10 col-span-full">
             <button
               type="submit"
-              className={`bg-blue-500 text-white w-full font-bold py-2 px-4 rounded ${
+              className={`bg-white text-text-primary border border-gray-300 w-full font-bold py-2 px-4 rounded ${
                 isLoading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={isLoading}
